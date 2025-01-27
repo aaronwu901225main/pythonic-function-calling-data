@@ -1,6 +1,6 @@
 # Function Calling Dataset Generator
 
-This repository contains the code used to generate the synthetic dataset for training Pythonic function calling models [Dria-Agent-a-3B](https://huggingface.co/driaforall/Dria-Agent-a-3B) and [Dria-Agent-a-7B](https://huggingface.co/driaforall/Dria-Agent-a-7B).
+This repository contains the code used to generate the synthetic dataset for training Pythonic function calling model [Dria-Agent-a-7B](https://huggingface.co/driaforall/Dria-Agent-a-7B).
 
 ## Overview
 
@@ -123,6 +123,8 @@ The pipeline generates data in the following format:
 Apache 2.0
 
 ## Additional Information
+
+Filtering and multi-turn data generation with RLEF is not included in this repo. 
 
 For more information about the generated dataset and its applications, see:
 - [Dataset Documentation](https://huggingface.co/datasets/driaforall/pythonic_function_calling)
