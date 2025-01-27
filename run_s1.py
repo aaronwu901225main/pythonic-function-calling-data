@@ -46,7 +46,16 @@ async def generate_scenarios(run_id):
     await generator.generate(
         instructions=entries,
         singletons=Scenario,
-        models=[Model.GPT4O, Model.MID, Model.LLAMA_3_1_8B_OR],
+        models=[
+            Model.GPT4O,
+            Model.LLAMA_3_1_70B_OR,
+            Model.LLAMA_3_3_70B_OR,
+            Model.GEMINI_20_FLASH,
+            Model.GPT4O_MINI,
+            Model.LLAMA_3_1_8B_OR,
+            Model.QWEN2_5_72B_OR,
+            Model.QWEN2_5_7B
+                ],
     )
     dataset.to_json(filepath=f"pipeline/data/{run_id}/scenarios.json")
 

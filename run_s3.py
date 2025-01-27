@@ -50,9 +50,9 @@ async def generate_simple_queries(run_id):
             Model.GEMINI_15_PRO,
             Model.GEMINI_15_FLASH,
             Model.GEMINI_20_FLASH,
-            Model.R1_70b,
-            Model.R1_32b,
-            Model.Llama3_3_70B,
+            Model.DEEPSEEK_R1_70B,
+            Model.DEEPSEEK_R1_32B,
+            Model.LLAMA_3_3_70B_OR,
             Model.ANTHROPIC_SONNET_3_5_OR,
         ],
     )
