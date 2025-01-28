@@ -2,7 +2,9 @@
 name = "pythonic-function-calling-data"
 version = "0.1.0"
 description = "Repository for the Pythonic Function Calling data generation with Dria Network"
-authors = ["andthattoo"]
+authors = [
+  { name = "andthattoo" }
+]
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [

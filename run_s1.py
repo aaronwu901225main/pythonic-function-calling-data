@@ -54,8 +54,8 @@ async def generate_scenarios(run_id):
             Model.GPT4O_MINI,
             Model.LLAMA_3_1_8B_OR,
             Model.QWEN2_5_72B_OR,
-            Model.QWEN2_5_7B
-                ],
+            Model.QWEN2_5_7B,
+        ],
     )
     dataset.to_json(filepath=f"pipeline/data/{run_id}/scenarios.json")
 

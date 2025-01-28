@@ -4,11 +4,55 @@ This repository contains the code used to generate the synthetic dataset for tra
 
 ## Overview
 
-The data generation pipeline consists of three main stages, executed sequentially to produce high-quality synthetic data for function calling scenarios. The pipeline leverages the [Dria framework](docs.dria.co) to generate data using multiple models across edge devices.
+The data generation pipeline consists of three main stages, executed sequentially to produce high-quality synthetic data for function calling scenarios. The pipeline leverages the [Dria framework](https://docs.dria.co) to generate data using multiple models across edge devices.
 
 ## Setup
 
 This project uses [uv](https://github.com/astral-sh/uv) for dependency management.
+
+Make sure you have rust installed:
+
+```bash
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+source "$HOME/.cargo/env"
+```
+
+### Linux
+Install the following dependencies for `libsecp256k1` on linux:
+
+```bash
+sudo apt-get update
+sudo apt-get install -y \
+    automake \
+    autoconf \
+    libtool \
+    pkg-config \
+    libffi-dev \
+    libssl-dev \
+    python3-dev
+sudo apt-get install -y build-essential
+```
+
+### MacOS
+
+Install xcode tools for gcc:
+
+```bash
+xcode-select --install
+```
+
+Install brew and dependencies:
+
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install automake libtool pkg-config
+```
+
+If you're having issues on macOS, see:
+- [TKInter Related Issues](https://docs.dria.co/installation/#tkinter-related-issues-on-macos)
+- [GCC Related Issues](https://docs.dria.co/installation/#gcc-related-issues-on-macos)
+
+## Installation
 
 1. Install uv:
 ```bash
@@ -18,15 +62,14 @@ pip install uv
 2. Create and activate virtual environment:
 ```bash
 uv venv
-source .venv/bin/activate  # On Unix
-# or
-.venv\Scripts\activate  # On Windows
+source .venv/bin/activate
 ```
 
 3. Install dependencies:
 ```bash
 uv pip install -e .
 ```
+
 
 ## Pipeline Stages
 
@@ -61,14 +104,20 @@ uv pip install -e .
 
 Run the complete pipeline:
 ```bash
-./start.sh
-```
-
-Or run stages individually:
-```bash
 chmod +x start.sh
 uv run ./start.sh
 ```
+
+Or run stages separately:
+```bash
+uv run run_s1.py
+uv run run_s2.py
+uv run run_s3.py
+```
+
+And you're set. The pipeline will generate the dataset in the `pipeline/data` folder.
+
+_"Data generation takes time!"_ - _Unknown_
 
 ## Pipeline Folder Structure
 
