@@ -101,7 +101,7 @@ def generate_results(args, model_name, test_cases_total):
     # 60s for the timer to complete. But often we find that even with 60 there is a conflict. So 65 is a safe no.
     RETRY_DELAY = 65  # Delay in seconds
     
-    handler = build_handler(model_name, args.temperature, args.top_p, args.max_tokens)
+    handler = build_handler(model_name, args.temperature)#, args.top_p, args.max_tokens)
 
     if handler.model_style == ModelStyle.OSSMODEL:
         result, metadata = handler.inference(
