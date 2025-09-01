@@ -63,7 +63,7 @@ from bfcl_eval.model_handler.local_inference.salesforce_qwen import (
     SalesforceQwenHandler,
 )
 from bfcl_eval.model_handler.local_inference.think_agent import ThinkAgentHandler
-from bfcl_eval.model_handler.api_inference.openai_chat_fc_via_prompt import OpenAIChatFCViaPromptHandler
+# from bfcl_eval.model_handler.api_inference.openai_chat_fc_via_prompt import OpenAIChatFCViaPromptHandler
 
 # -----------------------------------------------------------------------------
 # A mapping of model identifiers to their respective model configurations.
@@ -113,7 +113,9 @@ class ModelConfig:
 
 # Inference through API calls
 api_inference_model_map = {
+'''
 ###############################自訂模型###################################
+
     "gpt-oss-20b-transformers-serve": ModelConfig(
         model_name="openai/gpt-oss-20b",
         display_name="gpt-oss-20b (Transformers Serve, Prompt-FC)",
@@ -127,6 +129,7 @@ api_inference_model_map = {
         underscore_to_dot=False,
     ),
 ###############################自訂模型###################################
+'''
     "gorilla-openfunctions-v2": ModelConfig(
         model_name="gorilla-openfunctions-v2",
         display_name="Gorilla-OpenFunctions-v2 (FC)",
