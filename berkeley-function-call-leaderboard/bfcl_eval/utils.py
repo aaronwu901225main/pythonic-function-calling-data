@@ -445,15 +445,19 @@ def load_dataset_entry(
             all_entries = load_file(CH_PROMPT_PATH / file_name)
             # 將 id 前綴從原始（若有）替換為 zh_*，確保下游路徑/分組一致
             for entry in all_entries:
-                # 期望 id 形如 "<category>_<index>"
-                # 若不是，保留原值；只把起頭的非空白字串替換為 zh 類別名
                 try:
-                    parts = entry["id"].split("_", 1)
-                    if len(parts) == 2:
-                        entry["id"] = f"{test_category}_{parts[1]}"
+                    orig_id = str(entry["id"])
+                    # 目標：把原始類別整段去掉，只留下最後一個底線後面的索引或複合索引（如 19-3-15）
+                    if "_" in orig_id:
+                        last_us_idx = orig_id.rfind("_")
+                        tail = orig_id[last_us_idx + 1 : ]  # e.g. "0" 或 "19-3-15"
+                        # 生成 zh_* 前綴的新 id，例如 zh_parallel_multiple_0
+                        entry["id"] = f"{test_category}_{tail}"
                     else:
-                        entry["id"] = f"{test_category}_{entry['id']}"
+                        # 沒有底線就直接在前面加 zh_* 前綴
+                        entry["id"] = f"{test_category}_{orig_id}"
                 except Exception:
+                    # 保守：發生例外就維持原值
                     pass
         else:
             # All other categories, we don't need any special handling
