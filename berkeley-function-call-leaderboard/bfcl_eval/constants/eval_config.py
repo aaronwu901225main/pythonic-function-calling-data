@@ -31,6 +31,9 @@ MEMORY_PREREQ_CONVERSATION_PATH = PROMPT_PATH / "memory_prereq_conversation"
 UTILS_PATH = PACKAGE_ROOT / "scripts"
 FORMAT_SENSITIVITY_IDS_PATH = PROMPT_PATH / f"{VERSION_PREFIX}_format_sensitivity.json"
 
+# === New: Chinese dataset subdir ===
+CH_PROMPT_PATH = PROMPT_PATH / "Chinese_dataset_format"
+
 RESULT_FILE_PATTERN = f"{VERSION_PREFIX}_*_result.json"
 
 RED_FONT = "\033[91m"

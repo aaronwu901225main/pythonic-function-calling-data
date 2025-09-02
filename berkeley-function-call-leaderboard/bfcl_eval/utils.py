@@ -430,9 +430,35 @@ def load_dataset_entry(
             )
 
     else:
-        # All other categories, we don't need any special handling
-        file_name = f"{VERSION_PREFIX}_{test_category}.json"
-        all_entries = load_file(PROMPT_PATH / file_name)
+        # === New: zh_* categories route to Chinese_dataset_format files ===
+        if test_category.startswith("zh_"):
+            zh_map = {
+                "zh_simple_python": "gorilla_openfunctions_v1_test_simple.json",
+                "zh_multiple": "gorilla_openfunctions_v1_test_multiple_function.json",
+                "zh_parallel": "gorilla_openfunctions_v1_test_parallel_function.json",
+                "zh_parallel_multiple": "gorilla_openfunctions_v1_test_parallel_multiple_function.json",
+                "zh_irrelevance": "gorilla_openfunctions_v1_test_relevance.json",
+            }
+            if test_category not in zh_map:
+                raise Exception(f"Unknown zh category: {test_category}")
+            file_name = zh_map[test_category]
+            all_entries = load_file(CH_PROMPT_PATH / file_name)
+            # 將 id 前綴從原始（若有）替換為 zh_*，確保下游路徑/分組一致
+            for entry in all_entries:
+                # 期望 id 形如 "<category>_<index>"
+                # 若不是，保留原值；只把起頭的非空白字串替換為 zh 類別名
+                try:
+                    parts = entry["id"].split("_", 1)
+                    if len(parts) == 2:
+                        entry["id"] = f"{test_category}_{parts[1]}"
+                    else:
+                        entry["id"] = f"{test_category}_{entry['id']}"
+                except Exception:
+                    pass
+        else:
+            # All other categories, we don't need any special handling
+            file_name = f"{VERSION_PREFIX}_{test_category}.json"
+            all_entries = load_file(PROMPT_PATH / file_name)
 
     all_entries = process_agentic_test_case(all_entries)
     all_entries = populate_test_cases_with_predefined_functions(all_entries)

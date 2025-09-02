@@ -51,13 +51,20 @@ MEMORY_SCENARIO_NAME = [
     "healthcare",
     "notetaker",
 ]
-
+# === New: Chinese (zh_*) single-turn categories ===
+ZH_NON_LIVE_CATEGORY = [
+    "zh_simple_python",
+    "zh_multiple",
+    "zh_parallel",
+    "zh_parallel_multiple",
+    "zh_irrelevance",
+]
 
 SINGLE_TURN_CATEGORY = NON_LIVE_CATEGORY + LIVE_CATEGORY
 AGENTIC_CATEGORY = MEMORY_CATEGORY + WEB_SEARCH_CATEGORY
 NON_SCORING_CATEGORY = ["format_sensitivity"]
 
-ALL_SCORING_CATEGORIES = SINGLE_TURN_CATEGORY + MULTI_TURN_CATEGORY + AGENTIC_CATEGORY
+ALL_SCORING_CATEGORIES = SINGLE_TURN_CATEGORY + MULTI_TURN_CATEGORY + AGENTIC_CATEGORY + ZH_NON_LIVE_CATEGORY
 ALL_CATEGORIES = ALL_SCORING_CATEGORIES + NON_SCORING_CATEGORY
 
 TEST_COLLECTION_MAPPING = {
@@ -67,6 +74,11 @@ TEST_COLLECTION_MAPPING = {
     "single_turn": SINGLE_TURN_CATEGORY,
     "live": LIVE_CATEGORY,
     "non_live": NON_LIVE_CATEGORY,
+
+    # Quick pick for Chinese set ##
+    "zh_all": ZH_NON_LIVE_CATEGORY,
+    ###############################
+    
     "non_python": [
         "simple_java",
         "simple_javascript",
