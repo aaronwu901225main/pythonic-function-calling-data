@@ -48,7 +48,6 @@ def calculate_unweighted_accuracy(accuracy_dict_list, display_na_if_category_mis
 
         total_count += count
         total_accuracy += accuracy
-    print("total_count:", total_count)
     result = {
         "accuracy": total_accuracy / len(accuracy_dict_list),
         "total_count": total_count,
