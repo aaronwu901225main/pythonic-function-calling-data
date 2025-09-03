@@ -487,17 +487,11 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
         zh_summary = calculate_unweighted_accuracy(
             [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple]
         )
-        # 中文 overall：一樣不加權，但 display_na_if_category_missing=False 以便總表照樣輸出數值
-        zh_overall = calculate_unweighted_accuracy(
-            [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple],
-            display_na_if_category_missing=False,
-        )
         # 寫入該 model 的中文資料列
         data_chinese.append(
             [
                 "N/A",
                 model_config.display_name,
-                zh_overall["display_accuracy"],
                 zh_summary["display_accuracy"],
                 zh_simple_python["display_accuracy"],
                 zh_multiple["display_accuracy"],

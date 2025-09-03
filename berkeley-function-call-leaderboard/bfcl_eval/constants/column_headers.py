@@ -101,7 +101,6 @@ COLUMNS_OVERALL = [
 COLUMNS_CHINESE = [
     "Rank",
     "Model",
-    "Overall (ZH)",
     "AST (ZH) Summary",
     "ZH: Simple",
     "ZH: Multiple",
