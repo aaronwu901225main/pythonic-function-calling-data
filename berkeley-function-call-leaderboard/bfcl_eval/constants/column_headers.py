@@ -97,3 +97,15 @@ COLUMNS_OVERALL = [
     "Organization",
     "License",
 ]
+# 在現有的 COLUMNS_* 旁邊加：
+COLUMNS_CHINESE = [
+    "Rank",
+    "Model",
+    "Overall (ZH)",
+    "AST (ZH) Summary",
+    "ZH: Simple",
+    "ZH: Multiple",
+    "ZH: Parallel",
+    "ZH: Parallel Multiple",
+    "ZH: Irrelevance",
+]

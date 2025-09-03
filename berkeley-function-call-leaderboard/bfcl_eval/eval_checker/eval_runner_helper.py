@@ -296,6 +296,7 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
     data_agentic = []
     data_format_sensitivity = []
     data_combined = []
+    data_chinese = []
     for model_name, value in leaderboard_table.items():
         model_name_escaped = model_name.replace("_", "/")
         model_config = MODEL_CONFIG_MAPPING[model_name_escaped]
@@ -345,7 +346,6 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
             ],
             display_na_if_category_missing=False,
         )
-
         data_non_live.append(
             [
                 "N/A",
@@ -475,6 +475,39 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
             ]
         )
 
+        # ===== 中文評分（CHINESE）===== #
+        # 依你資料集命名：zh_simple_python / zh_multiple / zh_parallel / zh_parallel_multiple /（選用）zh_irrelevance
+        zh_simple_python = get_category_score(value, "zh_simple_python")
+        zh_multiple = get_category_score(value, "zh_multiple")
+        zh_parallel = get_category_score(value, "zh_parallel")
+        zh_parallel_multiple = get_category_score(value, "zh_parallel_multiple")
+        zh_irrelevance = get_category_score(value, "zh_irrelevance")  # 若沒有會顯示 N/A
+
+        # 中文小結：和 non-live 一樣走「不加權平均」
+        zh_summary = calculate_unweighted_accuracy(
+            [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple]
+        )
+        # 中文 overall：一樣不加權，但 display_na_if_category_missing=False 以便總表照樣輸出數值
+        zh_overall = calculate_unweighted_accuracy(
+            [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple],
+            display_na_if_category_missing=False,
+        )
+        # 寫入該 model 的中文資料列
+        data_chinese.append(
+            [
+                "N/A",
+                model_config.display_name,
+                zh_overall["display_accuracy"],
+                zh_summary["display_accuracy"],
+                zh_simple_python["display_accuracy"],
+                zh_multiple["display_accuracy"],
+                zh_parallel["display_accuracy"],
+                zh_parallel_multiple["display_accuracy"],
+                zh_irrelevance["display_accuracy"],
+            ]
+        )
+        # ===== 中文評分（CHINESE）結束 ===== #
+        
         # Total Score
         total_irrelevance = calculate_unweighted_accuracy(
             [irrelevance_non_live, irrelevance_live]
@@ -612,7 +645,14 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
         sort_column_index=1,
         no_conversion_numeric_column_index=[4, 5, 6, 7, 32, 33],
     )
-
+    # ✅ 新增：寫出中文評分 CSV
+    write_score_csv_file(
+        data=data_chinese,
+        file_path=output_path / "data_chinese.csv",
+        header=COLUMNS_CHINESE,
+        sort_column_index=2,  # 以 Overall (ZH) 排序
+    )
+    
     wandb_project = os.getenv("WANDB_BFCL_PROJECT")
     if wandb_project and wandb_project != "ENTITY:PROJECT":
         import wandb
