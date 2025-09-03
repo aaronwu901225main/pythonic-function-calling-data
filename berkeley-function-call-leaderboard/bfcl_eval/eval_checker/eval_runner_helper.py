@@ -48,7 +48,7 @@ def calculate_unweighted_accuracy(accuracy_dict_list, display_na_if_category_mis
 
         total_count += count
         total_accuracy += accuracy
-
+    print("total_count:", total_count)
     result = {
         "accuracy": total_accuracy / len(accuracy_dict_list),
         "total_count": total_count,
@@ -581,6 +581,15 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
                 total_irrelevance["display_accuracy"],
                 format_sensitivity_max_delta,
                 format_sensitivity_std,
+                
+
+                # === append 5 Chinese columns (display only) ===
+                zh_summary["display_accuracy"],
+                zh_simple_python["display_accuracy"],
+                zh_multiple["display_accuracy"],
+                zh_parallel["display_accuracy"],
+                zh_parallel_multiple["display_accuracy"],
+
                 model_config.org,
                 model_config.license,
             ]
