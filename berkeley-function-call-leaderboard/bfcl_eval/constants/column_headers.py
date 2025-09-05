@@ -106,7 +106,7 @@ COLUMNS_CHINESE = [
     "ZH: Multiple",
     "ZH: Parallel",
     "ZH: Parallel Multiple",
-    "ZH: Irrelevance",
+    "ZH: Relevance",
 ]
 # 先建一個「含中文欄位」的 overall 標頭（在原本 COLUMNS_OVERALL 後面拼接）
 COLUMNS_OVERALL_WITH_ZH = COLUMNS_OVERALL + [
