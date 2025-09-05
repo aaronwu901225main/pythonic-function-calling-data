@@ -726,7 +726,7 @@ def runner(model_names, test_categories, result_dir, score_dir):
         print(f"🦍 Model: {model_name}")
 
         # Find and process all result JSON files recursively in the subdirectory
-        for model_result_json in subdir.rglob(RESULT_FILE_PATTERN):
+        for model_result_json in tqdm(subdir.rglob(RESULT_FILE_PATTERN)):
             test_category = extract_test_category(model_result_json)
             if test_category not in test_categories:
                 continue
