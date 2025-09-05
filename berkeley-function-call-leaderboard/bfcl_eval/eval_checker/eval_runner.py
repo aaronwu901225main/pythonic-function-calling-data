@@ -727,7 +727,6 @@ def runner(model_names, test_categories, result_dir, score_dir):
 
         # Find and process all result JSON files recursively in the subdirectory
         for model_result_json in subdir.rglob(RESULT_FILE_PATTERN):
-            print(f"Processing file: {model_result_json}")
             test_category = extract_test_category(model_result_json)
             if test_category not in test_categories:
                 continue
