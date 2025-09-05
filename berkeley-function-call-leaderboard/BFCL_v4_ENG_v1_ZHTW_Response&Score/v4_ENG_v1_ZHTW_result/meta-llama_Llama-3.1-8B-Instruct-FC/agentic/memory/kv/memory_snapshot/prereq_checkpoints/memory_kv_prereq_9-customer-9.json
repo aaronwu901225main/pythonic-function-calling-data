@@ -1,0 +1,18 @@
+{
+    "core_memory": {
+        "customer_question_about_compatibility_and_water_quality": "compatibility with recent grinder purchase, dosing, grind consistency, water filtration system, Seattle water quality, machine longevity",
+        "customer_question_about_additional_resources": "how-to videos, masterclasses, advanced milk steaming, maintenance, barista technique, online resources",
+        "customer_feeling_about_upgrading": "excitement, nervousness, joy from crafting quality beverages, sharing with friends and family, design clients, coffee-flavored environment, trust in MonoBean and your brand, dedicated customer service, kitchen transformation",
+        "customer_request_for_information": "pricing, shipping, warranties, recommended accessories, insider tips, deals for loyal customers, making the right choice, dream machine, caffeinated journey"
+    },
+    "archival_memory": {
+        "customer_concern": "unexpected charge on credit card statement",
+        "customer_description_of_concern": "charge not tied to specific product purchase or recent order",
+        "customer_theory": "possible system error, account flagged for something",
+        "customer_preferred_resolution": "resolve directly with you, avoid dispute with bank",
+        "customer_statement": "willing to pay legitimate charges, but this one doesn\u2019t match any recent purchases",
+        "customer_request": "refund or clarification on the charge",
+        "customer_offering": "screenshot of credit card statement, transaction ID, and approximate date of charge",
+        "customer_thank_you": "appreciate help resolving the issue, looking forward to a quick resolution"
+    }
+}

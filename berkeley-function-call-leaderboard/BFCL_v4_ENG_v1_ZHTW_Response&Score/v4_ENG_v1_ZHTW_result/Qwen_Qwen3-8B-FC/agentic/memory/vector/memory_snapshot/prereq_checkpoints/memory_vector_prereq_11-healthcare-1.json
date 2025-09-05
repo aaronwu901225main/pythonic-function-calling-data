@@ -1,0 +1,18 @@
+{
+    "core_memory": {
+        "next_id": 7,
+        "store": {
+            "0": "Type 2 Diabetes managed via diet. Meals: Greek yogurt/nuts/berries, grilled chicken salad, vegetable soups. Adapts meals to Kansas weather(e.g., soups in winter).",
+            "1": "Exercise journey: shifted from high-intensity to low-impact. Walking for osteoarthritis and blood sugar, yoga for joint pain/flexibility, stationary bike in bad weather.",
+            "2": "Sleep management: critical for blood pressure, joint pain, and energy. Bedtime routine includes caffeine avoidance after 3 PM, cool/dark bedroom, reading instead of phone use.",
+            "3": "Stress management: mindfulness(5 min daily deep breathing/meditation) for hypertension. Gratitude journal to maintain positivity and reduce stress impact.",
+            "4": "Hydration: conscious effort for energy, digestion, skin. Uses water bottle, herbal teas instead of coffee, increases intake during Kansas summers.",
+            "5": "Preventative care: regular check-ups, timely medications, annual vaccines(flu, pneumonia, RSV). Annual mammogram, bone density monitoring due to family osteoporosis history. Focus on early problem detection.",
+            "6": "Motivation challenge: days with low energy for exercise/healthy meals. Practice self-compassion, focus on consistency over perfection."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

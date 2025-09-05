@@ -1,0 +1,20 @@
+{
+    "core_memory": {
+        "next_id": 7,
+        "store": {
+            "0": "Oh, hey! Yeah, I",
+            "1": "My favorite class this semester is definitely Advanced Algorithms.",
+            "2": "Aside from that, I\u2019m taking a Distributed Systems course(CS 2631), which is probably the second hardest.",
+            "3": "I\u2019m also doing an elective in Game Design\u2014yes, it counts toward my major if I combine it with a certain set of other classes.",
+            "4": "Oh! And one class I might\u2019ve regretted signing up for at first but now actually enjoy is this Introduction to Quantum Computing.",
+            "5": "Then there\u2019s my Capstone Project course, which, oh boy, is basically the sink-or-swim part of senior year.",
+            "6": "Let\u2019s see, what else can I share about my schedule? Oh, I\u2019m also technically taking a humanities elective\u2014Philosophy of Mind."
+        }
+    },
+    "archival_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "Probably the biggest challenge this semester is balancing the group projects. Capstone alone can eat up a solid ten hours a week\u2014more if you run into a big bug or if your model\u2019s not training properly. Then the distributed systems project is another black hole for time. My group tries to meet at least twice a week. We also rely heavily on Slack or Discord to keep each other updated. But you know how it can go: coordinating five different people\u2019s schedules is a mini-nightmare. Still, as stressful as it can be, it\u2019s also exciting. This is going to be among my last chances to fully invest in a project that\u2019s purely academic, purely about learning, without the pressures of an actual job environment."
+        }
+    }
+}

@@ -1,0 +1,20 @@
+{
+    "core_memory": {
+        "user_introduction": "Michael is a 35-year-old freelance graphic designer living in Seattle. He is interested in high-quality coffee machines that fit his design aesthetic.",
+        "user_interests": "specific features of espresso machines, design aesthetic, and type of finish",
+        "user_questions": "pricing, discounts, and promotional offers",
+        "user_shipping_questions": "shipping process, local warehouse, delivery time frame, and shipping location",
+        "user_product_details": "size and dimensions of espresso machines",
+        "user_warranty_questions": "warranty and quality guarantee for coffee machines"
+    },
+    "archival_memory": {
+        "user_introduction": "Michael is a 35-year-old freelance graphic designer living in Seattle. He is interested in high-quality coffee machines that fit his design aesthetic.",
+        "user_interests": "specific features of espresso machines, design aesthetic, and type of finish",
+        "user_questions": "pricing, discounts, and promotional offers",
+        "user_shipping_questions": "shipping process, local warehouse, delivery time frame, and shipping location",
+        "shipping_process": "We ship our products from a combination of local and out-of-state warehouses. For products shipped from our local warehouse in Seattle, delivery times are typically 1-3 business days. For products shipped from out-of-state warehouses, delivery times can range from 3-7 business days. We strive to get your products to you as quickly as possible.",
+        "user_product_details": "size and dimensions of espresso machines",
+        "user_warranty_questions": "warranty and quality guarantee for coffee machines",
+        "warranty_policy": "All of our coffee machines come with a comprehensive warranty that covers parts and labor for a period of one year from the date of purchase. Additionally, we offer a quality guarantee that ensures our machines meet certain standards of performance and quality. If you experience any issues with your machine, we're here to help and will work with you to resolve the problem."
+    }
+}

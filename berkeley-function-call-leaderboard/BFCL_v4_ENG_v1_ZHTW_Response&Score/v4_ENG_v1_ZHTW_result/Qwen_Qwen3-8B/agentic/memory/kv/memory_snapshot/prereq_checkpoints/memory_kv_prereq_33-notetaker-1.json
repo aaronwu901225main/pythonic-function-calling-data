@@ -1,0 +1,20 @@
+{
+    "core_memory": {},
+    "archival_memory": {
+        "tax_submission_deadline": "Friday",
+        "credit_card_review": "check for errors",
+        "auto_repair_call": "weird engine noise",
+        "quarterly_budget_finalization": "Finalize quarterly budget",
+        "vendor_contract_review": "Review vendor contract before signing",
+        "security_compliance_training": "Finish security compliance training module",
+        "laptop_backup": "Back up laptop files",
+        "phone_software_update": "Update phone software",
+        "cancel_unused_subscriptions": "Cancel unused subscriptions",
+        "laptop_backup_task": "Back up laptop files",
+        "phone_software_update_task": "Update phone software",
+        "cancel_unused_subscriptions_task": "Cancel unused subscriptions",
+        "dentist_appointment_scheduling": "Schedule dentist appointment",
+        "gym_schedule_commitment": "Stick to gym 3x this week",
+        "call_mom_reminder": "Call mom\u2014it\u2019s been a while"
+    }
+}

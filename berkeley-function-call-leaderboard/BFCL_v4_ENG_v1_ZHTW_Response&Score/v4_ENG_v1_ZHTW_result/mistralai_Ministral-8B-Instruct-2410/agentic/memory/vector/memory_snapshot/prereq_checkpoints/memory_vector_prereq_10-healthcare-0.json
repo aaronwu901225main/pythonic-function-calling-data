@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "The user is in their mid-50s and has a history of surgeries, medications, and chronic conditions. They live in Kansas and have joint pain and seasonal illnesses. They manage their health actively."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

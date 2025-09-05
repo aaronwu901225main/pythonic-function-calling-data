@@ -1,0 +1,18 @@
+{
+    "core_memory": {
+        "next_id": 7,
+        "store": {
+            "0": "Diabetes update: Fasting glucose 135 mg/dL(target <100), A1C 6.9% (target <6.5). Doctor advises more fiber, light post-meal exercise. Morning home readings 125-130 mg/dL. Hypertension controlled. Kansas seasons impact energy/joint pain, requiring adjustments.",
+            "1": "Cholesterol update: LDL 130 mg/dL(target <100), HDL 58 mg/dL(good), triglycerides 140 mg/dL(slightly elevated). Doctor recommends increasing healthy fats(avocados, nuts) and reducing saturated fats. Total cholesterol 195 mg/dL(within range).",
+            "2": "Blood pressure update: Current reading 138/85 mmHg(target <130/80). Home monitoring shows fluctuations: 135-140/80-90 mmHg. Stress and sodium intake impact readings. Reducing sodium and increasing water intake have shown improvement.",
+            "3": "Vitamin D deficiency: 22 ng/mL(normal 30-50 ng/mL). Started 2000 IU daily supplement; retest in months.",
+            "4": "Thyroid update: TSH 2.1 mIU/L(normal 0.5-4.5), T4 1.2 ng/dL(effective levothyroxine dose). Stable after hypothyroidism history; regular monitoring maintained.",
+            "5": "Bone density update: Spine T-score -1.8 (osteopenia), hip T-score -1.5 (borderline). Doctor recommends strength training, increased calcium(dairy, leafy greens), and calcium + vitamin K2 supplement. Preventing further bone loss.",
+            "6": "Liver/kidney update: ALT 42 U/L(elevated, normal <35), creatinine 0.9 mg/dL(normal 0.6-1.2). Doctor attributes ALT to recent medication changes; monitoring advised."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

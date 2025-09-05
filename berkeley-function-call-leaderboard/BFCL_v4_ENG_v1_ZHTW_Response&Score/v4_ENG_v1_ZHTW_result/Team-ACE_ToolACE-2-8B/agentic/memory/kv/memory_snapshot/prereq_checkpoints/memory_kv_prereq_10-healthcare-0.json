@@ -1,0 +1,15 @@
+{
+    "core_memory": {
+        "health_history": "The patient has had multiple surgeries, manages chronic conditions, and is careful about joint pain and seasonal illnesses."
+    },
+    "archival_memory": {
+        "diabetes_management": "The patient was diagnosed with Type 2 Diabetes ten years ago and has made significant lifestyle changes including diet and exercise to manage it. Checking blood sugar levels is crucial, and small habits like a 30-minute walk after dinner can make a big difference. The doctor has provided guidance throughout the process.",
+        "hypertension_management": "The patient has been managing hypertension with medication and lifestyle changes, including diet and light exercise. Stress exacerbates the condition, and the patient tries to keep blood pressure in check. Indoor workouts and using a treadmill are alternatives during harsh weather. A dangerous spike in blood pressure led to an ER visit, which was a wake-up call to take the condition seriously.",
+        "osteoarthritis_management": "The patient is managing osteoarthritis in the knees and hands, with symptoms worsening with weather changes. Physical therapy has been beneficial, and supplements like glucosamine are being tried. Lifestyle changes such as using ergonomic chairs, wearing good shoes, and avoiding overexertion are also helpful.",
+        "hypothyroidism_management": "The patient was diagnosed with hypothyroidism in their early 40s, presenting with symptoms of exhaustion and unexplained weight gain. It took time to find the right dosage, but with regular check-ins and medication adherence, the patient feels good.",
+        "gallbladder_surgery": "The patient had a gallbladder removal surgery after years of dealing with gallstones. The surgery was necessary due to a severe gallbladder attack. Post-surgery, the patient had to adjust their diet, avoiding fried and greasy foods. The removal significantly impacted digestion.",
+        "allergies_and_infections": "The patient experiences seasonal allergies in the spring due to high pollen levels in Kansas. A bout of pneumonia led to increased vigilance about flu and pneumonia vaccines to prevent future complications.",
+        "health_management": "The patient manages multiple conditions by keeping a notebook to track appointments, medication changes, and personal notes. Online patient portals are used, but writing things down is preferred for better memory.",
+        "health_perspective": "The patient has shifted from worrying about aging to focusing on proactive health management. Listening to the body, taking rest when needed, and addressing any issues promptly are key. The patient emphasizes the importance of self-management and staying informed."
+    }
+}

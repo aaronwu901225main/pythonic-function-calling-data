@@ -1,0 +1,21 @@
+{
+    "core_memory": {
+        "customer_interest_in_related_products": "digital scale, temperature-controlled kettle, other barista tools",
+        "customer_outlook": "looking forward to new products, impressed with customer service and espresso machine performance",
+        "customer_request_for_update": "available products, upcoming releases, purchase completion process",
+        "customer_interest_in_subscription": "interested in loyalty program or membership with perks like free shipping, early access to new products, and special discounts",
+        "customer_reason_for_interest_in_subscription": "new product launches, monthly coffee bean subscription, extended warranty plan, loyalty to the brand",
+        "customer_feedback": "Michael from Seattle, 35-year-old freelance graphic designer, shared honest feedback on experiences with your products, highlights and areas for improvement",
+        "customer_feedback_positives": "durable and well-constructed products, stylish and modern design, good investment for home coffee gear, enhances kitchen aesthetic"
+    },
+    "archival_memory": {
+        "customer_concern": "unexpected charge on credit card statement",
+        "customer_description_of_concern": "charge not tied to specific product purchase or recent order",
+        "customer_theory": "possible system error, account flagged for something",
+        "customer_preferred_resolution": "resolve directly with you, avoid dispute with bank",
+        "customer_statement": "willing to pay legitimate charges, but this one doesn\u2019t match any recent purchases",
+        "customer_request": "refund or clarification on the charge",
+        "customer_offering": "screenshot of credit card statement, transaction ID, and approximate date of charge",
+        "customer_thank_you": "appreciate help resolving the issue, looking forward to a quick resolution"
+    }
+}
