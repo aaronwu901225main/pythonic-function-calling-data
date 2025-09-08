@@ -580,13 +580,12 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
                 format_sensitivity_max_delta,
                 format_sensitivity_std,
                 
-
                 # === append 5 Chinese columns (display only) ===
-                zh_summary["display_accuracy"],
-                zh_simple_python["display_accuracy"],
-                zh_multiple["display_accuracy"],
-                zh_parallel["display_accuracy"],
-                zh_parallel_multiple["display_accuracy"],
+                #zh_summary["display_accuracy"],
+                #zh_simple_python["display_accuracy"],
+                #zh_multiple["display_accuracy"],
+                #zh_parallel["display_accuracy"],
+                #zh_parallel_multiple["display_accuracy"],
 
                 model_config.org,
                 model_config.license,
