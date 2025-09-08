@@ -51,7 +51,7 @@ MEMORY_SCENARIO_NAME = [
     "healthcare",
     "notetaker",
 ]
-# === New: Chinese (zh_*) single-turn categories ===
+# === 中文測試項 ===
 ZH_NON_LIVE_CATEGORY = [
     "zh_simple_python",
     "zh_multiple",

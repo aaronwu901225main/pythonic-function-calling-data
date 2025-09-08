@@ -475,14 +475,13 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
         )
 
         # ===== 中文評分（CHINESE）===== #
-        # 依你資料集命名：zh_simple_python / zh_multiple / zh_parallel / zh_parallel_multiple /（選用）zh_irrelevance
         zh_simple_python = get_category_score(value, "zh_simple_python")
         zh_multiple = get_category_score(value, "zh_multiple")
         zh_parallel = get_category_score(value, "zh_parallel")
         zh_parallel_multiple = get_category_score(value, "zh_parallel_multiple")
         zh_irrelevance = get_category_score(value, "zh_irrelevance")  # 若沒有會顯示 N/A
 
-        # 中文小結：和 non-live 一樣走「不加權平均」
+        # 不加權平均
         zh_summary = calculate_unweighted_accuracy(
             [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple]
         )
