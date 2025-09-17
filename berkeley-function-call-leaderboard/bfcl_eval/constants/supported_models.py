@@ -175,6 +175,9 @@ SUPPORTED_MODELS = [
     "qwen3-4b-think-FC",
     "qwen3-4b-nothink-FC",
 ]
+
+# Llama-xLAM-2-8b-fc-r LoRA finetune checkpoints
+# 2batch-256seq
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-299_merged-2batch-256seq")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-2batch-256seq")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged-2batch-256seq")
@@ -190,4 +193,14 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged-2batch-256seq")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-2batch-256seq")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged-2batch-256seq")
-
+# 1batch-768seq
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4784_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5382_merged-1batch-768seq")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5385_merged-1batch-768seq")
