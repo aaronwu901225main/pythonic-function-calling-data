@@ -1130,6 +1130,9 @@ api_inference_model_map = {
 
 # Inference through local hosting
 local_inference_model_map = {
+    #####################################自訂模型###########################################
+    
+    #####################################自訂模型###########################################
     "deepseek-ai/DeepSeek-R1": ModelConfig(
         model_name="deepseek-ai/DeepSeek-R1",
         display_name="DeepSeek-R1 (Prompt) (Local)",
