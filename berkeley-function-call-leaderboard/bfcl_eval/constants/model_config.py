@@ -1143,7 +1143,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-2batch-256seq",
@@ -1155,7 +1155,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged-2batch-256seq",
@@ -1167,7 +1167,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-2batch-256seq",
@@ -1179,7 +1179,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged-2batch-256seq",
@@ -1191,7 +1191,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-2batch-256seq",
@@ -1203,7 +1203,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged-2batch-256seq",
@@ -1215,7 +1215,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-2batch-256seq",
@@ -1227,7 +1227,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged-2batch-256seq",
@@ -1239,7 +1239,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-2batch-256seq",
@@ -1251,7 +1251,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged-2batch-256seq",
@@ -1263,7 +1263,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-2batch-256seq",
@@ -1275,7 +1275,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged-2batch-256seq",
@@ -1287,7 +1287,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-2batch-256seq",
@@ -1299,7 +1299,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged-2batch-256seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged-2batch-256seq",
@@ -1311,7 +1311,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         # 1batch-768seq
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-1batch-768seq": ModelConfig(
@@ -1324,7 +1324,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-1batch-768seq",
@@ -1336,7 +1336,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-1batch-768seq",
@@ -1348,7 +1348,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-1batch-768seq",
@@ -1360,7 +1360,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-1batch-768seq",
@@ -1372,7 +1372,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-1batch-768seq",
@@ -1384,7 +1384,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-1batch-768seq",
@@ -1396,7 +1396,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4784_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4784_merged-1batch-768seq",
@@ -1408,7 +1408,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5382_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5382_merged-1batch-768seq",
@@ -1420,7 +1420,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5385_merged-1batch-768seq": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5385_merged-1batch-768seq",
@@ -1432,7 +1432,7 @@ local_inference_model_map = {
             output_price=None,
             is_fc_model=True,
             underscore_to_dot=False,
-            url=None,
+            url="self",
         ),
     #####################################自訂模型###########################################
     "deepseek-ai/DeepSeek-R1": ModelConfig(
