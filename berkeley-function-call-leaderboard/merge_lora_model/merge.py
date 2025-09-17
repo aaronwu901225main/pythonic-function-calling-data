@@ -15,7 +15,10 @@ os.makedirs(OUTPUT_DIR, exist_ok=True)
 # 掃描資料夾內所有 checkpoint
 for ckpt_name in sorted(os.listdir(LORA_DIR)):
     ckpt_path = os.path.join(LORA_DIR, ckpt_name)
+    # 跳過不是資料夾的東西，或是明顯不是 checkpoint 的目錄
     if not os.path.isdir(ckpt_path):
+        continue
+    if ckpt_name.startswith(".") or "checkpoint" not in ckpt_name:
         continue
 
     print(f"正在處理 {ckpt_name}...")
