@@ -1132,9 +1132,9 @@ api_inference_model_map = {
 local_inference_model_map = {
     #####################################自訂模型###########################################
         # Llama-xLAM-2-8b-fc-r LoRA finetune checkpoints
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-299_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-299_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt299",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-299_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-299_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt299-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1144,9 +1144,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt598",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-598_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt598-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1156,9 +1156,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt897",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-897_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt897-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1168,9 +1168,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt1196",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1196_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt1196-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1180,9 +1180,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt1495",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1495_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt1495-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1192,9 +1192,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt1794",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1794_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt1794-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1204,9 +1204,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt2093",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2093_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt2093-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1216,9 +1216,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt2392",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2392_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt2392-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1228,9 +1228,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt2691",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2691_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt2691-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1240,9 +1240,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt2990",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2990_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt2990-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1252,9 +1252,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt3289",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3289_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt3289-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1264,9 +1264,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt3588",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3588_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt3588-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1276,9 +1276,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt3887",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3887_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt3887-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1288,9 +1288,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt4186",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4186_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt4186-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -1300,9 +1300,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url=None,
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt4485",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged-2batch-256seq": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4485_merged-2batch-256seq",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt4485-2batch-256seq",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
