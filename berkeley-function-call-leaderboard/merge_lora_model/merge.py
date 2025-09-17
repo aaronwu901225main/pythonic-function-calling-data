@@ -5,11 +5,11 @@ from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
 
 # 基礎模型路徑
-BASE_MODEL = "你的基礎模型路徑"
+BASE_MODEL = "Llama-xLAM-2-8b-fc-r"
 # LoRA checkpoints 總資料夾
-LORA_DIR = "你的LoRA_ckpts資料夾"
+LORA_DIR = "xlam_lora_out_AA"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
 # 輸出完整模型的路徑
-OUTPUT_DIR = "merged_models"
+OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
