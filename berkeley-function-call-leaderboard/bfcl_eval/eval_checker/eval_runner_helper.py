@@ -539,7 +539,8 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
                 overall_accuracy_multi_turn,
                 overall_accuracy_agentic,
             ],
-            [10, 10, 10, 30, 40],
+            #[10, 10, 10, 30, 40],
+            [20, 20, 20, 40, 0],
             display_na_if_category_missing=False,
         )
 
