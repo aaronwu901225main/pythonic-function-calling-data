@@ -39,5 +39,8 @@ berkeley-function-call-leaderboard/bfcl_eval/scripts/ground_truth_conversation/
 .direnv/
 .venv
 
+# 忽略 merge_lora_model 資料夾
+merge_lora_model/
+
 # Ignore the wandb cache:
 **/wandb/
