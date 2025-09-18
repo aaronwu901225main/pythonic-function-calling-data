@@ -1,0 +1,9 @@
+{
+    "core_memory": {
+        "damage_report_michael": "Michael's espresso machine has a significant right-side dent with sharp edges, a bent steam wand, and a misaligned water reservoir. Drip tray is loose. Box showed severe damage upon delivery.",
+        "urgency_michael": "Michael requires urgent resolution due to hosting plans; damage report confirmed.",
+        "order_number_ready_michael": "Michael is ready to provide order number for replacement process.",
+        "replacement_preference_michael": "Michael prefers cross-ship option with potential upgrade waiver due to shipping damage."
+    },
+    "archival_memory": {}
+}

@@ -1,0 +1,16 @@
+{
+    "core_memory": {
+        "next_id": 5,
+        "store": {
+            "0": "User is a fourth-year Computer Science major taking advanced courses including quantum computing basics, transitioning from introductory data structures to complex algorithmic concepts and system design.",
+            "1": "User is a fourth-year CS major taking Advanced Algorithms, studying theory with real-world applications(e.g., network optimization, dataset handling). Topics: dynamic programming, NP-hard approximation algorithms. Professor excels at intuitive explanations.",
+            "2": "User is taking Distributed Systems(CS 2631), working on a decentralized file storage system group project. Challenges include collaboration with diverse coding styles, concurrency issues, and node failures. Recent success after fixing a bug caused by a misplaced bracket in a config file.",
+            "3": "User is taking Game Design elective(counts toward CS major), learning 2D/3D engines, physics, and UX design. Professor has indie game experience. Recent project: designed labyrinth mini-game focusing on difficulty curve balancing to prevent player frustration.",
+            "4": "User's Capstone Project involves ML-driven social media sentiment analysis for emergency response, integrating database management, API development, front-end design, and ML pipelines. Team employs agile methodologies with a Scrum Master for project management."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

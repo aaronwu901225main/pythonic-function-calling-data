@@ -1,0 +1,17 @@
+{
+    "core_memory": {
+        "next_id": 6,
+        "store": {
+            "0": "User's name: Michael, first-time interaction, greeted and offered assistance.",
+            "1": "Michael, 35, Seattle-based freelance graphic designer. Prioritizes seamless gadget integration into lifestyle. Seeking high-quality coffee machines(drip and espresso) that align with his design aesthetic and morning routine upgrade goals.",
+            "2": "Michael's preference for espresso machines with caf\u00e9-like experience, user-friendly features, and modern stainless-steel design. Uncertainty between drip and advanced espresso systems; prioritizes aesthetics and seamless integration.",
+            "3": "Michael inquires about pricing ranges, new customer discounts, and bundle deals for first-time buyers. Mentions seeing a 'New Customer Discount' on the homepage but not clicking it. Interested in limited-time promotional offers.",
+            "4": "Michael inquires about shipping logistics: local warehouse vs. out-of-state shipping, approximate delivery times for Seattle, and need for product before a family gathering later this month.",
+            "5": "Michael values customer support based on friend's recommendation. Prioritizes brewing frequency, cleaning ease, and compact design for kitchen space. Interested in espresso machines that align with his routine and aesthetic preferences."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

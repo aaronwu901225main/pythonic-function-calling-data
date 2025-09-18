@@ -1,0 +1,16 @@
+{"id": "live_parallel_0-0-0", "result": "[get_current_weather(location=\"北京\", unit=\"celsius\")]", "input_token_count": 491, "output_token_count": 17, "latency": 1.025221824645996}
+{"id": "live_parallel_1-0-1", "result": "get_current_weather(location=\"Boston, MA\", unit=\"fahrenheit\")\nget_current_weather(location=\"San Francisco, CA\", unit=\"fahrenheit\")", "input_token_count": 497, "output_token_count": 37, "latency": 2.5455541610717773}
+{"id": "live_parallel_2-0-2", "result": "get_current_weather(location=\"Boston, CA\")\n", "input_token_count": 499, "output_token_count": 14, "latency": 0.7930974960327148}
+{"id": "live_parallel_3-0-3", "result": "get_current_weather(location=\"Cancún, QR\")\n", "input_token_count": 544, "output_token_count": 15, "latency": 0.8289341926574707}
+{"id": "live_parallel_4-1-0", "result": "get_current_weather(location=\"Boston, USA\", url=\"https://api.open-meteo.com/v1/forecast\")", "input_token_count": 491, "output_token_count": 31, "latency": 2.0862295627593994}
+{"id": "live_parallel_5-2-0", "result": "get_current_weather(location=\"Boston, MA\", unit=\"celsius\")", "input_token_count": 552, "output_token_count": 18, "latency": 1.170501708984375}
+{"id": "live_parallel_6-3-0", "result": "get_snow_report(location=\"Bordeaux\")\n", "input_token_count": 705, "output_token_count": 13, "latency": 0.7117552757263184}
+{"id": "live_parallel_7-3-1", "result": "get_current_weather(location=\"Boston, CA\")", "input_token_count": 684, "output_token_count": 13, "latency": 0.9131839275360107}
+{"id": "live_parallel_8-4-0", "result": "[todo(content=\"Machine Learning Study Session\")]\n", "input_token_count": 488, "output_token_count": 12, "latency": 0.8713047504425049}
+{"id": "live_parallel_9-5-0", "result": "get_aws_pricing(memory=\"2\", cpu=\"4\")", "input_token_count": 621, "output_token_count": 15, "latency": 1.1661949157714844}
+{"id": "live_parallel_10-6-0", "result": "[hotel_booking_book(hotel_name='Sheraton Hotel', location='New York', check_in='2022-05-01', check_out='2022-05-05', adults=2, children=1)]\n[hotel_booking_book(hotel_name='Marriott', location='Los Angeles', check_in='2022-06-01', check_out='2022-06-10', adults=1, children=2)]", "input_token_count": 730, "output_token_count": 117, "latency": 6.584657669067383}
+{"id": "live_parallel_11-7-0", "result": "log_food(food_name=\"mango\", portion_amount=8.0, portion_unit=\"cup\")", "input_token_count": 697, "output_token_count": 25, "latency": 1.8115930557250977}
+{"id": "live_parallel_12-8-0", "result": "log_food(food_name=\"asparagus\", portion_amount=4, meal_name=\"breakfast\")", "input_token_count": 625, "output_token_count": 23, "latency": 1.6759259700775146}
+{"id": "live_parallel_13-9-0", "result": "get_current_weather(location=\"Boston, MA\", unit=\"fahrenheit\")", "input_token_count": 487, "output_token_count": 18, "latency": 1.4601693153381348}
+{"id": "live_parallel_14-10-0", "result": "get_current_weather(location=\"Boston, CA\")\n", "input_token_count": 478, "output_token_count": 14, "latency": 1.0296235084533691}
+{"id": "live_parallel_15-11-0", "result": "```json\n[\n    \"cmd_controller.execute(\"dir /b C:\\\\\")\n]\n```", "input_token_count": 474, "output_token_count": 24, "latency": 1.7740106582641602}

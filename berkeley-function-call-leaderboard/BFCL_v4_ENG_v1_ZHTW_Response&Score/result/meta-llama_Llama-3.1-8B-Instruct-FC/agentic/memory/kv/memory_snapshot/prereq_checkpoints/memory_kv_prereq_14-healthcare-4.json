@@ -1,0 +1,31 @@
+{
+    "core_memory": {
+        "medical_test_reports": "patient has had surgeries, medications, chronic conditions, and joint pain",
+        "bloodwork_results": "latest bloodwork had fasting blood glucose of 135 mg/dL, A1C of 6.9%, and morning blood sugar readings of 125-130 mg/dL",
+        "cholesterol_results": "total cholesterol 195 mg/dL, LDL 130 mg/dL, HDL 58 mg/dL, triglycerides 140 mg/dL",
+        "blood_pressure_results": "last reading 138/85 mmHg, home readings 135-140/80-90 mmHg",
+        "vitamin_d_results": "levels at 22 ng/mL, taking 2,000 IU daily, will retest in a few months",
+        "thyroid_results": "TSH 2.1 mIU/L, T4 1.2 ng/dL, levothyroxine dosage is working well",
+        "bone_density_results": "spine T-score -1.8, hip T-score -1.5, taking calcium and vitamin K2 supplements, increasing dairy and leafy greens in diet"
+    },
+    "archival_memory": {
+        "previous_lifestyle_changes": "patient used to make lifestyle changes to stay healthy, including staying active, eating right, and managing stress levels",
+        "current_dietary_changes": "patient makes dietary changes to manage Type 2 Diabetes, including swapping out pasta and bread for whole grains, lean proteins, and veggies, and eating Greek yogurt with nuts and berries, eggs with avocado, grilled chicken and salads, and homemade vegetable soup",
+        "exercise_history": "patient used to think exercise had to be intense, but found that consistency is more important, and has a history of using walking, yoga, and at-home workouts",
+        "sleep_improvement": "patient used to have poor sleep habits, but has improved them by developing a bedtime routine, avoiding caffeine after 3 PM, keeping the bedroom cool and dark, and reading a book before bed",
+        "stress_management_tips": "patient used to struggle with stress management, but found it helpful to practice mindfulness and keep a gratitude journal, which helps with hypertension and overall well-being",
+        "hydration_importance": "patient used to neglect hydration, but now recognizes its importance for energy levels, digestion, and skin health",
+        "preventative_care_importance": "patient used to neglect preventative care, but now recognizes its importance for catching health problems early and avoiding bigger issues",
+        "motivation_tips": "patient used to be hard on herself about motivation, but now finds it helpful to focus on consistency and give herself grace on off days",
+        "health_mindset": "patient used to focus on quick fixes, but now has a long-term mindset and prioritizes making small, consistent choices for overall health and well-being",
+        "inflammatory_markers": "CRP 3.2 mg/L, ESR 18 mm/hr",
+        "health_goals": "work on blood sugar control and vitamin D levels",
+        "thyroid_management": "levothyroxine 75 mcg every morning, taken on an empty stomach, last TSH test result 2.1 mIU/L, and using a pill organizer to stay on track",
+        "osteoarthritis_management": "acetaminophen as needed, meloxicam 7.5 mg as needed, and glucosamine supplements",
+        "vitamin_d_management": "vitamin D3 2,000 IU daily, calcium supplements, and vitamin K2 for absorption",
+        "cholesterol_management": "atorvastatin 10 mg daily, improving cholesterol numbers, and no side effects",
+        "digestive_health": "multivitamin daily, omega-3 supplements, probiotics, and digestive enzymes as needed for fatty foods",
+        "medication_interactions": "losartan and meloxicam interaction, NSAIDs and kidney function, and thyroid medication, calcium, and iron supplement interaction",
+        "medication_routine": "pill planner, phone reminders, lifestyle changes, and goal of staying healthy and avoiding unnecessary prescriptions"
+    }
+}

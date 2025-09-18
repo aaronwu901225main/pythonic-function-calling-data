@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "User has decided to purchase an espresso machine with a stainless-steel finish, prioritizing taste, temperature control, and a caf\u00e9-like experience. Prefers sleek, modern designs matching kitchen aesthetics."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

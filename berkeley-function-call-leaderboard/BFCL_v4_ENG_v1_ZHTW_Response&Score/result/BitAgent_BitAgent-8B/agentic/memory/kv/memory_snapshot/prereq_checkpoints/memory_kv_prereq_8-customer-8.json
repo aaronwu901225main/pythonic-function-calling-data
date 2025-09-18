@@ -1,0 +1,25 @@
+{
+    "core_memory": {
+        "user_interests": "latte art designs",
+        "user_goal": "master latte art",
+        "user_feedback": "Michael from Seattle, 35-year-old freelance graphic designer, shares feedback on experiences with products and service",
+        "user_feedback_positive": "Michael praises the design and quality of coffee machines and accessories, mentions the aesthetic appeal and durability, and how it has enhanced his kitchen's design",
+        "user_feedback_negative": "Michael mentions shipping delays, frustration with tracking updates, and a damaged espresso machine, but praises the quick response of the support team",
+        "user_feedback_suggestion": "Michael suggests improving account or order management, unifying orders into a single dashboard, and proactive communication about backorders or shipping slowdowns"
+    },
+    "archival_memory": {
+        "user_search": "high-quality coffee machine",
+        "user_occupation": "freelance graphic designer",
+        "user_interests": "subscription or membership program",
+        "user_goal": "sign up for membership program",
+        "user_location": "Seattle",
+        "user_name": "Michael",
+        "user_age": "35",
+        "user_issue": "damaged espresso machine with scuffed and dented stainless-steel body, bent steam wand, loose drip tray, and potential electrical or water leak issues; user prefers not to use the machine and wants to explore warranty or replacement options; timing is critical for weekend gatherings; user is willing to provide photos or video evidence of damage; user is unsure about return or replacement process and shipping insurance; user wants clarification on warranty coverage for shipping-related damage; user has all order information handy and is willing to expedite the replacement process; user is hopeful for a positive resolution and is willing to provide additional information or assistance as needed; user is looking forward to a quick resolution and is ready to provide any necessary details",
+        "user_order1_shipment_location": "Oregon",
+        "user_order1_tracking_status": "Label Created\u2014Awaiting Item",
+        "user_order2_shipment_location": "Ohio or Pennsylvania",
+        "user_order2_tracking_status": "In Transit",
+        "user_query": "next steps for membership or subscription"
+    }
+}

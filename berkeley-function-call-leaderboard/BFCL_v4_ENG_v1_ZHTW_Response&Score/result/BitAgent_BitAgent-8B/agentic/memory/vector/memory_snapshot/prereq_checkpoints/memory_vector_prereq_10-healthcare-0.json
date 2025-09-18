@@ -1,0 +1,21 @@
+{
+    "core_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "User has had various health issues, including surgeries, medications, and chronic conditions. They are careful with joint pain and seasonal illnesses, especially in Kansas."
+        }
+    },
+    "archival_memory": {
+        "next_id": 8,
+        "store": {
+            "0": "User has Type 2 Diabetes, diagnosed about ten years ago. They have made significant lifestyle changes, including diet and exercise, to manage the condition. They check their blood sugar levels regularly and have a good understanding of the impact of small habits on glucose levels.",
+            "1": "User has hypertension, which runs in their family. They manage it with medication and lifestyle changes, including diet and exercise. Stress can exacerbate the condition, and they try to keep their blood pressure in check through healthy habits. They have had a dangerous spike in blood pressure in the past, which led to a visit to the ER, and have since taken it more seriously.",
+            "2": "User has osteoarthritis, particularly affecting their knees and hands. They experience pain, especially with weather changes. They have found physical therapy helpful and are also trying supplements like glucosamine. Simple lifestyle changes, such as using ergonomic chairs and wearing good shoes, have been beneficial in managing the condition.",
+            "3": "User was diagnosed with hypothyroidism in their early 40s, presenting with symptoms of exhaustion and weight gain. They have learned to manage the condition through medication and regular check-ins with their doctor, and feel good as long as they stay on top of their treatment.",
+            "4": "User had a gallbladder removal surgery a few years ago due to a severe gallstone attack. They had to adjust their diet after the surgery, avoiding fried and greasy foods. Their digestion has not been the same since, but they have learned to manage their diet accordingly.",
+            "5": "User has seasonal allergies that flare up every spring, particularly in Kansas due to high pollen levels. They had a bout of pneumonia a couple of years ago, which made them more diligent about getting flu and pneumonia vaccines. They recognize that small infections can become serious as they age, so they take proactive measures to stay ahead of them.",
+            "6": "User finds it challenging to keep up with multiple doctor's appointments and medications for their various health conditions. They use a notebook to track appointments, medication changes, and personal notes to stay organized. They also use online patient portals but prefer writing things down manually.",
+            "7": "User has learned to focus on taking care of their health one step at a time. They prioritize listening to their body and taking proactive measures to stay healthy. They believe that nobody else will manage their health for them, so they take charge, stay informed, and do what they can to feel their best."
+        }
+    }
+}

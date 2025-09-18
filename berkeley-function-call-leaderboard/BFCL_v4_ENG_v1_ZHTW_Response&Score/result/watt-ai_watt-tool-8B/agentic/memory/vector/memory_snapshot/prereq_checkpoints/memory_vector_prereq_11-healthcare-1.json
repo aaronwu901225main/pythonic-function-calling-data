@@ -1,0 +1,21 @@
+{
+    "core_memory": {
+        "next_id": 5,
+        "store": {
+            "0": "User is in their mid-50s, prioritizes health, and makes lifestyle changes to stay active, eat right, and manage stress levels.",
+            "1": "User focuses on consistency over intensity in exercise, prioritizing walking and light yoga for joint health and blood sugar control. Uses a stationary bike or at-home workouts on bad weather days.",
+            "2": "User practices mindfulness through deep breathing and meditation to manage stress, which is a trigger for hypertension. Also keeps a gratitude journal to stay positive.",
+            "3": "User prioritizes preventative care, getting regular check-ups, taking medications on time, and staying up-to-date on vaccines. Also monitors bone density and gets annual mammograms to catch potential health issues early.",
+            "4": "User feels good about their health journey, focusing on small habits that add up to overall well-being. They prioritize consistency over perfection and are committed to long-term health goals."
+        }
+    },
+    "archival_memory": {
+        "next_id": 4,
+        "store": {
+            "0": "User has Type 2 Diabetes and focuses on maintaining a good diet by swapping out carbs for whole grains, lean proteins, and veggies. Breakfast is Greek yogurt with nuts and berries or eggs with avocado, lunch is grilled chicken and a salad, and dinner is homemade vegetable soup in the winter.",
+            "1": "User prioritizes sleep, avoiding caffeine after 3 PM, keeping the bedroom cool and dark, and reading a book before bed to wind down. This has improved their overall health and energy levels.",
+            "2": "User prioritizes hydration, keeping a water bottle with them all day and drinking herbal teas in the evening. This helps with energy levels, digestion, and skin health, especially during hot Kansas summers.",
+            "3": "User struggles with motivation, but has learned to give themselves grace and focus on consistency rather than perfection. They try to make better choices the next day if they have an off day."
+        }
+    }
+}

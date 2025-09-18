@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "user_order_details": "None",
+        "user_return_exchange_policy": "None",
+        "shipping_status": "None"
+    },
+    "archival_memory": {
+        "user_order_details": "None",
+        "user_return_exchange_policy": "None",
+        "shipping_status": "None"
+    }
+}

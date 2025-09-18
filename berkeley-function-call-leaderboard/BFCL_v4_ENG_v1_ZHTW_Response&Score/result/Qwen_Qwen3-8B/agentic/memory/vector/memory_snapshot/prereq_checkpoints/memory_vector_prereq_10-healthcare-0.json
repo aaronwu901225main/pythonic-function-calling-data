@@ -1,0 +1,13 @@
+{
+    "core_memory": {
+        "next_id": 2,
+        "store": {
+            "0": "User diagnosed with osteoarthritis affecting knees and hands, with pain exacerbated by weather changes. Managed through physical therapy(initially skeptical but effective), supplements like glucosamine(effectiveness unknown), and lifestyle adjustments(ergonomic chairs, supportive shoes, joint care).",
+            "1": "User diagnosed with osteoarthritis affecting knees and hands, with pain exacerbated by weather changes. Managed through physical therapy(initially skeptical but effective), supplements like glucosamine(effectiveness unknown), and lifestyle adjustments(ergonomic chairs, supportive shoes, joint care)."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

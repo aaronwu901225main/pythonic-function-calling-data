@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "next_id": 0,
+        "store": {}
+    },
+    "archival_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "The user has learned to focus on taking care of their health one step at a time, rather than worrying about the future. They prioritize listening to their body and taking care of themselves when needed. They believe that being proactive and taking charge of their health is crucial, and they encourage others to do the same. They feel that staying informed and making healthy choices can help them feel their best despite managing multiple health conditions."
+        }
+    }
+}

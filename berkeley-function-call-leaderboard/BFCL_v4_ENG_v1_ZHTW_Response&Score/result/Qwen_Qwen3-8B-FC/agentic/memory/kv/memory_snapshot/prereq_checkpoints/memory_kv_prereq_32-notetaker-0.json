@@ -1,0 +1,19 @@
+{
+    "core_memory": {
+        "team_meeting_extension": "Meeting ran over by 30 minutes; adjust schedule accordingly",
+        "it_security_update": "IT updated security protocols; change passwords ASAP",
+        "client_call_jacob": "Client call with Jacob delayed till Wednesday",
+        "system_downtime": "System downtime from 10 AM - 12 PM; workflow slowed down",
+        "benefits_package_deadline": "HR updated benefits package; review before next month's deadline",
+        "vendor_email_follow_up": "Sent follow-up emails to vendors; waiting on responses",
+        "presentation_tweaks": "Presentation to leadership went well; tweak slides for next week\u2019s review"
+    },
+    "archival_memory": {
+        "team_meeting_extension": "Meeting ran over by 30 minutes; adjust schedule accordingly",
+        "it_security_update": "IT updated security protocols; change passwords ASAP",
+        "client_call_jacob": "Client call with Jacob delayed till Wednesday",
+        "system_downtime": "System downtime from 10 AM - 12 PM; workflow slowed down",
+        "benefits_package_deadline": "HR updated benefits package; review before next month's deadline",
+        "vendor_email_follow_up": "Sent follow-up emails to vendors; waiting on responses"
+    }
+}

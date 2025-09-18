@@ -1,0 +1,39 @@
+{
+    "core_memory": {
+        "dorm_laundry_room": "a place where I meet friends in everyday-life situations",
+        "mutual_respect": "the sense that we\u2019re all navigating this crazy journey together",
+        "graduation": "looming, and I\u2019m dreading the day when all these friends I\u2019ve made scatter to different corners of the world",
+        "distance": "can\u2019t break the bond of trust, loyalty, and empathy",
+        "friends": "an integral part of my college experience, and they remind me that there\u2019s more to this journey than racking up achievements on my resume",
+        "daily_routine": "a fourth-year Computer Science major, time management is my lifeline, so let me walk you through a typical day from start to finish",
+        "morning_routine": "wake up at 6:30, check calendar, do basic stretching, then shower"
+    },
+    "archival_memory": {
+        "user_hobbies": "sailing",
+        "user_sailing_experience": "grew up sailing with dad, joined local sailing club in college",
+        "user_sailing_club": "rents out boats at a decent student rate",
+        "user_sailing_feeling": "sense of freedom",
+        "user_sailing_puzzle": "problem-solving on a grand scale",
+        "user_sailing_side": "problem-solving nerdy side",
+        "user_gym_experience": "started with a basic lifting routine freshman year",
+        "user_gym_frequency": "four times a week",
+        "user_gym_goal": "incremental improvements",
+        "user_gym_benefit": "stress-reliever, mental clarity, productivity, better sleep",
+        "user_gaming_interest": "PC and console games",
+        "user_gaming_type": "co-op survival games",
+        "user_gaming_benefit": "problem-solving, social, mental challenge",
+        "user_gaming_development": "Unity, Unreal Engine",
+        "user_reading_interest": "fantasy and sci-fi",
+        "user_reading_frequency": "before bed, on weekends",
+        "user_reading_genre": "sci-fi, AI-themed",
+        "user_reading_book": "The Infinity Courts by Akemi Dawn Bowman",
+        "user_reading_benefit": "relaxation, exploring philosophical questions",
+        "user_scheduling": "every Sunday, plan out the week",
+        "user_scheduling_benefit": "healthy balance, planning, relaxation",
+        "user_combining_hobbies": "sailing, video games",
+        "user_combining_benefit": "teamwork, attention to detail, problem-solving",
+        "user_stress": "lectures, labs, homework, research group meetings, part-time gig",
+        "user_hobby_management": "small increments, flexible schedule",
+        "user_hobby_benefit": "social, unique, interesting"
+    }
+}

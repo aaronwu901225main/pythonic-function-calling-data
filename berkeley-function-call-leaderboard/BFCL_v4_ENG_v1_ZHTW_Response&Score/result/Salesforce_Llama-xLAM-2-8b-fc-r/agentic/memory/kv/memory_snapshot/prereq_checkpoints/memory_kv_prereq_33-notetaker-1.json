@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "tax_documents": "submit before Friday",
+        "credit_card_statement": "review for errors",
+        "auto_repair_shop": "call about weird noise in the engine",
+        "finalize_budget": "quarterly budget",
+        "review_contract": "before signing",
+        "security_compliance": "finish training module",
+        "back_up_files": "laptop files"
+    },
+    "archival_memory": {}
+}

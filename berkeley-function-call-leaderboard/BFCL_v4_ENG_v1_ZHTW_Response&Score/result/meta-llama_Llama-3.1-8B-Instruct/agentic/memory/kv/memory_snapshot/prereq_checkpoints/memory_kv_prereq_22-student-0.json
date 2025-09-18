@@ -1,0 +1,36 @@
+{
+    "core_memory": {
+        "computer_science_major": "fourth_year",
+        "current_semester": "killer",
+        "higher_level_courses": "complex_algorithmic_concepts",
+        "surreal_feeling": "true",
+        "intro_class": "simple_data_structures",
+        "current_stage": "advanced_system_design",
+        "future_topic": "quantum_computing"
+    },
+    "archival_memory": {
+        "scheduling": "college_juggle",
+        "day_monday": "jam_packed",
+        "day_tuesday": "lighter",
+        "day_wednesday": "jam_packed",
+        "day_thursday": "lighter",
+        "day_friday": "open",
+        "afternoon_capstone": "all_over_the_place",
+        "philosophy_of_mind": "brutal",
+        "research_hours": "data_visualization",
+        "research_focus": "big_scientific_data_sets",
+        "biggest_challenge": "balancing_group_projects",
+        "project_time_commitment": "ten_hours",
+        "project_meeting_frequency": "twice_a_week",
+        "communication_tool": "slack",
+        "scheduling_coordinator": "mini_nightmare",
+        "project_environment": "academic",
+        "overall_feeling": "having_a_blast",
+        "confidence_level": "senior_year",
+        "problem_solving_ability": "improved",
+        "time_management_skills": "better",
+        "late_nights": "occasional",
+        "end_goal": "future_career",
+        "takeaway": "resourceful"
+    }
+}

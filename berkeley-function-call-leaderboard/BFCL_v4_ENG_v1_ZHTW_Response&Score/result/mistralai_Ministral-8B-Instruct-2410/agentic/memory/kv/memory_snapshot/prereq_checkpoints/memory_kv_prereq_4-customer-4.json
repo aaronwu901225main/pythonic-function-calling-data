@@ -1,0 +1,18 @@
+{
+    "core_memory": {
+        "user_photos": "Photos of the exterior of the box showing where it was crushed, plus close-ups of the dents on the stainless-steel panel and the bent steam wand.",
+        "user_video": "Video of the damaged espresso machine.",
+        "user_return_process": "Do I return the damaged machine first, or is there a way we can cross-ship, so I\u2019m not left waiting too long without a functioning unit. Since it was the courier that likely caused the damage in transit, would it be covered under your shipping insurance, or do you handle it in-house?",
+        "user_warranty_coverage": "Does the warranty cover shipping-related damage?",
+        "user_interest": "new electric grinder"
+    },
+    "archival_memory": {
+        "user_desired_features": "Espresso machines with caf\u00e9-like experience, sleek, modern, stainless-steel finish.",
+        "user_friend_recommendation": "Air fryer or blender, excellent customer support.",
+        "user_kitchen_size": "Not tiny, but has many appliances already.",
+        "user_warranty_interest": "Yes, please.",
+        "user_coffee_preference": "Adjustable temperature settings, reliable hot coffee.",
+        "user_espresso_machine_damage": "The espresso machine has a significant dent on the right side, with sharp edges, and the stainless-steel body is scuffed. The steam wand is also bent at an odd angle and doesn't swivel smoothly. The water reservoir area is slightly misaligned, and the hinge doesn't close flush.",
+        "user_espresso_machine_accessories": "The stainless-steel frothing pitcher has a tiny scratch on the outside. The extra filters are okay."
+    }
+}

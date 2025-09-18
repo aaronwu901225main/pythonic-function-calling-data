@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "health_history": "patient has had surgeries, medications, chronic conditions, and joint pain",
+        "diabetes_management": "patient has type 2 diabetes, struggles with diet and lifestyle changes, has to monitor blood sugar levels, and has a doctor for guidance",
+        "hypertension_management": "patient has hypertension, manages with medication and lifestyle changes, blood pressure worsens with stress, uses diet and light exercise to keep it in check",
+        "osteoarthritis_management": "patient has osteoarthritis in knees and hands, experiences pain with weather changes, uses physical therapy, supplements, and lifestyle changes for management",
+        "hypothyroidism_management": "patient was diagnosed with hypothyroidism in early 40s, experienced exhaustion and weight gain, learned to manage with medication and regular check-ins with doctor",
+        "gallbladder_surgery": "patient had gallstones, had severe gallbladder attack, underwent surgery, had to adjust diet to avoid fried and greasy foods",
+        "allergies_and_infections": "patient has seasonal allergies, had pneumonia, now gets flu and pneumonia vaccines to prevent future infections"
+    },
+    "archival_memory": {}
+}

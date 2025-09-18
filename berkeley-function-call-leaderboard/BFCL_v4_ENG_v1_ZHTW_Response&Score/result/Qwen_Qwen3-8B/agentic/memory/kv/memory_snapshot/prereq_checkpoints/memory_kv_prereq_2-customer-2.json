@@ -1,0 +1,9 @@
+{
+    "core_memory": {
+        "order_number_request_michael": "Michael requested assistance in checking shipment timeline updates; prompt for order number to proceed with internal checks or escalate to customer support",
+        "order_number_request_michael_v5": "Michael requested assistance in checking shipment timeline updates; prompt for order number to proceed with internal checks or escalate to customer support",
+        "order_number_request_michael_v6": "Michael requested assistance in checking shipment timeline updates; prompt for order number to proceed with internal checks or escalate to customer support",
+        "order_number_request_michael_v7": "Michael requested assistance in checking shipment timeline updates; prompt for order number to proceed with internal checks or escalate to customer support"
+    },
+    "archival_memory": {}
+}
