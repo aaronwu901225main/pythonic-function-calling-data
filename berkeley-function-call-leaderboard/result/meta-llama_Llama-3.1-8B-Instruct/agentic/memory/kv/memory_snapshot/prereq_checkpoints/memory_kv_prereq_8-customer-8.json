@@ -1,0 +1,10 @@
+{
+    "core_memory": {
+        "customer_current_goal": "improve customer experience"
+    },
+    "archival_memory": {
+        "customer_feedback_gratitude": "thankful for everything so far",
+        "customer_feedback_future": "expanding into new coffee frontiers",
+        "customer_feedback_closing": "thanks for morning coffee ritual"
+    }
+}

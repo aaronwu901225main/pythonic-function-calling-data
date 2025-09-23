@@ -1,0 +1,18 @@
+{
+    "core_memory": {
+        "next_id": 34,
+        "store": {
+            "27": "Monitor food allergies\u2014keep a log if symptoms flare up.",
+            "28": "Family time: Take kid to park this weekend.",
+            "29": "Pick out a new bedtime story book.",
+            "30": "Help with counting practice\u2014teacher says focus on numbers 1-20.",
+            "31": "Shopping: Buy more diapers.",
+            "32": "Get school supplies\u2014crayons, notebooks, glue sticks.",
+            "33": "Pack extra snacks in daycare bag."
+        }
+    },
+    "archival_memory": {
+        "next_id": 0,
+        "store": {}
+    }
+}

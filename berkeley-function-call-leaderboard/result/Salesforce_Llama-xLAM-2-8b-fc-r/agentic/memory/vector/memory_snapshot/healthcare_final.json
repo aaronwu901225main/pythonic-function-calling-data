@@ -1,0 +1,22 @@
+{
+    "core_memory": {
+        "next_id": 4,
+        "store": {
+            "0": "The user is in their mid-50s and prioritizes staying healthy by making lifestyle changes. They live in Kansas and have to be flexible with their routine due to unpredictable weather. They try to stay active, eat well, and manage stress levels to maintain balance.",
+            "1": "The user is in their mid-50s and prioritizes staying healthy by making lifestyle changes. They live in Kansas and have to be flexible with their routine due to unpredictable weather. They try to stay active, eat well, and manage stress levels to maintain balance.",
+            "2": "The user has a history of diabetes and hypertension and is vigilant about regular check-ups to monitor their health. They find it interesting to track their medical test reports over time and make lifestyle adjustments based on their numbers, which can fluctuate due to seasonal changes in Kansas.",
+            "3": "The user takes a daily multivitamin, omega-3 supplements for heart health, and probiotics to support digestion. They also have digestive enzymes on hand in case they eat something heavier, as they need to be mindful of their gallbladder removal and its impact on fat digestion."
+        }
+    },
+    "archival_memory": {
+        "next_id": 6,
+        "store": {
+            "0": "The user has a positive outlook on aging, recognizing the wisdom and self-awareness that come with experience. They advise younger selves to prioritize health, appreciate life's moments, and not stress about minor issues. They believe aging is a natural part of life, and each stage brings new opportunities for growth and enjoyment.",
+            "1": "The user's recent inflammatory marker tests showed a slightly elevated C-reactive protein(CRP) level of 3.2 mg/L, which indicates mild inflammation, likely related to osteoarthritis. However, their erythrocyte sedimentation rate(ESR) was within the normal range of 0-20 mm/hr, suggesting no major inflammation. These results provide insights into their overall inflammatory status and will be useful for monitoring their condition.",
+            "2": "The user's vitamin D levels were found to be deficient at 22 ng/mL, which is below the normal range of 30-50 ng/mL. To address this, their doctor prescribed a vitamin D supplement of 2,000 IU daily. They will be retested in a few months to assess the effectiveness of the supplement and monitor any improvements in their vitamin D levels.",
+            "3": "The user finds their medication routine to be working well, despite its complexity. They use a pill planner and phone reminders to stay organized. They also prioritize lifestyle changes to minimize reliance on medications. Their goal is to maintain good health and avoid unnecessary prescriptions by managing their conditions naturally whenever possible.",
+            "4": "The user is feeling positive about their latest test results, despite areas that need improvement, such as managing blood sugar and boosting vitamin D levels. They emphasize the importance of regular tracking and making consistent lifestyle changes to maintain optimal health. By focusing on small, incremental adjustments, they aim to continue feeling their best.",
+            "5": "The user takes atorvastatin 10 mg daily to help manage their cholesterol. Their doctor prescribed it due to high LDL levels at 130 mg/dL and triglycerides at 140 mg/dL. So far, their cholesterol numbers have been improving, and they haven't experienced any side effects, such as muscle aches, which some people report with statin use."
+        }
+    }
+}

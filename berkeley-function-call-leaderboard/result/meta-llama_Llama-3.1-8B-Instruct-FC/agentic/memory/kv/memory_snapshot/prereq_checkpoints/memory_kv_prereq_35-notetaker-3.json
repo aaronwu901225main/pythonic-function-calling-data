@@ -1,0 +1,12 @@
+{
+    "core_memory": {
+        "pediatrician_visit": "schedule pediatrician visit",
+        "next_vaccine_due": "two months",
+        "food_allergy_log": "monitor and keep a log if symptoms flare up",
+        "family_park_trip": "this weekend",
+        "new_bedtime_story": "pick out a new bedtime story book",
+        "counting_practice": "help with counting practice\u2014focus on numbers 1-20",
+        "diapers": "buy more diapers"
+    },
+    "archival_memory": {}
+}

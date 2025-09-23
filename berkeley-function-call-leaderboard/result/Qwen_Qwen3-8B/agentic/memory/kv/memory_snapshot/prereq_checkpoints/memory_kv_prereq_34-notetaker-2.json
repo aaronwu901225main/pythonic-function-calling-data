@@ -1,0 +1,8 @@
+{
+    "core_memory": {
+        "diy_fixes_cabinet_handle": "tighten loose cabinet handle",
+        "diy_fixes_bathroom_lightbulb": "replace bathroom lightbulb",
+        "diy_fixes_wall_scuffs": "patch up minor wall scuffs"
+    },
+    "archival_memory": {}
+}

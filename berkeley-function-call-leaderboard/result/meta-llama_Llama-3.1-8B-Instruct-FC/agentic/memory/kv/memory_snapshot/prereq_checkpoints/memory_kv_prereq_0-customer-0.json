@@ -1,0 +1,11 @@
+{
+    "core_memory": {},
+    "archival_memory": {
+        "customer_type": "first-time buyer",
+        "shipping_location": "Seattle",
+        "referral_source": "customer testimonial",
+        "kitchen_layout_concern": "counter space",
+        "warranty_concern": "long warranty period",
+        "temperature_concern": "hot coffee"
+    }
+}
