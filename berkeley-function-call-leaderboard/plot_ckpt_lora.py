@@ -22,11 +22,11 @@ import os
 import re
 import pandas as pd
 import matplotlib.pyplot as plt
-# 中文亂碼問題
-def plt_chinese():
-    plt.rcParams['font.sans-serif'] = ['Microsoft JhengHei'] # 修改中文字體
-    plt.rcParams['axes.unicode_minus'] = False # 顯示負號
-    
+
+# 中文字型設定（視系統而定，避免亂碼）
+plt.rcParams['font.sans-serif'] = ['Arial Unicode MS', 'Microsoft JhengHei', 'SimHei', 'DejaVu Sans']
+plt.rcParams['axes.unicode_minus'] = False  # 負號正常顯示
+
 # 需要讀的檔名（固定）
 TARGET_FILES = [
     "data_overall.csv",
@@ -168,7 +168,7 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
 
     ax.set_xlabel("Checkpoint 編號")
     ax.set_ylabel("準確度(%)")
-    title = os.path.basename(csv_path) + "：含 ckpt 模型的準確度折線圖（同 LoRA 超參數成一條線）"
+    title = os.path.basename(csv_path) + "：LORA 不同 ckpt 模型的準確度折線圖"
     ax.set_title(title)
     ax.legend(loc="best", fontsize=8)
     ax.grid(True, which="both", axis="both", linewidth=0.5)
@@ -188,8 +188,8 @@ def main():
     here = os.path.abspath(os.path.dirname(__file__))
     outputs = []
     for fname in TARGET_FILES:
-        csv_path = os.path.join(here, fname)
-        out_png = plot_one_csv(csv_path, out_dir=here)
+        csv_path = os.path.join(here+"/score", fname)
+        out_png = plot_one_csv(csv_path, out_dir="./figures")
         if out_png:
             outputs.append(out_png)
 
