@@ -15,6 +15,7 @@ from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_checker import (
 from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
     is_empty_execute_response,
 )
+from bfcl_eval.eval_checker.zhtw_semantic_judge import parse_zhtw_eval_arg, semantic_judge
 from bfcl_eval.model_handler.base_handler import BaseHandler
 from bfcl_eval.model_handler.utils import parse_prompt_variation_params
 from bfcl_eval.utils import *
@@ -575,6 +576,7 @@ def ast_file_runner(
     test_category,
     model_name,
     score_dir,
+    zhtw_eval_config=None,
 ):
     assert (
         len(model_result) == len(prompt) == len(possible_answer)
@@ -611,6 +613,35 @@ def ast_file_runner(
             has_tool_call_tag=False,
         )
 
+        # Semantic judge override (only if base evaluation failed and config active)
+        if (
+            zhtw_eval_config is not None
+            and getattr(zhtw_eval_config, "mode", "original") != "original"
+            and str(test_category).startswith("zh_")
+        ):
+            if not entry_result["valid"]:
+                try:
+                    question = prompt_entry.get("question", "") if isinstance(prompt_entry, dict) else ""
+                    function_doc = prompt_entry.get("function", []) if isinstance(prompt_entry, dict) else []
+                    prediction_raw = model_result_item
+                    references = possible_answer_item if isinstance(possible_answer_item, list) else [possible_answer_item]
+                    judge_bool = semantic_judge(
+                        zhtw_eval_config,
+                        question,
+                        function_doc,
+                        prediction_raw,
+                        references,
+                    )
+                    if judge_bool is True:
+                        # Mark as valid via semantic judge; attach note
+                        entry_result = {"valid": True, "semantic_judge": True}
+                    elif judge_bool is False:
+                        # keep failure but annotate
+                        entry_result["semantic_judge"] = False
+                except Exception as sj_e:
+                    # If judge fails, keep original result and tag error
+                    entry_result["semantic_judge_error"] = str(sj_e)
+
         if entry_result["valid"]:
             correct_count += 1
         else:
@@ -630,6 +661,7 @@ def evaluate_task(
     model_name,
     handler,
     leaderboard_table,
+    zhtw_eval_config,
 ):
     print(f"🔍 Running test: {test_category}")
 
@@ -691,6 +723,7 @@ def evaluate_task(
                 test_category,
                 model_name,
                 score_dir,
+                zhtw_eval_config=zhtw_eval_config,
             )
 
     record_result(leaderboard_table, model_name, test_category, accuracy, total_count)
@@ -700,7 +733,7 @@ def evaluate_task(
     return leaderboard_table
 
 
-def runner(model_names, test_categories, result_dir, score_dir):
+def runner(model_names, test_categories, result_dir, score_dir, zhtw_eval_config):
 
     # A dictionary to store the evaluation scores.
     # Key is model name, value is a dictionary with keys as test category
@@ -752,6 +785,7 @@ def runner(model_names, test_categories, result_dir, score_dir):
                 model_name,
                 handler,
                 leaderboard_table,
+                zhtw_eval_config,
             )
 
     # This function reads all the score files from local folder and updates the
@@ -762,7 +796,7 @@ def runner(model_names, test_categories, result_dir, score_dir):
     generate_leaderboard_csv(leaderboard_table, score_dir)
 
 
-def main(model, test_categories, result_dir, score_dir):
+def main(model, test_categories, result_dir, score_dir, zhtw_eval="original"):
     if result_dir is None:
         result_dir = RESULT_PATH
     else:
@@ -790,7 +824,10 @@ def main(model, test_categories, result_dir, score_dir):
             model_names.append(model_name.replace("/", "_"))
 
     # Driver function to run the evaluation for all categories involved.
-    runner(model_names, all_test_categories, result_dir, score_dir)
+    # zhtw_eval is currently handled inside runner/evaluate_task in future extension; for now we just propagate.
+    # TODO: integrate semantic judge path when zhtw_eval != 'original'
+    zhtw_eval_config = parse_zhtw_eval_arg(zhtw_eval)
+    runner(model_names, all_test_categories, result_dir, score_dir, zhtw_eval_config)
 
     print(
         f"🏁 Evaluation completed. See {score_dir / 'data_overall.csv'} for overall evaluation results on BFCL V4."

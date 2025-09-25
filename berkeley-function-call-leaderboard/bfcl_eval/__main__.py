@@ -241,6 +241,15 @@ def evaluate(
         help="A list of test categories to run the evaluation on.",
         callback=handle_multiple_input
     ),
+    zhtw_eval: str = typer.Option(
+        "original",
+        "--zhtw-eval",
+        help=(
+            "(Experimental) zh-TW semantic evaluation mode (applies ONLY to categories whose name starts with zh_).\n"
+            "Options: original | <hf_model_id> | openai:<model> | <openai_model_id>.\n"
+            "When enabled (non-original), failed exact matches in zh_* categories will be re-judged by an LLM (yes/no)."
+        ),
+    ),
     result_dir: str = typer.Option(
         None,
         "--result-dir",
@@ -257,7 +266,7 @@ def evaluate(
     """
 
     load_dotenv(dotenv_path=DOTENV_PATH, verbose=True, override=True)  # Load the .env file
-    evaluation_main(model, test_category, result_dir, score_dir)
+    evaluation_main(model, test_category, result_dir, score_dir, zhtw_eval)
 
 
 @cli.command()
