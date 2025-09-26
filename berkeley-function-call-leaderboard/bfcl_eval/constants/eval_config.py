@@ -41,3 +41,7 @@ RESET = "\033[0m"
 
 RESULT_PATH.mkdir(parents=True, exist_ok=True)
 SCORE_PATH.mkdir(parents=True, exist_ok=True)
+
+# Logs for zh-TW semantic judge (LLM-based) and recovery CSV
+ZHTW_JUDGE_LOG_PATH = SCORE_PATH / "zhtw_semantic_judge"
+ZHTW_JUDGE_LOG_PATH.mkdir(parents=True, exist_ok=True)

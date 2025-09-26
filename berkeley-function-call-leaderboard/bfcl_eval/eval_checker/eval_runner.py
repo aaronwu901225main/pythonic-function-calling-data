@@ -1,5 +1,7 @@
 import argparse
 import os
+import json
+import csv
 import statistics
 from collections import defaultdict
 
@@ -598,6 +600,9 @@ def ast_file_runner(
 
     result = []
     correct_count = 0
+    # For zh_* semantic judge logging and recovery stats
+    judge_logs = []
+    recovered_count = 0
     for i in range(len(model_result)):
         index = model_result[i]["id"]
         model_result_item = model_result[i]["result"]
@@ -624,9 +629,6 @@ def ast_file_runner(
             and str(test_category).startswith("zh_")
         ):
             if not entry_result["valid"]:
-                debug = os.getenv("BFCL_SEMANTIC_JUDGE_DEBUG")
-                if debug:
-                    print(f"[semantic_judge] start id={index} category={test_category} mode={zhtw_eval_config.mode}")
                 try:
                     if zhtw_eval_config.debug:
                         print(f"[semantic_judge] start id={index} category={test_category} mode={zhtw_eval_config.mode}")
@@ -641,9 +643,26 @@ def ast_file_runner(
                         prediction_raw,
                         references,
                     )
+                    # record judge inputs/outputs
+                    judge_logs.append({
+                        "id": index,
+                        "test_category": test_category,
+                        "model_name": model_name,
+                        "judge_mode": zhtw_eval_config.mode,
+                        "judge_backend": getattr(zhtw_eval_config, "judge_backend", None),
+                        "judge_model": getattr(zhtw_eval_config, "model_id", None),
+                        "prompt": {
+                            "question": question,
+                            "function": function_doc,
+                            "prediction": prediction_raw,
+                            "references": references,
+                        },
+                        "decision": (True if judge_bool is True else False if judge_bool is False else None),
+                    })
                     if judge_bool is True:
                         # Mark as valid via semantic judge; attach note
                         entry_result = {"valid": True, "semantic_judge": True}
+                        recovered_count += 1
                     elif judge_bool is False:
                         # keep failure but annotate
                         entry_result["semantic_judge"] = False
@@ -660,9 +679,36 @@ def ast_file_runner(
         else:
             result.append(entry_result)
 
-    return save_eval_results(
+    acc, total = save_eval_results(
         result, correct_count, model_result, test_category, model_name, score_dir
     )
+
+    # If zh_* and judge active, persist judge logs and recovery rate
+    if (
+        zhtw_eval_config is not None
+        and getattr(zhtw_eval_config, "mode", "original") != "original"
+        and str(test_category).startswith("zh_")
+        and len(judge_logs) > 0
+    ):
+        # Write JSONL logs per model-category
+        safe_model = model_name.replace("/", "_")
+        log_file = ZHTW_JUDGE_LOG_PATH / f"{safe_model}__{test_category}__judge_log.jsonl"
+        with open(log_file, "w", encoding="utf-8") as f:
+            for entry in judge_logs:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+        # Append recovery rate row into a central CSV
+        csv_file = ZHTW_JUDGE_LOG_PATH / "recovery_rate.csv"
+        write_header = not csv_file.exists()
+        with open(csv_file, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if write_header:
+                writer.writerow(["model", "category", "recovered", "judged", "recovery_rate"])
+            judged = len(judge_logs)
+            recovery_rate = (recovered_count / judged) if judged else 0.0
+            writer.writerow([safe_model, test_category, recovered_count, judged, recovery_rate])
+
+    return acc, total
 
 
 #### Main runner function ####
