@@ -88,6 +88,21 @@ def build_judge_prompt_text(question: str, function_doc: List[Dict[str, Any]], p
     )
 
 
+def build_param_judge_prompt_text(pred_params: Dict[str, Any], ref_params: Dict[str, Any]) -> str:
+    payload = {
+        "prediction_params": pred_params,
+        "reference_params": ref_params,
+    }
+    return (
+        "你是一個函式參數語義等價判定助手。給定兩組參數 (A 為模型預測、B 為參考答案)，"  # zh-TW
+        "請判斷 A 與 B 是否在語義上等價，能導致相同的函式意圖與結果。"
+        "允許表述差異、同義替換、單位/格式等小差異，但若關鍵資訊缺失或語義偏離則視為不等價。\n\n"
+        "以下是 JSON：\n\n"
+        + json.dumps(payload, ensure_ascii=False, indent=2)
+        + "\n\n請你只輸出 yes 或 no："
+    )
+
+
 def openai_judge(client: Any, model: str, prompt_text: str) -> str:
     resp = client.chat.completions.create(
         model=model,
@@ -176,6 +191,34 @@ def semantic_judge(config: JudgeConfig, question: str, function_doc: List[Dict[s
         if engine is None:
             engine = _HFJudgeEngine(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
             _HF_ENGINES[(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)] = engine
+        result = engine.judge(prompt_text)
+        return True if result == "yes" else False
+    return None
+
+
+def semantic_param_judge(config: JudgeConfig, pred_params: Dict[str, Any], ref_params: Dict[str, Any]) -> Optional[bool]:
+    """Compare only parameters for semantic equivalence. Return True/False or None if not executed."""
+    if config.mode == "original":
+        return None
+    prompt_text = build_param_judge_prompt_text(pred_params, ref_params)
+    if config.mode == "openai":
+        if OpenAI is None:
+            raise RuntimeError("openai package not available")
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("OPENAI_API_KEY not set for openai judge mode")
+        client = OpenAI(api_key=api_key)
+        result = openai_judge(client, config.model_id, prompt_text)
+        return True if result == "yes" else False
+    if config.mode == "hf":
+        global _HF_ENGINES
+        if '_HF_ENGINES' not in globals():
+            _HF_ENGINES = {}
+        key = (config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
+        engine = _HF_ENGINES.get(key)
+        if engine is None:
+            engine = _HFJudgeEngine(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
+            _HF_ENGINES[key] = engine
         result = engine.judge(prompt_text)
         return True if result == "yes" else False
     return None
