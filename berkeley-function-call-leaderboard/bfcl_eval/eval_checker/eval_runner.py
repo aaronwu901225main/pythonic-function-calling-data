@@ -1,4 +1,5 @@
 import argparse
+import os
 import statistics
 from collections import defaultdict
 
@@ -620,6 +621,9 @@ def ast_file_runner(
             and str(test_category).startswith("zh_")
         ):
             if not entry_result["valid"]:
+                debug = os.getenv("BFCL_SEMANTIC_JUDGE_DEBUG")
+                if debug:
+                    print(f"[semantic_judge] start id={index} category={test_category} mode={zhtw_eval_config.mode}")
                 try:
                     question = prompt_entry.get("question", "") if isinstance(prompt_entry, dict) else ""
                     function_doc = prompt_entry.get("function", []) if isinstance(prompt_entry, dict) else []
@@ -638,9 +642,13 @@ def ast_file_runner(
                     elif judge_bool is False:
                         # keep failure but annotate
                         entry_result["semantic_judge"] = False
+                    if debug:
+                        print(f"[semantic_judge] decision id={index} -> {judge_bool}")
                 except Exception as sj_e:
                     # If judge fails, keep original result and tag error
                     entry_result["semantic_judge_error"] = str(sj_e)
+                    if debug:
+                        print(f"[semantic_judge] error id={index} err={sj_e}")
 
         if entry_result["valid"]:
             correct_count += 1
