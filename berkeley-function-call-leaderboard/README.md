@@ -21,6 +21,10 @@
       - [For Locally-hosted OSS Models](#for-locally-hosted-oss-models)
         - [For Pre-existing OpenAI-compatible Endpoints](#for-pre-existing-openai-compatible-endpoints)
       - [(Alternate) Script Execution for Generation](#alternate-script-execution-for-generation)
+  - [zh\_\* Semantic Evaluation (LLM-based Judge) \[Experimental\]](#zh_-semantic-evaluation-llm-based-judge-experimental)
+    - [Enabling the Judge](#enabling-the-judge)
+    - [Outputs Produced by the Judge](#outputs-produced-by-the-judge)
+    - [Notes](#notes)
     - [Evaluating Generated Responses](#evaluating-generated-responses)
       - [Output Structure](#output-structure)
       - [(Optional) WandB Evaluation Logging](#optional-wandb-evaluation-logging)
@@ -254,6 +258,63 @@ python -m bfcl_eval.openfunctions_evaluation --model MODEL_NAME --test-category 
 ```
 
 When specifying multiple models or test categories, separate them with **spaces**, not commas. All other flags mentioned earlier are compatible with the script execution method as well.
+
+---
+
+## zh_* Semantic Evaluation (LLM-based Judge) [Experimental]
+
+This optional flow improves Chinese (zh_*) function-call evaluation by asking a secondary LLM to judge borderline cases semantically. It only applies to categories whose name starts with `zh_` and leaves all other (English) categories unchanged.
+
+- When enabled, the judge model receives: the original question, function description/schema, the model’s predicted function call, and a list of reference calls. It must answer strictly `yes` or `no`.
+- The judge is only invoked on cases that failed the standard exact/AST checking to avoid skewing positive results.
+
+### Enabling the Judge
+
+Use the `--zhtw-eval` option when running evaluation:
+
+- `--zhtw-eval original` – default, no semantic judge.
+- `--zhtw-eval openai:MODEL` – use an OpenAI model (e.g., `openai:gpt-4o-mini`); requires `OPENAI_API_KEY`.
+- `--zhtw-eval <hf_model_id>` – use a local HuggingFace model (e.g., `meta-llama/Llama-3.1-8B-Instruct`) as the judge. Backend can be `vllm` or `transformers`.
+
+Additional judge options:
+
+- `--zhtw-judge-backend {auto|vllm|transformers}` – select backend for HF mode (default `auto`).
+- `--zhtw-vllm-tp INT` – tensor parallelism for vLLM (default `1`).
+- `--zhtw-vllm-dtype {auto|float16|bfloat16|float32}` – vLLM dtype (default `auto`).
+- `--zhtw-judge-debug` – print judge debug logs.
+
+Example (evaluate all categories but apply the judge only on zh_* ones):
+
+```bash
+bfcl evaluate \
+  --test-category all \
+  --model Salesforce/Llama-xLAM-2-8b-fc-r \
+  --zhtw-eval meta-llama/Llama-3.1-8B-Instruct \
+  --zhtw-judge-backend vllm \
+  --zhtw-vllm-tp 1 \
+  --zhtw-vllm-dtype auto \
+  --zhtw-judge-debug
+```
+
+Note: to use the judge, ensure you have also generated zh_* results beforehand (e.g., `bfcl generate --test-category zh_all ...`).
+
+### Outputs Produced by the Judge
+
+In addition to normal `score/` outputs, the judge writes under `score/zhtw_semantic_judge/`:
+
+- `<MODEL>__<CATEGORY>__judge_log.jsonl` – one JSONL per model/category with the judge’s inputs and decision per failed case:
+  - `id`, `test_category`, `model_name`, `judge_mode` (hf/openai), `judge_backend` (vllm/transformers), `judge_model`
+  - `prompt`: `{question, function, prediction, references}`
+  - `decision`: `true|false|null`
+- `recovery_rate.csv` – appended per run with columns:
+  - `model, category, recovered, judged, recovery_rate`
+
+Only zh_* categories are logged, and only when the judge is enabled and actually invoked.
+
+### Notes
+
+- The judge only attempts to “recover” samples that originally failed; if the original evaluation already passed, the judge is skipped.
+- HF judge prefers `vllm` when available; otherwise falls back to `transformers+torch` automatically (or as configured by `--zhtw-judge-backend`).
 
 ### Evaluating Generated Responses
 
