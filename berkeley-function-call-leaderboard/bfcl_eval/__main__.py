@@ -250,6 +250,26 @@ def evaluate(
             "When enabled (non-original), failed exact matches in zh_* categories will be re-judged by an LLM (yes/no)."
         ),
     ),
+    zhtw_judge_backend: str = typer.Option(
+        "auto",
+        "--zhtw-judge-backend",
+        help="Judge backend for HF mode: auto | vllm | transformers. Default: auto.",
+    ),
+    zhtw_vllm_tp: int = typer.Option(
+        1,
+        "--zhtw-vllm-tp",
+        help="Tensor parallel size for vLLM judge backend.",
+    ),
+    zhtw_vllm_dtype: str = typer.Option(
+        "auto",
+        "--zhtw-vllm-dtype",
+        help="vLLM dtype for judge backend: auto | float16 | bfloat16 | float32.",
+    ),
+    zhtw_judge_debug: bool = typer.Option(
+        False,
+        "--zhtw-judge-debug",
+        help="Enable debug prints for zh_* semantic judge.",
+    ),
     result_dir: str = typer.Option(
         None,
         "--result-dir",
@@ -266,7 +286,17 @@ def evaluate(
     """
 
     load_dotenv(dotenv_path=DOTENV_PATH, verbose=True, override=True)  # Load the .env file
-    evaluation_main(model, test_category, result_dir, score_dir, zhtw_eval)
+    evaluation_main(
+        model,
+        test_category,
+        result_dir,
+        score_dir,
+        zhtw_eval,
+        zhtw_judge_backend,
+        zhtw_vllm_tp,
+        zhtw_vllm_dtype,
+        zhtw_judge_debug,
+    )
 
 
 @cli.command()

@@ -53,20 +53,24 @@ JUDGE_SYSTEM_PROMPT = (
 class JudgeConfig:
     mode: str  # 'original' | 'openai' | 'hf'
     model_id: Optional[str] = None
+    judge_backend: str = "auto"   # for HF: auto|vllm|transformers
+    vllm_tp: int = 1
+    vllm_dtype: str = "auto"
+    debug: bool = False
 
 
-def parse_zhtw_eval_arg(arg: str) -> JudgeConfig:
+def parse_zhtw_eval_arg(arg: str, judge_backend: str = "auto", vllm_tp: int = 1, vllm_dtype: str = "auto", debug: bool = False) -> JudgeConfig:
     if arg == "original":
-        return JudgeConfig(mode="original")
+        return JudgeConfig(mode="original", judge_backend=judge_backend, vllm_tp=vllm_tp, vllm_dtype=vllm_dtype, debug=debug)
     # Detect openai
     if arg.startswith("openai:"):
         model_id = arg.split(":",1)[1]
-        return JudgeConfig(mode="openai", model_id=model_id)
+        return JudgeConfig(mode="openai", model_id=model_id, judge_backend=judge_backend, vllm_tp=vllm_tp, vllm_dtype=vllm_dtype, debug=debug)
     # Heuristic: if looks like a known OpenAI model id, treat as openai
     if any(prefix in arg for prefix in ["gpt-", "o4", "o3", "text-"]):
-        return JudgeConfig(mode="openai", model_id=arg)
-    # Otherwise treat as HF local model id (vLLM)
-    return JudgeConfig(mode="hf", model_id=arg)
+        return JudgeConfig(mode="openai", model_id=arg, judge_backend=judge_backend, vllm_tp=vllm_tp, vllm_dtype=vllm_dtype, debug=debug)
+    # Otherwise treat as HF local model id
+    return JudgeConfig(mode="hf", model_id=arg, judge_backend=judge_backend, vllm_tp=vllm_tp, vllm_dtype=vllm_dtype, debug=debug)
 
 
 def build_judge_prompt_text(question: str, function_doc: List[Dict[str, Any]], prediction: Any, references: List[Any]) -> str:
@@ -99,18 +103,18 @@ def openai_judge(client: Any, model: str, prompt_text: str) -> str:
 
 
 class _HFJudgeEngine:
-    def __init__(self, model_id: str):
+    def __init__(self, model_id: str, judge_backend: str = "auto", vllm_tp: int = 1, vllm_dtype: str = "auto"):
         self.model_id = model_id
-        self.backend = os.getenv("BFCL_HF_JUDGE_BACKEND", "auto")  # auto|vllm|transformers
+        self.backend = judge_backend  # auto|vllm|transformers
+        self.vllm_tp = vllm_tp
+        self.vllm_dtype = vllm_dtype
         self._init_backend()
 
     def _init_backend(self):  # pragma: no cover
         prefer_vllm = (self.backend in ("auto", "vllm")) and _HAS_VLLM
         if prefer_vllm:
             # vLLM engine
-            tensor_parallel_size = int(os.getenv("BFCL_VLLM_TP", "1"))
-            dtype = os.getenv("BFCL_VLLM_DTYPE", "auto")
-            self.vllm_engine = LLM(model=self.model_id, tensor_parallel_size=tensor_parallel_size, dtype=dtype)
+            self.vllm_engine = LLM(model=self.model_id, tensor_parallel_size=self.vllm_tp, dtype=self.vllm_dtype)
             self.vllm_sampling = SamplingParams(temperature=0.0, max_tokens=4)
             self._mode = "vllm"
             return
@@ -168,10 +172,10 @@ def semantic_judge(config: JudgeConfig, question: str, function_doc: List[Dict[s
         global _HF_ENGINES
         if '_HF_ENGINES' not in globals():
             _HF_ENGINES = {}
-        engine = _HF_ENGINES.get(config.model_id)
+        engine = _HF_ENGINES.get((config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype))
         if engine is None:
-            engine = _HFJudgeEngine(config.model_id)
-            _HF_ENGINES[config.model_id] = engine
+            engine = _HFJudgeEngine(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
+            _HF_ENGINES[(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)] = engine
         result = engine.judge(prompt_text)
         return True if result == "yes" else False
     return None
