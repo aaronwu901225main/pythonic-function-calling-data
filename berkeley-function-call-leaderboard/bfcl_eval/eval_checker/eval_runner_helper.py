@@ -729,7 +729,9 @@ def update_leaderboard_table_with_local_score_file(
         # Find and process all score JSON files recursively in the subdirectory
         pattern = f"{VERSION_PREFIX}_*_score.json"
         for model_score_json in subdir.rglob(pattern):
-            metadata = load_file(model_score_json)[0]
+            # Some score files may contain a header JSON object followed by JSONL entries
+            # (i.e., concatenated JSON objects). Enable robust parsing here.
+            metadata = load_file(model_score_json, allow_concatenated_json=True)[0]
             test_category = extract_test_category(model_score_json)
             if model_name not in leaderboard_table:
                 leaderboard_table[model_name] = {}

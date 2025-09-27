@@ -1041,7 +1041,8 @@ def update_leaderboard_table_with_score_file(leaderboard_table, score_path):
         model_name = subdir.split(score_path)[1]
         # Find and process all JSON files in the subdirectory
         for model_score_json in glob.glob(json_files_pattern):
-            metadata = load_file(model_score_json)[0]
+            # Score files may start with a header JSON object followed by JSONL entries.
+            metadata = load_file(model_score_json, allow_concatenated_json=True)[0]
             accuracy, total_count = metadata["accuracy"], metadata["total_count"]
             test_category = model_score_json.split("_score.json")[0].split("/")[-1]
             if model_name not in leaderboard_table:
