@@ -634,9 +634,22 @@ def ast_file_runner(
                 has_invalid_value_error = False
                 if isinstance(base_errors, list):
                     for _e in base_errors:
+                        # 直接在頂層字串比對
                         if isinstance(_e, str) and "Invalid value for parameter" in _e:
                             has_invalid_value_error = True
                             break
+                        # 平行/多函式錯誤：物件內含有 Model Result Index 與 sub_error 陣列
+                        if isinstance(_e, dict):
+                            try:
+                                # 取第一層 value
+                                for _k, _v in _e.items():
+                                    if isinstance(_v, dict) and "sub_error" in _v and isinstance(_v["sub_error"], list):
+                                        for _se in _v["sub_error"]:
+                                            if isinstance(_se, str) and "Invalid value for parameter" in _se:
+                                                has_invalid_value_error = True
+                                                raise StopIteration  # 跳出多層迴圈
+                            except StopIteration:
+                                break
                 if not has_invalid_value_error:
                     # 非數值內容不符 (如型別錯誤、缺參數、函式名錯誤等) 不進入 LLM 評估
                     pass
