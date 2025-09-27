@@ -328,49 +328,49 @@ def get_directory_structure_by_category(test_category: str) -> str:
 
 
 def load_file(file_path, sort_by_id=False, allow_concatenated_json=False):
-    result = []
-    with open(file_path) as f:
-        file = f.readlines()
-        for line in file:
-            try:
+    """
+    Load a JSON results file.
+
+    Default behavior expects JSONL (one JSON object per line).
+    When `allow_concatenated_json=True`, we support a generic stream of JSON
+    values (objects/arrays) concatenated with arbitrary whitespace and newlines.
+    This robustly handles:
+      - JSONL
+      - Multiple JSON objects concatenated on a single line
+      - Pretty-printed multi-line JSON objects stacked back-to-back
+    """
+    if not allow_concatenated_json:
+        # Fast path for standard JSONL files
+        result: list[dict] = []
+        with open(file_path, encoding="utf-8") as f:
+            for line in f.readlines():
                 content = json.loads(line)
                 result.append(content)
-            except Exception as e:
-                if not allow_concatenated_json:
-                    raise e
+        if sort_by_id:
+            result.sort(key=sort_key)
+        return result
 
-                # Although this really shouldn't happen, sometimes a result file might have more than one JSON objects concatenated on a single line instead of one per line (e.g. '{"id": 1, xxx}{"id": 2, xxx}').
-                # We can parse them incrementally by using `json.JSONDecoder.raw_decode`, which returns both the parsed object and the index where it stopped parsing.
-                line_jsons = []
-                decoder = json.JSONDecoder()
-                idx = 0
-                while idx < len(line):
-                    # Skip whitespace between objects (if any)
-                    while idx < len(line) and line[idx].isspace():
-                        idx += 1
+    # Robust path: parse the entire file as a stream of concatenated JSON values.
+    # This supports pretty-printed multi-line JSON objects and JSONL alike.
+    with open(file_path, encoding="utf-8") as f:
+        content = f.read()
 
-                    if idx >= len(line):
-                        break
+    decoder = json.JSONDecoder()
+    idx = 0
+    n = len(content)
+    result: list[dict] = []
 
-                    try:
-                        json_obj, idx = decoder.raw_decode(line, idx)
-                        line_jsons.append(json_obj)
-                    except json.JSONDecodeError:
-                        # If decoding fails at any point, the entire line is invalid.
-                        raise e
+    while True:
+        # Skip any whitespace between JSON values
+        while idx < n and content[idx].isspace():
+            idx += 1
+        if idx >= n:
+            break
 
-                # After parsing, we must ensure the entire line has been consumed.
-                # If `idx` is not at the end of the line, it means there's trailing
-                # garbage, which is an error.
-                if idx < len(line):
-                    raise e
-
-                if not line_jsons:
-                    # If the line was non-empty but contained no JSON objects (e.g., only whitespace),
-                    # it's an error.
-                    raise e
-
-                result.extend(line_jsons)
+        # Decode the next JSON value starting at idx
+        obj, next_idx = decoder.raw_decode(content, idx)
+        result.append(obj)
+        idx = next_idx
 
     if sort_by_id:
         result.sort(key=sort_key)
