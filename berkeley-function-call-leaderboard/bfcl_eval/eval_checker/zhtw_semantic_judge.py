@@ -19,6 +19,7 @@ from __future__ import annotations
 import os
 import json
 from dataclasses import dataclass
+import subprocess
 from typing import List, Dict, Any, Optional
 
 try:
@@ -129,7 +130,13 @@ class _HFJudgeEngine:
         prefer_vllm = (self.backend in ("auto", "vllm")) and _HAS_VLLM
         if prefer_vllm:
             # vLLM engine
-            self.vllm_engine = LLM(model=self.model_id, tensor_parallel_size=self.vllm_tp, dtype=self.vllm_dtype)
+            # Auto-detect GPU count if tp is not explicitly >1
+            tp = self.vllm_tp
+            if tp is None or tp <= 1:
+                tp = self._auto_detect_gpu_count()
+            if tp <= 0:
+                tp = 1
+            self.vllm_engine = LLM(model=self.model_id, tensor_parallel_size=tp, dtype=self.vllm_dtype)
             self.vllm_sampling = SamplingParams(temperature=0.0, max_tokens=4)
             self._mode = "vllm"
             return
@@ -166,6 +173,27 @@ class _HFJudgeEngine:
         out = self.tokenizer.decode(gen[0][inputs["input_ids"].shape[1]:], skip_special_tokens=True)
         text = out.strip().lower()
         return "yes" if text.startswith("yes") else "no"
+
+    def _auto_detect_gpu_count(self) -> int:
+        # Prefer torch if available
+        try:
+            import torch as _torch  # local import to avoid global dependency when unused
+            if _torch.cuda.is_available():
+                cnt = _torch.cuda.device_count()
+                if isinstance(cnt, int) and cnt > 0:
+                    return cnt
+        except Exception:
+            pass
+        # Fallback to nvidia-smi
+        try:
+            out = subprocess.check_output(["nvidia-smi", "-L"], stderr=subprocess.STDOUT, text=True)
+            # each line usually describes a GPU
+            lines = [l for l in out.strip().splitlines() if l.strip()]
+            if len(lines) > 0:
+                return len(lines)
+        except Exception:
+            pass
+        return 1
 
 
 def semantic_judge(config: JudgeConfig, question: str, function_doc: List[Dict[str,Any]], prediction: Any, references: List[Any]) -> Optional[bool]:
