@@ -742,9 +742,9 @@ def ast_file_runner(
         and str(test_category).startswith("zh_")
         and len(judge_logs) > 0
     ):
-        # Write JSONL logs per model-category
+        # Write JSON logs per model-category
         safe_model = model_name.replace("/", "_")
-        log_file = ZHTW_JUDGE_LOG_PATH / f"{safe_model}__{test_category}__judge_log.jsonl"
+        log_file = ZHTW_JUDGE_LOG_PATH / f"{safe_model}__{test_category}__judge_log.json"
         with open(log_file, "w", encoding="utf-8") as f:
             for entry in judge_logs:
                 f.write(json.dumps(entry, ensure_ascii=False) + "\n")
