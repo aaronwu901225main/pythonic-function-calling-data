@@ -629,81 +629,102 @@ def ast_file_runner(
             and str(test_category).startswith("zh_")
         ):
             if not entry_result["valid"]:
-                try:
-                    if zhtw_eval_config.debug:
-                        print(f"[semantic_judge] start id={index} category={test_category} mode={zhtw_eval_config.mode}")
-                    # Decode predicted and reference function-calling outputs to check function names
-                    # Use handler.decode_ast to get structure, then compare first-level keys
-                    pred_decoded = handler.decode_ast(model_result_item, return_format, has_tool_call_tag=False)
-                    # pred_decoded should be like: [{func: {params...}}, ...]; use first item as primary
-                    pred_funcs = [list(d.keys())[0] for d in pred_decoded if isinstance(d, dict) and len(d) == 1]
-                    ref_list = possible_answer_item if isinstance(possible_answer_item, list) else [possible_answer_item]
-                    ref_funcs_all = []
-                    for ref in ref_list:
-                        if isinstance(ref, list):
-                            # a list like decoded output
-                            for d in ref:
-                                if isinstance(d, dict) and len(d) == 1:
-                                    ref_funcs_all.append(list(d.keys())[0])
-                        elif isinstance(ref, dict) and len(ref) == 1:
-                            ref_funcs_all.append(list(ref.keys())[0])
+                # 僅在錯誤訊息包含 "Invalid value for parameter" 時觸發 LLM evaluator
+                base_errors = entry_result.get("error", [])
+                has_invalid_value_error = False
+                if isinstance(base_errors, list):
+                    for _e in base_errors:
+                        if isinstance(_e, str) and "Invalid value for parameter" in _e:
+                            has_invalid_value_error = True
+                            break
+                if not has_invalid_value_error:
+                    # 非數值內容不符 (如型別錯誤、缺參數、函式名錯誤等) 不進入 LLM 評估
+                    pass
+                else:
+                    try:
+                        if zhtw_eval_config.debug:
+                            print(f"[semantic_judge] start id={index} category={test_category} mode={zhtw_eval_config.mode}")
+                        # Decode predicted and reference function-calling outputs to check function names
+                        # Use handler.decode_ast to get structure, then compare first-level keys
+                        pred_decoded = handler.decode_ast(model_result_item, return_format, has_tool_call_tag=False)
+                        # pred_decoded should be like: [{func: {params...}}, ...]; use first item as primary
+                        pred_funcs = [list(d.keys())[0] for d in pred_decoded if isinstance(d, dict) and len(d) == 1]
+                        ref_list = possible_answer_item if isinstance(possible_answer_item, list) else [possible_answer_item]
+                        ref_funcs_all = []
+                        for ref in ref_list:
+                            if isinstance(ref, list):
+                                # a list like decoded output
+                                for d in ref:
+                                    if isinstance(d, dict) and len(d) == 1:
+                                        ref_funcs_all.append(list(d.keys())[0])
+                            elif isinstance(ref, dict) and len(ref) == 1:
+                                ref_funcs_all.append(list(ref.keys())[0])
 
-                    # If any predicted function matches any reference function by name, we only judge params
-                    func_match = any(f in ref_funcs_all for f in pred_funcs)
-                    if not func_match:
-                        # No function name match; stick to original failure
-                        if zhtw_eval_config.debug:
-                            print(f"[semantic_judge] skip param judge due to function-name mismatch. pred={pred_funcs} ref={ref_funcs_all}")
-                    else:
-                        # Extract param dicts for first matching pair and ask LLM if semantically equivalent
-                        decided = None
-                        for pf in pred_funcs:
-                            if pf in ref_funcs_all:
-                                # find pred params
-                                pred_params = None
-                                for d in pred_decoded:
-                                    if isinstance(d, dict) and pf in d:
-                                        pred_params = d[pf]
-                                        break
-                                if pred_params is None:
-                                    continue
-                                # collect all reference params with same func
-                                ref_params_list = []
-                                for ref in ref_list:
-                                    items = ref if isinstance(ref, list) else [ref]
-                                    for d in items:
+                        # If any predicted function matches any reference function by name, we only judge params
+                        func_match = any(f in ref_funcs_all for f in pred_funcs)
+                        if not func_match:
+                            # No function name match; stick to original failure
+                            if zhtw_eval_config.debug:
+                                print(f"[semantic_judge] skip param judge due to function-name mismatch. pred={pred_funcs} ref={ref_funcs_all}")
+                        else:
+                            # Extract param dicts for first matching pair and ask LLM if semantically equivalent
+                            decided = None
+                            for pf in pred_funcs:
+                                if pf in ref_funcs_all:
+                                    # find pred params
+                                    pred_params = None
+                                    for d in pred_decoded:
                                         if isinstance(d, dict) and pf in d:
-                                            ref_params_list.append(d[pf])
-                                # judge against any one reference (OR semantics)
-                                for ref_params in ref_params_list:
-                                    judge_bool = semantic_param_judge(zhtw_eval_config, pred_params, ref_params)
-                                    judge_logs.append({
-                                        "id": index,
-                                        "test_category": test_category,
-                                        "model_name": model_name,
-                                        "judge_mode": zhtw_eval_config.mode,
-                                        "judge_backend": getattr(zhtw_eval_config, "judge_backend", None),
-                                        "judge_model": getattr(zhtw_eval_config, "model_id", None),
-                                        "prompt": {
-                                            "prediction_params": pred_params,
-                                            "reference_params": ref_params,
-                                        },
-                                        "decision": True if judge_bool is True else False if judge_bool is False else None,
-                                    })
-                                    if judge_bool is True:
-                                        entry_result = {"valid": True, "semantic_judge": True, "semantic_scope": "params_only"}
-                                        recovered_count += 1
-                                        decided = True
+                                            pred_params = d[pf]
+                                            break
+                                    if pred_params is None:
+                                        continue
+                                    # collect all reference params with same func
+                                    ref_params_list = []
+                                    for ref in ref_list:
+                                        items = ref if isinstance(ref, list) else [ref]
+                                        for d in items:
+                                            if isinstance(d, dict) and pf in d:
+                                                ref_params_list.append(d[pf])
+                                    # judge against any one reference (OR semantics)
+                                    for ref_params in ref_params_list:
+                                        judge_bool = semantic_param_judge(zhtw_eval_config, pred_params, ref_params)
+                                        judge_logs.append({
+                                            "id": index,
+                                            "test_category": test_category,
+                                            "model_name": model_name,
+                                            "judge_mode": zhtw_eval_config.mode,
+                                            "judge_backend": getattr(zhtw_eval_config, "judge_backend", None),
+                                            "judge_model": getattr(zhtw_eval_config, "model_id", None),
+                                            # 保存完整的問題與解答脈絡
+                                            "question": prompt_entry.get("question"),
+                                            "function_schema": prompt_entry.get("function"),
+                                            "model_result_raw": model_result_item,
+                                            "prediction_decoded": pred_decoded,
+                                            "references_all": ref_list,
+                                            # 參數等價評估的實際輸入
+                                            "prompt": {
+                                                "prediction_params": pred_params,
+                                                "reference_params": ref_params,
+                                            },
+                                            # LLM judge 的輸出（yes/no）
+                                            "decision": True if judge_bool is True else False if judge_bool is False else None,
+                                            "semantic_scope": "params_only",
+                                        })
+                                        if judge_bool is True:
+                                            entry_result = {"valid": True, "semantic_judge": True, "semantic_scope": "params_only"}
+                                            recovered_count += 1
+                                            decided = True
+                                            break
+                                    if decided:
                                         break
-                                if decided:
-                                    break
+                            if zhtw_eval_config.debug:
+                                print(f"[semantic_judge] decision id={index} -> {decided}")
+                    except Exception as sj_e:
+                        # If judge fails, keep original result and tag error
+                        entry_result["semantic_judge_error"] = str(sj_e)
                         if zhtw_eval_config.debug:
-                            print(f"[semantic_judge] decision id={index} -> {decided}")
-                except Exception as sj_e:
-                    # If judge fails, keep original result and tag error
-                    entry_result["semantic_judge_error"] = str(sj_e)
-                    if zhtw_eval_config.debug:
-                        print(f"[semantic_judge] error id={index} err={sj_e}")
+                            print(f"[semantic_judge] error id={index} err={sj_e}")
 
         if entry_result["valid"]:
             correct_count += 1
