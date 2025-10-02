@@ -314,3 +314,13 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3976-merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4544-merged-1batch-2560seq-3epoch-apigen-nomlp")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5112-merged-1batch-2560seq-3epoch-apigen-nomlp")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-5115-merged-1batch-2560seq-3epoch-apigen-nomlp")
+# 2batch-1024seq-3epoch-apigen-nomlp
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-263-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-526-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-789-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1052-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1315-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1578-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1841-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2104-merged-2batch-1024seq-3epoch-apigen-nomlp")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2364-merged-2batch-1024seq-3epoch-apigen-nomlp")
