@@ -188,7 +188,7 @@ def main():
     here = os.path.abspath(os.path.dirname(__file__))
     outputs = []
     for fname in TARGET_FILES:
-        csv_path = os.path.join(here+"/score", fname)
+        csv_path = os.path.join(here+"/LLM-counsel/score-gpt-4.1-mini", fname)
         out_png = plot_one_csv(csv_path, out_dir="./figures")
         if out_png:
             outputs.append(out_png)
