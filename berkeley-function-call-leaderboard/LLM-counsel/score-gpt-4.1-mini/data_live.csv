@@ -9,42 +9,33 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 8,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,73.58%,73.58%,79.07%,72.55%,62.50%,66.67%,68.44%,100.00%
 9,xLAM-2-8b-fc-r LoRA ckpt5112-1batch-2560seq-3epoch-apigen-nomlp,73.58%,73.58%,78.29%,72.74%,62.50%,66.67%,68.44%,100.00%
 10,xLAM-2-8b-fc-r LoRA ckpt3976-1batch-2560seq-3epoch-apigen-nomlp,73.43%,73.43%,79.46%,72.27%,62.50%,66.67%,65.72%,100.00%
-11,xLAM-2-8b-fc-r LoRA ckpt2364-2batch-1024seq-3epoch-apigen,73.43%,73.43%,77.52%,72.84%,68.75%,58.33%,63.46%,93.75%
-12,xLAM-2-8b-fc-r LoRA ckpt4544-1batch-2560seq-3epoch-apigen-nomlp,73.28%,73.28%,78.68%,72.27%,62.50%,66.67%,69.23%,87.50%
-13,xLAM-2-8b-fc-r LoRA ckpt2272-1batch-2560seq-3epoch-apigen-nomlp,73.21%,73.21%,77.91%,72.46%,62.50%,62.50%,61.31%,93.75%
-14,xLAM-2-8b-fc-r LoRA ckpt2364-2batch-1024seq-3epoch-apigen-nomlp,73.13%,73.13%,77.52%,72.36%,68.75%,62.50%,64.03%,100.00%
-15,xLAM-2-8b-fc-r LoRA ckpt1315-2batch-1024seq-3epoch-apigen,72.69%,72.69%,77.91%,71.89%,62.50%,58.33%,57.24%,93.75%
-16,xLAM-2-8b-fc-r LoRA ckpt3408-1batch-2560seq-3epoch-apigen-nomlp,72.46%,72.46%,80.62%,70.85%,62.50%,62.50%,60.07%,100.00%
-17,Ministral-8B-Instruct-2410 (FC),72.32%,72.32%,75.97%,71.60%,62.50%,70.83%,53.17%,81.25%
-18,xLAM-2-8b-fc-r LoRA ckpt3465-1batch-2560seq-3epoch-multi3000-nomlp,72.17%,72.17%,74.81%,71.70%,68.75%,66.67%,62.90%,93.75%
-19,xLAM-2-8b-fc-r LoRA ckpt1704-1batch-2560seq-3epoch-apigen-nomlp,72.09%,72.09%,79.84%,70.56%,62.50%,62.50%,56.79%,93.75%
-20,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,71.95%,71.95%,74.03%,71.60%,68.75%,66.67%,61.88%,93.75%
-21,xLAM-2-8b-fc-r LoRA ckpt957-1batch-2560seq-3epoch-FC,71.72%,71.72%,75.58%,70.94%,68.75%,66.67%,58.48%,93.75%
-22,xLAM-2-8b-fc-r LoRA ckpt5865-1batch-2560seq-3epoch-multi2000-nomlp,71.50%,71.50%,74.03%,71.32%,56.25%,62.50%,63.35%,93.75%
-23,xLAM-2-8b-fc-r LoRA ckpt1136-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,77.52%,69.80%,62.50%,66.67%,60.41%,100.00%
-24,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,76.74%,70.18%,62.50%,58.33%,54.86%,100.00%
-25,xLAM-2-8b-fc-r LoRA ckpt3260-1batch-2560seq-3epoch-multi2000-nomlp,70.54%,70.54%,74.42%,69.90%,62.50%,62.50%,61.88%,93.75%
-26,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
-27,xLAM-2-8b-fc-r LoRA ckpt263-2batch-1024seq-3epoch-apigen,70.17%,70.17%,75.19%,69.14%,62.50%,66.67%,48.98%,93.75%
-28,xLAM-2-8b-fc-r LoRA ckpt8613-1batch-2560seq-3epoch-FC,70.17%,70.17%,75.19%,69.42%,62.50%,54.17%,71.83%,87.50%
-29,xLAM-2-8b-fc-r LoRA ckpt6615-1batch-2560seq-3epoch-multi4000-nomlp,69.95%,69.95%,73.26%,69.23%,62.50%,70.83%,68.55%,87.50%
-30,xLAM-2-8b-fc-r LoRA ckpt3675-1batch-2560seq-3epoch-multi4000-nomlp,69.87%,69.87%,74.42%,69.23%,62.50%,54.17%,63.46%,93.75%
-31,xLAM-2-8b-fc-r LoRA ckpt4920-1batch-2560seq-3epoch-ALL,69.73%,69.73%,75.19%,68.47%,62.50%,70.83%,70.25%,93.75%
-32,xLAM-2-8b-fc-r LoRA ckpt8853-1batch-2560seq-3epoch-ALL,69.73%,69.73%,74.03%,68.66%,68.75%,70.83%,74.32%,87.50%
-33,xLAM-2-8b-fc-r LoRA ckpt4785-1batch-2560seq-3epoch-FC,69.28%,69.28%,76.36%,67.90%,62.50%,58.33%,60.97%,100.00%
-34,xLAM-2-8b-fc-r LoRA ckpt263-2batch-1024seq-3epoch-apigen-nomlp,69.21%,69.21%,75.58%,67.81%,62.50%,66.67%,49.43%,93.75%
-35,xLAM-2-8b-fc-r LoRA ckpt7638-1batch-2560seq-3epoch-multi-all-nomlp,68.91%,68.91%,72.48%,68.57%,56.25%,54.17%,57.47%,93.75%
-36,xLAM-2-8b-fc-r LoRA ckpt693-1batch-2560seq-3epoch-multi3000-nomlp,68.84%,68.84%,74.42%,68.00%,62.50%,50.00%,66.97%,87.50%
-37,xLAM-2-8b-fc-r LoRA ckpt4245-1batch-2560seq-3epoch-multi-all-nomlp,68.62%,68.62%,71.32%,68.38%,62.50%,54.17%,59.16%,93.75%
-38,xLAM-2-8b-fc-r LoRA ckpt652-1batch-2560seq-3epoch-multi2000-nomlp,68.32%,68.32%,74.81%,67.14%,62.50%,54.17%,57.92%,87.50%
-39,xLAM-2-8b-fc-r LoRA ckpt984-1batch-2560seq-3epoch-ALL,67.80%,67.80%,74.81%,66.29%,62.50%,62.50%,54.30%,93.75%
-40,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
-41,xLAM-2-8b-fc-r LoRA ckpt735-1batch-2560seq-3epoch-multi4000-nomlp,66.99%,66.99%,74.81%,65.34%,62.50%,58.33%,63.46%,93.75%
-42,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
-43,xLAM-2-8b-fc-r LoRA ckpt849-1batch-2560seq-3epoch-multi-all-nomlp,66.17%,66.17%,73.26%,64.86%,62.50%,50.00%,64.59%,87.50%
-44,xLAM-2-8b-fc-r LoRA ckpt2075-1batch-2560seq-3epoch-IF,65.43%,65.43%,71.32%,64.39%,62.50%,50.00%,69.34%,87.50%
-45,xLAM-2-8b-fc-r LoRA ckpt415-1batch-2560seq-3epoch-IF,65.43%,65.43%,73.26%,64.01%,62.50%,45.83%,60.63%,87.50%
-46,xLAM-2-8b-fc-r LoRA ckpt3738-1batch-2560seq-3epoch-IF,64.91%,64.91%,70.16%,64.10%,62.50%,45.83%,69.23%,87.50%
-47,Gemma-3-4b-it (Prompt),60.47%,60.47%,70.16%,59.16%,25.00%,37.50%,58.14%,100.00%
-48,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
-49,Gemma-3-1b-it (Prompt),11.84%,11.84%,36.43%,6.27%,0.00%,0.00%,59.28%,37.50%
+11,xLAM-2-8b-fc-r LoRA ckpt4544-1batch-2560seq-3epoch-apigen-nomlp,73.28%,73.28%,78.68%,72.27%,62.50%,66.67%,69.23%,87.50%
+12,xLAM-2-8b-fc-r LoRA ckpt2272-1batch-2560seq-3epoch-apigen-nomlp,73.21%,73.21%,77.91%,72.46%,62.50%,62.50%,61.31%,93.75%
+13,xLAM-2-8b-fc-r LoRA ckpt2364-2batch-1024seq-3epoch-apigen-nomlp,73.13%,73.13%,77.52%,72.36%,68.75%,62.50%,64.03%,100.00%
+14,xLAM-2-8b-fc-r LoRA ckpt3408-1batch-2560seq-3epoch-apigen-nomlp,72.46%,72.46%,80.62%,70.85%,62.50%,62.50%,60.07%,100.00%
+15,Ministral-8B-Instruct-2410 (FC),72.32%,72.32%,75.97%,71.60%,62.50%,70.83%,53.17%,81.25%
+16,xLAM-2-8b-fc-r LoRA ckpt3465-1batch-2560seq-3epoch-multi3000-nomlp,72.17%,72.17%,74.81%,71.70%,68.75%,66.67%,62.90%,93.75%
+17,xLAM-2-8b-fc-r LoRA ckpt1704-1batch-2560seq-3epoch-apigen-nomlp,72.09%,72.09%,79.84%,70.56%,62.50%,62.50%,56.79%,93.75%
+18,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,71.95%,71.95%,74.03%,71.60%,68.75%,66.67%,61.88%,93.75%
+19,xLAM-2-8b-fc-r LoRA ckpt5865-1batch-2560seq-3epoch-multi2000-nomlp,71.50%,71.50%,74.03%,71.32%,56.25%,62.50%,63.35%,93.75%
+20,xLAM-2-8b-fc-r LoRA ckpt1136-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,77.52%,69.80%,62.50%,66.67%,60.41%,100.00%
+21,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,76.74%,70.18%,62.50%,58.33%,54.86%,100.00%
+22,xLAM-2-8b-fc-r LoRA ckpt3260-1batch-2560seq-3epoch-multi2000-nomlp,70.54%,70.54%,74.42%,69.90%,62.50%,62.50%,61.88%,93.75%
+23,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
+24,xLAM-2-8b-fc-r LoRA ckpt6615-1batch-2560seq-3epoch-multi4000-nomlp,69.95%,69.95%,73.26%,69.23%,62.50%,70.83%,68.55%,87.50%
+25,xLAM-2-8b-fc-r LoRA ckpt3675-1batch-2560seq-3epoch-multi4000-nomlp,69.87%,69.87%,74.42%,69.23%,62.50%,54.17%,63.46%,93.75%
+26,xLAM-2-8b-fc-r LoRA ckpt263-2batch-1024seq-3epoch-apigen-nomlp,69.21%,69.21%,75.58%,67.81%,62.50%,66.67%,49.43%,93.75%
+27,xLAM-2-8b-fc-r LoRA ckpt7638-1batch-2560seq-3epoch-multi-all-nomlp,68.91%,68.91%,72.48%,68.57%,56.25%,54.17%,57.47%,93.75%
+28,xLAM-2-8b-fc-r LoRA ckpt693-1batch-2560seq-3epoch-multi3000-nomlp,68.84%,68.84%,74.42%,68.00%,62.50%,50.00%,66.97%,87.50%
+29,xLAM-2-8b-fc-r LoRA ckpt4245-1batch-2560seq-3epoch-multi-all-nomlp,68.62%,68.62%,71.32%,68.38%,62.50%,54.17%,59.16%,93.75%
+30,xLAM-2-8b-fc-r LoRA ckpt652-1batch-2560seq-3epoch-multi2000-nomlp,68.32%,68.32%,74.81%,67.14%,62.50%,54.17%,57.92%,87.50%
+31,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
+32,xLAM-2-8b-fc-r LoRA ckpt735-1batch-2560seq-3epoch-multi4000-nomlp,66.99%,66.99%,74.81%,65.34%,62.50%,58.33%,63.46%,93.75%
+33,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
+34,xLAM-2-8b-fc-r LoRA ckpt849-1batch-2560seq-3epoch-multi-all-nomlp,66.17%,66.17%,73.26%,64.86%,62.50%,50.00%,64.59%,87.50%
+35,xLAM-2-8b-fc-r LoRA ckpt2075-1batch-2560seq-3epoch-IF,65.43%,65.43%,71.32%,64.39%,62.50%,50.00%,69.34%,87.50%
+36,xLAM-2-8b-fc-r LoRA ckpt415-1batch-2560seq-3epoch-IF,65.43%,65.43%,73.26%,64.01%,62.50%,45.83%,60.63%,87.50%
+37,xLAM-2-8b-fc-r LoRA ckpt3738-1batch-2560seq-3epoch-IF,64.91%,64.91%,70.16%,64.10%,62.50%,45.83%,69.23%,87.50%
+38,Gemma-3-4b-it (Prompt),60.47%,60.47%,70.16%,59.16%,25.00%,37.50%,58.14%,100.00%
+39,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
+40,Gemma-3-1b-it (Prompt),11.84%,11.84%,36.43%,6.27%,0.00%,0.00%,59.28%,37.50%
