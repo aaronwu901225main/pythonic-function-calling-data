@@ -1,0 +1,50 @@
+Rank,Model,Multi Turn Overall Acc,Base,Miss Func,Miss Param,Long Context
+1,xLAM-2-8b-fc-r (FC),69.12%,76.50%,69.00%,64.00%,67.00%
+2,xLAM-2-8b-fc-r LoRA ckpt415-1batch-2560seq-3epoch-IF,67.50%,78.00%,65.50%,59.50%,67.00%
+3,xLAM-2-8b-fc-r LoRA ckpt693-1batch-2560seq-3epoch-multi3000-nomlp,64.50%,73.00%,64.50%,58.00%,62.50%
+4,xLAM-2-8b-fc-r LoRA ckpt2075-1batch-2560seq-3epoch-IF,63.87%,73.00%,61.50%,58.50%,62.50%
+5,xLAM-2-8b-fc-r LoRA ckpt849-1batch-2560seq-3epoch-multi-all-nomlp,63.50%,72.00%,61.50%,57.50%,63.00%
+6,xLAM-2-8b-fc-r LoRA ckpt3738-1batch-2560seq-3epoch-IF,62.37%,72.00%,60.00%,57.00%,60.50%
+7,xLAM-2-8b-fc-r LoRA ckpt735-1batch-2560seq-3epoch-multi4000-nomlp,60.75%,72.50%,54.50%,52.50%,63.50%
+8,xLAM-2-8b-fc-r LoRA ckpt4245-1batch-2560seq-3epoch-multi-all-nomlp,60.25%,73.50%,56.50%,49.00%,62.00%
+9,xLAM-2-8b-fc-r LoRA ckpt3465-1batch-2560seq-3epoch-multi3000-nomlp,60.00%,72.50%,55.50%,50.00%,62.00%
+10,xLAM-2-8b-fc-r LoRA ckpt652-1batch-2560seq-3epoch-multi2000-nomlp,59.75%,69.50%,56.00%,51.50%,62.00%
+11,xLAM-2-8b-fc-r LoRA ckpt3260-1batch-2560seq-3epoch-multi2000-nomlp,59.62%,72.50%,55.50%,46.00%,64.50%
+12,xLAM-2-8b-fc-r LoRA ckpt984-1batch-2560seq-3epoch-ALL,59.62%,72.00%,53.00%,51.00%,62.50%
+13,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,59.25%,71.50%,54.00%,48.00%,63.50%
+14,xLAM-2-8b-fc-r LoRA ckpt7638-1batch-2560seq-3epoch-multi-all-nomlp,58.38%,71.00%,56.50%,45.00%,61.00%
+15,xLAM-2-8b-fc-r LoRA ckpt263-2batch-1024seq-3epoch-apigen-nomlp,58.25%,69.00%,52.00%,52.50%,59.50%
+16,xLAM-2-8b-fc-r LoRA ckpt5865-1batch-2560seq-3epoch-multi2000-nomlp,56.75%,69.00%,52.50%,44.50%,61.00%
+17,xLAM-2-8b-fc-r LoRA ckpt3675-1batch-2560seq-3epoch-multi4000-nomlp,56.25%,65.50%,54.50%,47.00%,58.00%
+18,xLAM-2-8b-fc-r LoRA ckpt6615-1batch-2560seq-3epoch-multi4000-nomlp,55.12%,65.00%,51.00%,47.00%,57.50%
+19,xLAM-2-8b-fc-r LoRA ckpt263-2batch-1024seq-3epoch-apigen,54.00%,66.50%,47.00%,44.50%,58.00%
+20,xLAM-2-8b-fc-r LoRA ckpt2364-2batch-1024seq-3epoch-apigen,53.87%,69.00%,44.00%,42.00%,60.50%
+21,xLAM-2-8b-fc-r LoRA ckpt1315-2batch-1024seq-3epoch-apigen,52.62%,64.50%,45.50%,42.00%,58.50%
+22,xLAM-2-8b-fc-r LoRA ckpt4785-1batch-2560seq-3epoch-FC,52.00%,63.00%,46.50%,43.00%,55.50%
+23,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,51.87%,62.50%,48.50%,39.50%,57.00%
+24,xLAM-2-8b-fc-r LoRA ckpt957-1batch-2560seq-3epoch-FC,50.88%,61.00%,44.50%,43.50%,54.50%
+25,xLAM-2-8b-fc-r LoRA ckpt8613-1batch-2560seq-3epoch-FC,49.25%,59.00%,46.50%,38.50%,53.00%
+26,xLAM-2-8b-fc-r LoRA ckpt2364-2batch-1024seq-3epoch-apigen-nomlp,49.12%,63.00%,40.00%,36.00%,57.50%
+27,xLAM-2-8b-fc-r LoRA ckpt1136-1batch-2560seq-3epoch-apigen-nomlp,48.50%,61.50%,43.00%,37.50%,52.00%
+28,xLAM-2-8b-fc-r LoRA ckpt1315-2batch-1024seq-3epoch-apigen-nomlp,47.38%,62.50%,37.50%,36.00%,53.50%
+29,xLAM-2-8b-fc-r LoRA ckpt4920-1batch-2560seq-3epoch-ALL,47.00%,60.00%,39.50%,37.00%,51.50%
+30,xLAM-2-8b-fc-r LoRA ckpt1704-1batch-2560seq-3epoch-apigen-nomlp,46.88%,62.00%,38.00%,35.00%,52.50%
+31,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,45.75%,61.00%,38.00%,31.00%,53.00%
+32,xLAM-2-8b-fc-r LoRA ckpt3408-1batch-2560seq-3epoch-apigen-nomlp,45.38%,58.00%,39.00%,31.50%,53.00%
+33,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,45.00%,58.00%,41.00%,29.00%,52.00%
+34,xLAM-2-8b-fc-r LoRA ckpt2272-1batch-2560seq-3epoch-apigen-nomlp,44.88%,60.00%,34.50%,33.50%,51.50%
+35,xLAM-2-8b-fc-r LoRA ckpt5112-1batch-2560seq-3epoch-apigen-nomlp,44.62%,56.50%,40.00%,28.50%,53.50%
+36,xLAM-2-8b-fc-r LoRA ckpt4544-1batch-2560seq-3epoch-apigen-nomlp,44.62%,57.50%,40.00%,28.50%,52.50%
+37,xLAM-2-8b-fc-r LoRA ckpt3976-1batch-2560seq-3epoch-apigen-nomlp,44.62%,57.00%,40.50%,30.00%,51.00%
+38,xLAM-2-8b-fc-r LoRA ckpt8853-1batch-2560seq-3epoch-ALL,44.38%,55.50%,39.50%,32.50%,50.00%
+39,ToolACE-2-8B (FC),38.25%,47.50%,31.50%,29.50%,44.50%
+40,watt-tool-8B (FC),37.75%,45.50%,39.50%,24.50%,41.50%
+41,Qwen3-8B (FC),37.75%,41.00%,43.50%,34.50%,32.00%
+42,BitAgent-8B,37.62%,45.50%,37.50%,24.50%,43.00%
+43,Qwen3-8B (Prompt),27.88%,32.50%,36.00%,23.50%,19.50%
+44,Ministral-8B-Instruct-2410 (FC),11.00%,19.50%,6.00%,9.50%,9.00%
+45,Llama-3.1-8B-Instruct (Prompt),7.25%,8.50%,6.50%,6.50%,7.50%
+46,CoALM-8B,6.38%,7.00%,8.50%,5.50%,4.50%
+47,Llama-3.1-8B-Instruct (FC),6.25%,6.00%,7.50%,6.00%,5.50%
+48,Gemma-3-4b-it (Prompt),1.75%,2.50%,1.50%,1.50%,1.50%
+49,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
