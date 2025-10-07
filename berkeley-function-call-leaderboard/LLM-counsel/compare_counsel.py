@@ -38,10 +38,14 @@ from typing import Dict, Iterable, List, Optional, Tuple
 
 try:
     import matplotlib
+    import matplotlib.pyplot as plt  # 繪圖需要
     matplotlib.rcParams['font.family'] = 'Microsoft JhengHei'
     matplotlib.rcParams['axes.unicode_minus'] = False
+    _HAS_MPL = True
 except Exception:
-    pass
+    # 若無法載入，後面會僅輸出 CSV 不畫圖
+    _HAS_MPL = False
+    plt = None  # 型別保險
 
 
 @dataclass(frozen=True)
@@ -434,8 +438,5 @@ def main():
 if __name__ == "__main__":
     main()
 '''
-python berkeley-function-call-leaderboard/LLM-counsel/compare_counsel.py `
-  --dir-a score-gpt-4.1-mini `
-  --dir-b score-Qwen3-8B `
-  --root berkeley-function-call-leaderboard/LLM-counsel
+python berkeley-function-call-leaderboard/LLM-counsel/compare_counsel.py --dir-a score-gpt-4.1-mini --dir-b score-Qwen3-8B --root berkeley-function-call-leaderboard/LLM-counsel --key-mode full --by-model --by-category --by-model-category --matrix-dir berkeley-function-call-leaderboard/LLM-counsel/matrix_output --output comparison_full.csv
 '''
