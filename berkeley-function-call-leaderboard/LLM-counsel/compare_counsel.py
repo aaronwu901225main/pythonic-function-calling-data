@@ -36,12 +36,12 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Dict, Iterable, List, Optional, Tuple
 
-try:  # 延遲匯入 (僅在需要畫圖時用)
-    import matplotlib.pyplot as plt  # type: ignore
-    import numpy as np  # type: ignore
-    _HAS_MPL = True
-except Exception:  # pragma: no cover
-    _HAS_MPL = False
+try:
+    import matplotlib
+    matplotlib.rcParams['font.family'] = 'Microsoft JhengHei'
+    matplotlib.rcParams['axes.unicode_minus'] = False
+except Exception:
+    pass
 
 
 @dataclass(frozen=True)
@@ -433,3 +433,9 @@ def main():
 
 if __name__ == "__main__":
     main()
+'''
+python berkeley-function-call-leaderboard/LLM-counsel/compare_counsel.py `
+  --dir-a score-gpt-4.1-mini `
+  --dir-b score-Qwen3-8B `
+  --root berkeley-function-call-leaderboard/LLM-counsel
+'''
