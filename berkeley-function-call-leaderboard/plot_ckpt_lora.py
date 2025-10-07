@@ -154,13 +154,8 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
     # 群組鍵：僅用 rest（ckpt 後面的超參數字串）→ 確保同一 LoRA、僅 ckpt 不同
     ckpt_df["group_key"] = ckpt_df["lora_rest"]
 
-    # 動態計算圖高度：非 ckpt 模型越多，圖越高，避免擁擠
-    n_non_ckpt = int((df["ckpt_info"].isna()).sum())
-    base_h = 6.0
-    extra_per = 0.12  # 每個非 ckpt 模型額外增加的高度（英吋）
-    max_extra = 6.0   # 避免過大
-    fig_h = base_h + min(max_extra, n_non_ckpt * extra_per)
-    plt.figure(figsize=(10, fig_h))
+    # 固定圖高度，移除先前的動態高度調整
+    plt.figure(figsize=(10, 6))
     ax = plt.gca()
 
     for gkey, g in ckpt_df.groupby("group_key"):
@@ -172,68 +167,30 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
     if not non_ckpt_df.empty:
         non_ckpt_df["acc_pct"] = non_ckpt_df[acc_col].apply(parse_percent)
         non_ckpt_df = non_ckpt_df[non_ckpt_df["acc_pct"].notna()]
-
-        # 若 baseline 已繪製，避免重複標示
+        # 排除 baseline
         if baseline_name is not None:
             non_ckpt_df = non_ckpt_df[non_ckpt_df["Model"] != baseline_name]
-
-        # 避免圖例過長：若超過一定數量，可選擇只標示前 N 筆或合併。此處先全部標示。
-        # 不進 legend，改為畫線後在圖右側註記名稱
-        n_non = len(non_ckpt_df)
-        cmap = plt.get_cmap('tab20', n_non if n_non > 1 else 2)
-        # 先畫水平線並收集資訊以便後續標註
-        annotated = []  # (acc, label, color)
-        for idx, (_, row) in enumerate(non_ckpt_df.iterrows()):
-            mname = str(row["Model"])[:120]
-            acc_val = row["acc_pct"]
-            color = cmap(idx % cmap.N)
-            ax.axhline(
-                acc_val,
-                linestyle=":",
-                linewidth=1.5,
-                alpha=0.95,
-                color=color,
-            )
-            annotated.append((acc_val, f"{mname} ({acc_val:.2f}%)", color))
-
-        # 避免完全重疊：對相同 acc 疊加微小偏移；文字放在圖框外右側 (axes 座標 x>1)
-        x_label_axes = 1.005  # 貼在邊界外一點點
-        trans = transforms.blended_transform_factory(ax.transAxes, ax.transData)
-        # 保留原本 xlim（不再強制增加右側空間）
-        x_min = ckpt_df["ckpt"].min(); x_max = ckpt_df["ckpt"].max()
-        span = max(1, x_max - x_min)
-        ax.set_xlim(x_min - span * 0.02, x_max + span * 0.02)
-
-        # 垂直碰撞避免：確保標籤之間至少 min_gap
-        min_gap = 0.6  # 可調：最小垂直間距（準確度百分點）
-        placed = []  # (new_y, orig_y, label, color)
-        for acc_val, label, color in sorted(annotated, key=lambda t: t[0]):
-            new_y = acc_val
-            if placed:
-                last_y = placed[-1][0]
-                if new_y - last_y < min_gap:
-                    new_y = last_y + min_gap
-            placed.append((new_y, acc_val, label, color))
-
-        # 若頂部超出原本 ylim，擴展 ylim
-        current_ylim = ax.get_ylim()
-        max_needed = max(p[0] for p in placed) if placed else current_ylim[1]
-        if max_needed > current_ylim[1]:
-            ax.set_ylim(current_ylim[0], max_needed + min_gap * 0.5)
-
-        # 寫出文字（位置可能與原 acc 有差異，但文字內含原數值）
-        for new_y, orig_y, label, color in placed:
+        if not non_ckpt_df.empty:
+            # 只保留最佳（最高 acc）一筆；若有多筆同分取第一筆
+            best_idx = non_ckpt_df["acc_pct"].idxmax()
+            best_row = non_ckpt_df.loc[best_idx]
+            best_name = str(best_row["Model"])[:120]
+            best_acc = float(best_row["acc_pct"])
+            color = plt.get_cmap('tab20')(0)
+            # 畫水平線
+            ax.axhline(best_acc, linestyle=":", linewidth=1.5, alpha=0.95, color=color)
+            # 放標籤（單一不需碰撞處理）
+            x_label_axes = 1.005
+            trans = transforms.blended_transform_factory(ax.transAxes, ax.transData)
+            x_min = ckpt_df["ckpt"].min(); x_max = ckpt_df["ckpt"].max(); span = max(1, x_max - x_min)
+            ax.set_xlim(x_min - span * 0.02, x_max + span * 0.02)
             ax.text(
                 x_label_axes,
-                new_y,
-                label,
-                va='center',
-                ha='left',
-                fontsize=5,
-                color=color,
-                transform=trans,
-                clip_on=False,
-                bbox=dict(facecolor='white', alpha=0.6, edgecolor='none', pad=1),
+                best_acc,
+                f"最佳非ckpt且非baseline:\n{best_name} ({best_acc:.2f}%)",
+                va='center', ha='left', fontsize=8, color=color,
+                transform=trans, clip_on=False,
+                bbox=dict(facecolor='white', alpha=0.65, edgecolor='none', pad=1),
             )
 
     # 畫 baseline
@@ -263,7 +220,7 @@ def main():
     here = os.path.abspath(os.path.dirname(__file__))
     outputs = []
     for fname in TARGET_FILES:
-        csv_path = os.path.join(here+"/LLM-counsel/score-Qwen3-8B", fname)
+        csv_path = os.path.join(here+"/LLM-counsel/score-gpt-4.1-mini", fname)
         out_png = plot_one_csv(csv_path, out_dir="./figures")
         if out_png:
             outputs.append(out_png)
