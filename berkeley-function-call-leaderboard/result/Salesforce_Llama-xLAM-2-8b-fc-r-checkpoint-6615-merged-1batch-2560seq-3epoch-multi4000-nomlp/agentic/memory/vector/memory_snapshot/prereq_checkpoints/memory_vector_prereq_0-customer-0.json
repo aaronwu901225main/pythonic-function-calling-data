@@ -1,0 +1,14 @@
+{
+    "core_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "I have updated the details about Michael's query in the core memory."
+        }
+    },
+    "archival_memory": {
+        "next_id": 1,
+        "store": {
+            "0": "I have updated the details about Michael's query in the archival memory."
+        }
+    }
+}
