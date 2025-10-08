@@ -9,7 +9,7 @@
 
 輸出:
   1. 終端列印統計：
-       both_true, both_false, a_true_b_false, b_true_a_false, different_null_cases, only_in_a, only_in_b
+       both_correct, both_wrong, a_correct_b_wrong, b_correct_a_wrong, different_null_cases, only_in_a, only_in_b
   2. 可選 CSV：每列 id, decision_a, decision_b, category
 
 匹配邏輯:
@@ -17,7 +17,7 @@
   - 每行均為一個 JSON 物件，取欄位: id, decision, judge_model (僅做參考)
   - 同一 id 可能出現多次 (重試或多段 logging)。若 decision 相同直接採用；
     若同一 id 出現不一致 decision，採用『多數決』；若平手則取最後一筆。
-  - decision 可為 true/false/None。None 視為 null (會單獨分類)。
+  - decision 可為 correct/wrong/None。None 視為 null (會單獨分類)。
 
 注意:
   - 僅對同時出現在 A、B 的 id 進行四象限分類。
@@ -149,13 +149,13 @@ def classify(a: Optional[bool], b: Optional[bool]) -> str:
     if a is None or b is None:
         return "different_null_cases"
     if a and b:
-        return "both_true"
+        return "both_correct"
     if (not a) and (not b):
-        return "both_false"
+        return "both_wrong"
     if a and (not b):
-        return "a_true_b_false"
+        return "a_correct_b_wrong"
     if (not a) and b:
-        return "b_true_a_false"
+        return "b_correct_a_wrong"
     return "unknown"  # 理論保險
 
 
@@ -186,6 +186,21 @@ def main():
     print(f"[info] 掃描 B: {dir_b}")
     rec_b = scan_judge_logs(dir_b)
 
+    # 原始輸入目錄名稱 (完整標籤)
+    dir_name_a = args.dir_a
+    dir_name_b = args.dir_b
+    # 介面顯示採用簡短 A / B，避免長模型名稱造成重疊
+    label_a = "A"
+    label_b = "B"
+    print(f"[info] 使用簡化標籤: A={dir_name_a}  B={dir_name_b}")
+
+    def decision_to_str(v: Optional[bool]) -> str:
+        if v is True:
+            return "correct"
+        if v is False:
+            return "wrong"
+        return "None"
+
     raw_a = aggregate_records(rec_a, args.key_mode)
     raw_b = aggregate_records(rec_b, args.key_mode)
     final_a = build_final_map(raw_a)
@@ -208,7 +223,7 @@ def main():
         rows.append((_id, ca, cb, cat))
 
     # Aggregate summary
-    summary_order = ["both_true", "both_false", "a_true_b_false", "b_true_a_false", "different_null_cases"]
+    summary_order = ["both_correct", "both_wrong", "a_correct_b_wrong", "b_correct_a_wrong", "different_null_cases"]
     print("\n=== 統計 (僅針對同時出現 id) ===")
     for key in summary_order:
         print(f"{key}: {stats_counter.get(key,0)}")
@@ -217,7 +232,7 @@ def main():
     print(f"only_in_b: {len(only_b)}")
 
     # 百分比 (排除 decision 為 None 的配對)
-    four_keys = ["both_true", "both_false", "a_true_b_false", "b_true_a_false"]
+    four_keys = ["both_correct", "both_wrong", "a_correct_b_wrong", "b_correct_a_wrong"]
     denom = sum(stats_counter[k] for k in four_keys)
     print("\n=== 百分比 (排除任一為 None) ===")
     if denom == 0:
@@ -227,58 +242,60 @@ def main():
             cnt = stats_counter.get(k, 0)
             pct = cnt / denom * 100 if denom else 0.0
             print(f"{k}: {cnt} ({pct:.2f}%)")
-        agreement = stats_counter.get("both_true",0) + stats_counter.get("both_false",0)
+        agreement = stats_counter.get("both_correct",0) + stats_counter.get("both_wrong",0)
         print(f"overall_agreement: {agreement}/{denom} ({(agreement/denom*100 if denom else 0):.2f}%)")
 
     # 2x2 矩陣 (A 為列, B 為欄) 只考慮非 None
     if denom > 0:
-        a_true_b_true = stats_counter.get("both_true", 0)
-        a_true_b_false = stats_counter.get("a_true_b_false", 0)
-        a_false_b_true = stats_counter.get("b_true_a_false", 0)
-        a_false_b_false = stats_counter.get("both_false", 0)
-        row_a_true = a_true_b_true + a_true_b_false
-        row_a_false = a_false_b_true + a_false_b_false
-        col_b_true = a_true_b_true + a_false_b_true
-        col_b_false = a_true_b_false + a_false_b_false
+        a_correct_b_correct = stats_counter.get("both_correct", 0)
+        a_correct_b_wrong = stats_counter.get("a_correct_b_wrong", 0)
+        a_wrong_b_correct = stats_counter.get("b_correct_a_wrong", 0)
+        a_wrong_b_wrong = stats_counter.get("both_wrong", 0)
+        row_a_correct = a_correct_b_correct + a_correct_b_wrong
+        row_a_wrong = a_wrong_b_correct + a_wrong_b_wrong
+        col_b_correct = a_correct_b_correct + a_wrong_b_correct
+        col_b_wrong = a_correct_b_wrong + a_wrong_b_wrong
 
         def pct(v: int) -> str:
             return f"{(v/denom*100):.2f}%" if denom else "-"
 
         print("\n=== 2x2 矩陣 (A=列, B=欄, 只含非 None) ===")
-        # 表頭
-        header = ["", "B=True", "B=False", "Row Total"]
-        rows = [
-            ["A=True", f"{a_true_b_true} ({pct(a_true_b_true)})", f"{a_true_b_false} ({pct(a_true_b_false)})", f"{row_a_true} ({pct(row_a_true)})"],
-            ["A=False", f"{a_false_b_true} ({pct(a_false_b_true)})", f"{a_false_b_false} ({pct(a_false_b_false)})", f"{row_a_false} ({pct(row_a_false)})"],
+        # 表頭（B 軸）
+        header = ["", "B=correct", "B=wrong", "Row Total"]
+        rows_display = [
+            ["A=correct", f"{a_correct_b_correct} ({pct(a_correct_b_correct)})", f"{a_correct_b_wrong} ({pct(a_correct_b_wrong)})", f"{row_a_correct} ({pct(row_a_correct)})"],
+            ["A=wrong", f"{a_wrong_b_correct} ({pct(a_wrong_b_correct)})", f"{a_wrong_b_wrong} ({pct(a_wrong_b_wrong)})", f"{row_a_wrong} ({pct(row_a_wrong)})"],
         ]
-        col_total = ["Col Total", f"{col_b_true} ({pct(col_b_true)})", f"{col_b_false} ({pct(col_b_false)})", f"{denom} (100.00%)"]
+        col_total = ["Col Total", f"{col_b_correct} ({pct(col_b_correct)})", f"{col_b_wrong} ({pct(col_b_wrong)})", f"{denom} (100.00%)"]
 
         # 簡單字寬對齊
-        col_widths = [max(len(str(r[i])) for r in ([header]+rows+[col_total])) for i in range(len(header))]
+        col_widths = [max(len(str(r[i])) for r in ([header]+rows_display+[col_total])) for i in range(len(header))]
         def fmt_row(r):
             return " | ".join(str(cell).ljust(col_widths[i]) for i, cell in enumerate(r))
 
         print(fmt_row(header))
         print("-+-".join('-'*w for w in col_widths))
-        for r in rows:
+        for r in rows_display:
             print(fmt_row(r))
         print("-+-".join('-'*w for w in col_widths))
-        print(fmt_row(col_total))
+    print(fmt_row(col_total))
+    print(f"註: A={dir_name_a}  B={dir_name_b}")
 
     if args.output:
         out_path = Path(args.output).resolve()
         with out_path.open("w", newline="", encoding="utf-8") as f:
             writer = csv.writer(f)
             writer.writerow(["key", "decision_a", "decision_b", "category"])
-            writer.writerows(rows)
+            for k, da, db, cat in rows:
+                writer.writerow([k, decision_to_str(da), decision_to_str(db), cat])
         print(f"[info] 已輸出 CSV: {out_path}")
 
     # 顯示差異 Top 10 (各類別前幾個)
-    diffs = [r for r in rows if r[3] in ("a_true_b_false", "b_true_a_false", "different_null_cases")]
+    diffs = [r for r in rows if r[3] in ("a_correct_b_wrong", "b_correct_a_wrong", "different_null_cases")]
     if diffs:
         print("\n範例差異 (最多 10 筆):")
         for r in diffs[:10]:
-            print(f"  {r[0]} -> A:{r[1]} B:{r[2]} ({r[3]})")
+            print(f"  {r[0]} -> {label_a}:{decision_to_str(r[1])} {label_b}:{decision_to_str(r[2])} ({r[3]})")
 
     # 需要分組統計時，以 full 粒度對齊
     if any([args.by_model, args.by_category, args.by_model_category]):
@@ -309,14 +326,14 @@ def main():
             s = Counter()
             for k in keys:
                 s[classify(final_full_a[k], final_full_b[k])] += 1
-            four = ["both_true", "both_false", "a_true_b_false", "b_true_a_false"]
+            four = ["both_correct", "both_wrong", "a_correct_b_wrong", "b_correct_a_wrong"]
             denom_g = sum(s[x] for x in four)
             if denom_g == 0:
                 return None
-            agree = s.get("both_true",0)+s.get("both_false",0)
+            agree = s.get("both_correct",0)+s.get("both_wrong",0)
             return (f"n={denom_g} agree={agree/denom_g*100:.2f}% "
-                    f"BT={s.get('both_true',0)} BF={s.get('both_false',0)} "
-                    f"A!B={s.get('a_true_b_false',0)} B!A={s.get('b_true_a_false',0)}")
+                    f"BT={s.get('both_correct',0)} BF={s.get('both_wrong',0)} "
+                    f"A!B={s.get('a_correct_b_wrong',0)} B!A={s.get('b_correct_a_wrong',0)}")
 
         if args.by_model:
             print("-- by model --")
@@ -368,8 +385,8 @@ def main():
                 "model_name": m,
                 "test_category": c,
                 "id": i,
-                "decision_a": str(a_dec),
-                "decision_b": str(b_dec),
+                "decision_a": decision_to_str(a_dec),
+                "decision_b": decision_to_str(b_dec),
                 "class": cls,
             })
             per_model_keys[m].append(k)
@@ -390,22 +407,24 @@ def main():
             return re.sub(r"[^A-Za-z0-9._-]+", "_", name)[:120]
 
         def save_matrix(name: str, counts: Dict[str,int]):
-            four = ["both_true","a_true_b_false","b_true_a_false","both_false"]
-            denom_local = sum(counts.get(k,0) for k in ["both_true","both_false","a_true_b_false","b_true_a_false"])
+            four = ["both_correct","a_correct_b_wrong","b_correct_a_wrong","both_wrong"]
+            denom_local = sum(counts.get(k,0) for k in ["both_correct","both_wrong","a_correct_b_wrong","b_correct_a_wrong"])
             if denom_local == 0:
                 print(f"[warn] {name} 無有效 (non-None) 配對，跳過圖表。")
                 return
-            TT = counts.get("both_true",0)
-            TF = counts.get("a_true_b_false",0)
-            FT = counts.get("b_true_a_false",0)
-            FF = counts.get("both_false",0)
+            TT = counts.get("both_correct",0)
+            TF = counts.get("a_correct_b_wrong",0)
+            FT = counts.get("b_correct_a_wrong",0)
+            FF = counts.get("both_wrong",0)
             # 寫 CSV
             csv_path = out_dir / f"matrix_{sanitize(name)}.csv"
             with csv_path.open("w", newline="", encoding="utf-8") as f:
                 w = csv.writer(f)
-                w.writerow(["A\\B","True","False","Row Total"])
-                w.writerow(["True", TT, TF, TT+TF])
-                w.writerow(["False", FT, FF, FT+FF])
+                # 使用 A/B 作為軸標籤，並在檔案開頭附加原始模型對應說明
+                w.writerow(["A/B Mapping", f"A={dir_name_a}", f"B={dir_name_b}"])
+                w.writerow(["A\\B", "correct", "wrong", "Row Total"])
+                w.writerow(["correct", TT, TF, TT+TF])
+                w.writerow(["wrong", FT, FF, FT+FF])
                 w.writerow(["Col Total", TT+FT, TF+FF, denom_local])
             if not _HAS_MPL:
                 print(f"[warn] 缺少 matplotlib/numpy，僅輸出 CSV: {csv_path}")
@@ -415,13 +434,15 @@ def main():
             fig, ax = plt.subplots(figsize=(3.8,3.8))
             im = ax.imshow(data, cmap="Blues", vmin=0, vmax=data.max() if data.max()>0 else 1)
             ax.set_xticks([0,1]); ax.set_yticks([0,1])
-            ax.set_xticklabels(["B=True","B=False"], fontsize=10)
-            ax.set_yticklabels(["A=True","A=False"], fontsize=10)
+            ax.set_xticklabels(["B=correct", "B=wrong"], fontsize=9)
+            ax.set_yticklabels(["A=correct", "A=wrong"], fontsize=9)
             ax.set_title(f"{name}\n2x2 矩陣 (n={denom_local})", fontsize=11)
             for (r,c), val in _np.ndenumerate(data):
                 pct = val/denom_local*100 if denom_local else 0
                 ax.text(c, r, f"{val}\n{pct:.1f}%", ha="center", va="center", fontsize=9, color="black")
             plt.colorbar(im, ax=ax, fraction=0.046, pad=0.04)
+            # 在圖左上角(figure 座標)標示 A/B 對應原始模型，避免軸標籤擁擠
+            fig.text(0.01, 0.99, f"A={dir_name_a}\nB={dir_name_b}", ha="left", va="top", fontsize=7)
             fig.tight_layout()
             fig_path = out_dir / f"matrix_{sanitize(name)}.png"
             fig.savefig(fig_path, dpi=160)
@@ -438,5 +459,5 @@ def main():
 if __name__ == "__main__":
     main()
 '''
-python berkeley-function-call-leaderboard/LLM-counsel/compare_counsel.py --dir-a score-gpt-4.1-mini --dir-b score-Qwen3-8B --root berkeley-function-call-leaderboard/LLM-counsel --key-mode full --by-model --by-category --by-model-category --matrix-dir berkeley-function-call-leaderboard/LLM-counsel/matrix_output --output comparison_full.csv
+python compare_counsel.py --dir-a score-gpt-4.1-mini --dir-b score-Qwen3-8B --root ./ --key-mode full --matrix-dir matrix_output --output comparison.csv
 '''

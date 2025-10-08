@@ -1,4 +1,5 @@
-A\B,True,False,Row Total
-True,4202,18,4220
-False,2253,137,2390
+A/B Mapping,A=score-gpt-4.1-mini,B=score-Qwen3-8B
+A\B,correct,wrong,Row Total
+correct,4202,18,4220
+wrong,2253,137,2390
 Col Total,6455,155,6610
