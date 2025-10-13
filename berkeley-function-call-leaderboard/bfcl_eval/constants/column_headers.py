@@ -108,6 +108,16 @@ COLUMNS_CHINESE = [
     "ZH: Parallel Multiple",
     "ZH: Relevance",
 ]
+# 中文 Multi-Turn 表頭
+COLUMNS_CHINESE_MULTI_TURN = [
+    "Rank",
+    "Model",
+    "Multi Turn (ZH) Overall Acc",
+    "ZH: Multi Turn Base",
+    "ZH: Multi Turn Miss Func",
+    "ZH: Multi Turn Miss Param",
+    "ZH: Multi Turn Long Context",
+]
 # 先建一個「含中文欄位」的 overall 標頭（在原本 COLUMNS_OVERALL 後面拼接）
 COLUMNS_OVERALL_WITH_ZH = COLUMNS_OVERALL + [
     # 建議順序：先 Overall 再 Summary 再細項
@@ -116,4 +126,22 @@ COLUMNS_OVERALL_WITH_ZH = COLUMNS_OVERALL + [
     "ZH Multiple",
     "ZH Parallel",
     "ZH Parallel-Multiple",
+]
+
+# 全中文 Overall（權重依題數，僅中文單輪 + 中文多輪，不含英文）
+COLUMNS_OVERALL_ZH = [
+    "Rank",
+    "Overall (ZH) Acc",
+    "Model",
+    "AST (ZH) Summary",
+    "ZH: Simple",
+    "ZH: Multiple",
+    "ZH: Parallel",
+    "ZH: Parallel Multiple",
+    "ZH: Relevance",
+    "Multi Turn (ZH) Overall Acc",
+    "ZH: Multi Turn Base",
+    "ZH: Multi Turn Miss Func",
+    "ZH: Multi Turn Miss Param",
+    "ZH: Multi Turn Long Context",
 ]

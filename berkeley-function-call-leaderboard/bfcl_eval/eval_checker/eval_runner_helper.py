@@ -296,6 +296,8 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
     data_format_sensitivity = []
     data_combined = []
     data_chinese = []
+    data_chinese_multi_turn = []
+    data_chinese_overall = []
     for model_name, value in leaderboard_table.items():
         model_name_escaped = model_name.replace("_", "/")
         model_config = MODEL_CONFIG_MAPPING[model_name_escaped]
@@ -474,7 +476,7 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
             ]
         )
 
-        # ===== 中文評分（CHINESE）===== #
+    # ===== 中文評分（CHINESE, 單輪）===== #
         zh_simple_python = get_category_score(value, "zh_simple_python")
         zh_multiple = get_category_score(value, "zh_multiple")
         zh_parallel = get_category_score(value, "zh_parallel")
@@ -498,7 +500,77 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
                 zh_irrelevance["display_accuracy"],
             ]
         )
-        # ===== 中文評分（CHINESE）結束 ===== #
+        # ===== 中文評分（CHINESE, 單輪）結束 ===== #
+
+        # ===== 中文 Multi-Turn ===== #
+        zh_mt_base = get_category_score(value, "zh_multi_turn_base")
+        zh_mt_miss_func = get_category_score(value, "zh_multi_turn_miss_func")
+        zh_mt_miss_param = get_category_score(value, "zh_multi_turn_miss_param")
+        zh_mt_long_context = get_category_score(value, "zh_multi_turn_long_context")
+
+        # 以題數（total_count）做不加權平均等價於以題目數量為權重
+        # 這裡保留與英文 multi-turn 相同：顯示 unweighted（實體上題數相同則等價）
+        zh_mt_overall = calculate_unweighted_accuracy(
+            [zh_mt_base, zh_mt_miss_func, zh_mt_miss_param, zh_mt_long_context],
+            display_na_if_category_missing=False,
+        )
+
+        data_chinese_multi_turn.append(
+            [
+                "N/A",
+                model_config.display_name,
+                zh_mt_overall["display_accuracy"],
+                zh_mt_base["display_accuracy"],
+                zh_mt_miss_func["display_accuracy"],
+                zh_mt_miss_param["display_accuracy"],
+                zh_mt_long_context["display_accuracy"],
+            ]
+        )
+        # ===== 中文 Multi-Turn 結束 ===== #
+
+        # ===== 中文 Overall（僅中文）=====
+        # 權重依題數：以 total_count 作為加權
+        def _weighted_by_count(items):
+            total = sum(it["total_count"] for it in items if isinstance(it.get("total_count"), (int, float))) or 0
+            if total <= 0:
+                return {"accuracy": 0.0, "total_count": 0, "display_accuracy": "N/A"}
+            acc = sum((it["accuracy"] * it["total_count"]) for it in items if isinstance(it.get("total_count"), (int, float))) / total
+            return {"accuracy": acc, "total_count": total, "display_accuracy": acc}
+
+        zh_single_overall_w = _weighted_by_count([zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple, zh_irrelevance])
+        zh_multi_overall_w = _weighted_by_count([zh_mt_base, zh_mt_miss_func, zh_mt_miss_param, zh_mt_long_context])
+
+        # 最終 Overall (ZH) 以「中文單輪 + 中文多輪」的題數加權平均
+        overall_zh = None
+        if zh_single_overall_w["total_count"] + zh_multi_overall_w["total_count"] > 0:
+            total = zh_single_overall_w["total_count"] + zh_multi_overall_w["total_count"]
+            acc = (
+                zh_single_overall_w["accuracy"] * zh_single_overall_w["total_count"]
+                + zh_multi_overall_w["accuracy"] * zh_multi_overall_w["total_count"]
+            ) / total
+            overall_zh = {"accuracy": acc, "display_accuracy": acc}
+        else:
+            overall_zh = {"accuracy": 0.0, "display_accuracy": "N/A"}
+
+        data_chinese_overall.append(
+            [
+                "N/A",
+                overall_zh["display_accuracy"],
+                model_config.display_name,
+                zh_single_overall_w["display_accuracy"],
+                zh_simple_python["display_accuracy"],
+                zh_multiple["display_accuracy"],
+                zh_parallel["display_accuracy"],
+                zh_parallel_multiple["display_accuracy"],
+                zh_irrelevance["display_accuracy"],
+                zh_mt_overall["display_accuracy"],
+                zh_mt_base["display_accuracy"],
+                zh_mt_miss_func["display_accuracy"],
+                zh_mt_miss_param["display_accuracy"],
+                zh_mt_long_context["display_accuracy"],
+            ]
+        )
+        # ===== 中文 Overall（僅中文）結束 =====
         
         # Total Score
         total_irrelevance = calculate_unweighted_accuracy(
@@ -652,6 +724,20 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
         file_path=output_path / "data_chinese.csv",
         header=COLUMNS_CHINESE,
         sort_column_index=2,  # 以 Overall (ZH) 排序
+    )
+    # ✅ 新增：寫出中文 Multi-Turn CSV
+    write_score_csv_file(
+        data=data_chinese_multi_turn,
+        file_path=output_path / "data_chinese_multi_turn.csv",
+        header=COLUMNS_CHINESE_MULTI_TURN,
+        sort_column_index=2,
+    )
+    # ✅ 新增：寫出中文 Overall（僅中文，權重=題數）
+    write_score_csv_file(
+        data=data_chinese_overall,
+        file_path=output_path / "data_chinese_overall.csv",
+        header=COLUMNS_OVERALL_ZH,
+        sort_column_index=1,
     )
     
     wandb_project = os.getenv("WANDB_BFCL_PROJECT")
