@@ -433,31 +433,35 @@ def load_dataset_entry(
         # === New: zh_* categories route to Chinese_dataset_format files ===
         if test_category.startswith("zh_"):
             zh_map = {
+                # single-turn zh
                 "zh_simple_python": "gorilla_openfunctions_v1_test_simple.json",
                 "zh_multiple": "gorilla_openfunctions_v1_test_multiple_function.json",
                 "zh_parallel": "gorilla_openfunctions_v1_test_parallel_function.json",
                 "zh_parallel_multiple": "gorilla_openfunctions_v1_test_parallel_multiple_function.json",
                 "zh_irrelevance": "gorilla_openfunctions_v1_test_relevance.json",
+                # multi-turn zh
+                "zh_multi_turn_base": f"{VERSION_PREFIX}_zh_multi_turn_base.json",
+                "zh_multi_turn_miss_func": f"{VERSION_PREFIX}_zh_multi_turn_miss_func.json",
+                "zh_multi_turn_miss_param": f"{VERSION_PREFIX}_zh_multi_turn_miss_param.json",
+                "zh_multi_turn_long_context": f"{VERSION_PREFIX}_zh_multi_turn_long_context.json",
             }
             if test_category not in zh_map:
                 raise Exception(f"Unknown zh category: {test_category}")
             file_name = zh_map[test_category]
             all_entries = load_file(CH_PROMPT_PATH / file_name)
-            # 將 id 前綴從原始（若有）替換為 zh_*，確保下游路徑/分組一致
+            # 規整 id：保留原始英文類別尾碼，前綴改為 zh_*，以保持和英文 GT 同步
             for entry in all_entries:
                 try:
-                    orig_id = str(entry["id"])
+                    orig_id = str(entry.get("id", ""))
                     # 目標：把原始類別整段去掉，只留下最後一個底線後面的索引或複合索引（如 19-3-15）
                     if "_" in orig_id:
                         last_us_idx = orig_id.rfind("_")
                         tail = orig_id[last_us_idx + 1 : ]  # e.g. "0" 或 "19-3-15"
-                        # 生成 zh_* 前綴的新 id，例如 zh_parallel_multiple_0
-                        entry["id"] = f"{test_category}_{tail}"
+                        entry["id"] = f"{test_category.replace('zh_','',1)}_{tail}" if test_category.startswith("zh_multi_turn_") else f"{test_category}_{tail}"
                     else:
-                        # 沒有底線就直接在前面加 zh_* 前綴
-                        entry["id"] = f"{test_category}_{orig_id}"
+                        # 沒有底線就直接接在後面
+                        entry["id"] = f"{test_category.replace('zh_','',1)}_{orig_id}" if test_category.startswith("zh_multi_turn_") else f"{test_category}_{orig_id}"
                 except Exception:
-                    # 保守：發生例外就維持原值
                     pass
         else:
             # All other categories, we don't need any special handling
@@ -488,6 +492,11 @@ def load_ground_truth_entry(test_category: str) -> list[dict]:
         return load_file(POSSIBLE_ANSWER_PATH / f"{VERSION_PREFIX}_web_search.json")
 
     else:
+        # zh multi-turn: reuse English possible answers by mapping category name
+        if test_category.startswith("zh_multi_turn_"):
+            mapped = test_category.replace("zh_multi_turn_", "multi_turn_", 1)
+            return load_file(POSSIBLE_ANSWER_PATH / f"{VERSION_PREFIX}_{mapped}.json")
+        # other zh_* single-turn have their own possible answers files already
         return load_file(POSSIBLE_ANSWER_PATH / f"{VERSION_PREFIX}_{test_category}.json")
 
 

@@ -60,11 +60,19 @@ ZH_NON_LIVE_CATEGORY = [
     "zh_irrelevance",
 ]
 
+# zh-TW multi-turn categories (prompts live under data/Chinese_dataset_format)
+ZH_MULTI_TURN_CATEGORY = [
+    "zh_multi_turn_base",
+    "zh_multi_turn_miss_func",
+    "zh_multi_turn_miss_param",
+    "zh_multi_turn_long_context",
+]
+
 SINGLE_TURN_CATEGORY = NON_LIVE_CATEGORY + LIVE_CATEGORY
 AGENTIC_CATEGORY = MEMORY_CATEGORY + WEB_SEARCH_CATEGORY
 NON_SCORING_CATEGORY = ["format_sensitivity"]
 
-ALL_SCORING_CATEGORIES = SINGLE_TURN_CATEGORY + MULTI_TURN_CATEGORY + AGENTIC_CATEGORY + ZH_NON_LIVE_CATEGORY
+ALL_SCORING_CATEGORIES = SINGLE_TURN_CATEGORY + MULTI_TURN_CATEGORY + AGENTIC_CATEGORY + ZH_NON_LIVE_CATEGORY + ZH_MULTI_TURN_CATEGORY
 ALL_CATEGORIES = ALL_SCORING_CATEGORIES + NON_SCORING_CATEGORY
 
 TEST_COLLECTION_MAPPING = {
@@ -76,7 +84,8 @@ TEST_COLLECTION_MAPPING = {
     "non_live": NON_LIVE_CATEGORY,
 
     # Quick pick for Chinese set ##
-    "zh_all": ZH_NON_LIVE_CATEGORY,
+    "zh_all": ZH_NON_LIVE_CATEGORY + ZH_MULTI_TURN_CATEGORY,
+    "zh_multi_turn": ZH_MULTI_TURN_CATEGORY,
     ###############################
     
     "non_python": [

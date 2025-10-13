@@ -20,6 +20,7 @@ from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
 )
 from bfcl_eval.eval_checker.zhtw_semantic_judge import (
     parse_zhtw_eval_arg,
+    semantic_judge,
     semantic_param_judge,
 )
 from bfcl_eval.model_handler.base_handler import BaseHandler
@@ -554,6 +555,7 @@ def multi_turn_runner(
     model_name,
     test_category,
     score_dir,
+    zhtw_eval_config=None,
 ):
     assert (
         len(model_result) == len(prompt) == len(possible_answer)
@@ -561,6 +563,9 @@ def multi_turn_runner(
 
     result = []
     correct_count = 0
+    # zh multi-turn semantic judge logs
+    judge_logs = []
+    recovered_count = 0
     for i in range(len(model_result)):
         index = model_result[i]["id"]
         multi_turn_model_result_list = model_result[i]["result"]
@@ -580,12 +585,94 @@ def multi_turn_runner(
         if entry_result["valid"]:
             correct_count += 1
         else:
-            entry_result["inference_log"] = model_result[i].get("inference_log", "")
-            result.append(entry_result)
+            # Optional zh-TW semantic judge for zh_multi_turn_* categories
+            judged_override = False
+            if (
+                zhtw_eval_config is not None
+                and getattr(zhtw_eval_config, "mode", "original") != "original"
+                and str(test_category).startswith("zh_multi_turn_")
+            ):
+                try:
+                    # Build a decoded AST structure across all turns (for judge context)
+                    pred_decoded_all_turns = []
+                    for turn_msgs in multi_turn_model_result_list:
+                        turn_decoded_items = []
+                        for msg in turn_msgs:
+                            try:
+                                ast_out = handler.decode_ast(
+                                    msg, ReturnFormat.PYTHON, has_tool_call_tag=False
+                                )
+                                if is_function_calling_format_output(ast_out) and len(ast_out) > 0:
+                                    turn_decoded_items.append(ast_out)
+                            except Exception:
+                                continue
+                        pred_decoded_all_turns.append(turn_decoded_items)
 
-    return save_eval_results(
+                    judge_bool = semantic_judge(
+                        zhtw_eval_config,
+                        question=test_entry.get("question"),
+                        function_doc=test_entry.get("function"),
+                        prediction=pred_decoded_all_turns,
+                        references=multi_turn_ground_truth_list,
+                    )
+                    judge_logs.append({
+                        "id": index,
+                        "test_category": test_category,
+                        "model_name": model_name,
+                        "judge_mode": zhtw_eval_config.mode,
+                        "judge_backend": getattr(zhtw_eval_config, "judge_backend", None),
+                        "judge_model": getattr(zhtw_eval_config, "model_id", None),
+                        "question": test_entry.get("question"),
+                        "function_schema": test_entry.get("function"),
+                        "model_result_raw": multi_turn_model_result_list,
+                        "prediction_decoded": pred_decoded_all_turns,
+                        "references_all": multi_turn_ground_truth_list,
+                        "decision": True if judge_bool is True else False if judge_bool is False else None,
+                        "semantic_scope": "multi_turn_conversation",
+                    })
+                    if judge_bool is True:
+                        entry_result = {"valid": True, "semantic_judge": True, "semantic_scope": "multi_turn_conversation"}
+                        recovered_count += 1
+                        judged_override = True
+                except Exception as _sj_err:
+                    entry_result["semantic_judge_error"] = str(_sj_err)
+
+            if entry_result.get("valid") is True and judged_override:
+                correct_count += 1
+            else:
+                entry_result["inference_log"] = model_result[i].get("inference_log", "")
+                result.append(entry_result)
+
+    acc, total = save_eval_results(
         result, correct_count, model_result, test_category, model_name, score_dir
     )
+
+    # If zh_multi_turn_* and judge active, persist judge logs and recovery rate
+    if (
+        zhtw_eval_config is not None
+        and getattr(zhtw_eval_config, "mode", "original") != "original"
+        and str(test_category).startswith("zh_multi_turn_")
+        and len(judge_logs) > 0
+    ):
+        # Write JSONL logs per model-category
+        safe_model = model_name.replace("/", "_")
+        log_file = ZHTW_JUDGE_LOG_PATH / f"{safe_model}__{test_category}__judge_log.jsonl"
+        with open(log_file, "w", encoding="utf-8") as f:
+            for entry in judge_logs:
+                f.write(json.dumps(entry, ensure_ascii=False) + "\n")
+
+        # Append recovery rate row into a central CSV
+        csv_file = ZHTW_JUDGE_LOG_PATH / "recovery_rate.csv"
+        write_header = not csv_file.exists()
+        with open(csv_file, "a", newline="", encoding="utf-8") as f:
+            writer = csv.writer(f)
+            if write_header:
+                writer.writerow(["model", "category", "recovered", "judged", "recovery_rate"])
+            judged = len(judge_logs)
+            recovery_rate = (recovered_count / judged) if judged else 0.0
+            writer.writerow([safe_model, test_category, recovered_count, judged, recovery_rate])
+
+    return acc, total
 
 
 def relevance_file_runner(
@@ -880,6 +967,7 @@ def evaluate_task(
                 model_name,
                 test_category,
                 score_dir,
+                zhtw_eval_config=zhtw_eval_config,
             )
 
         elif is_agentic(test_category):
