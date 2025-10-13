@@ -3,7 +3,7 @@
 translate_bfcl_user_content.py
 
 說明:
-- 讀取指定 JSON 檔（預期為 BFCL 多物件或單物件皆可），只翻譯所有 {"role": "user"} 節點的 content 字串為繁體中文（臺灣）。
+- 讀取指定 JSON 檔（預期為 BFCL 多物件或單物件皆可），只翻譯 question 欄位底下所有訊息物件的 content（不分 role）為繁體中文（臺灣）。
 - 其他欄位維持原樣。
 - 預設輸出為與輸入檔同資料夾、檔名在第一個「.json」之前插入「_zh_」。
   例如: BFCL_v4_multi_turn_base.json -> BFCL_v4_zh_multi_turn_base.json
@@ -16,7 +16,7 @@ translate_bfcl_user_content.py
     python translate_bfcl_user_content.py --input <path/to/file.json> [--output <out.json>]
 
 注意:
-- 本工具僅翻譯 role=user 的 content；不會動其他欄位或非 user 的訊息。
+- 本工具僅翻 question 欄位內所有訊息物件的 content（不分 role）；不會動其他欄位。
 - 若輸入檔包含多個 JSON 物件（逐個以 { ... } 串在一起），也會逐個解析與翻譯並回寫成相同格式（物件間以換行分隔）。
 """
 
@@ -59,32 +59,53 @@ def split_concatenated_json(text: str) -> List[str]:
     return parts
 
 
-def walk_and_translate(obj: Any, translate_fn) -> Any:
-    """深度走訪結構，翻譯所有 role=user 的 content 字串。"""
+def walk_and_translate(obj: Any, translate_fn, only_under_question: bool = False) -> Any:
+    """深度走訪結構，翻譯 question 欄位底下所有訊息物件的 content（不分 role）。
+
+    參數 only_under_question 表示目前是否位於 question 節點以下。
+    """
     if isinstance(obj, dict):
-        # 檢測是否為一個訊息物件
-        if obj.get("role") == "user" and isinstance(obj.get("content"), str):
-            text = obj["content"]
-            obj = {**obj}  # 淺拷貝
-            obj["content"] = translate_fn(text)
-            return obj
-        # 一般 dict 遞迴
-        return {k: walk_and_translate(v, translate_fn) for k, v in obj.items()}
+        # 當前層級是否是 question 鍵
+        result = {}
+        for k, v in obj.items():
+            if k == "question":
+                result[k] = walk_and_translate(v, translate_fn, only_under_question=True)
+            else:
+                result[k] = walk_and_translate(v, translate_fn, only_under_question=only_under_question)
+        return result
     elif isinstance(obj, list):
-        return [walk_and_translate(v, translate_fn) for v in obj]
+        new_list = []
+        for v in obj:
+            if only_under_question and isinstance(v, dict) and isinstance(v.get("content"), str):
+                # 位於 question 下且有 content 字串則翻譯
+                nv = {**v}
+                nv["content"] = translate_fn(v["content"])
+                new_list.append(nv)
+            else:
+                new_list.append(walk_and_translate(v, translate_fn, only_under_question=only_under_question))
+        return new_list
     else:
         return obj
 
 
-def count_user_content(obj: Any) -> int:
-    """計算所有 role=user 並且 content 為字串的節點數量。"""
+def count_question_contents(obj: Any, only_under_question: bool = False) -> int:
+    """計算 question 欄位底下所有訊息物件中 content（字串）的數量。"""
     if isinstance(obj, dict):
-        cnt = 1 if (obj.get("role") == "user" and isinstance(obj.get("content"), str)) else 0
-        for v in obj.values():
-            cnt += count_user_content(v)
+        cnt = 0
+        for k, v in obj.items():
+            if k == "question":
+                cnt += count_question_contents(v, only_under_question=True)
+            else:
+                cnt += count_question_contents(v, only_under_question=only_under_question)
         return cnt
     if isinstance(obj, list):
-        return sum(count_user_content(v) for v in obj)
+        total = 0
+        for v in obj:
+            if only_under_question and isinstance(v, dict) and isinstance(v.get("content"), str):
+                total += 1
+            else:
+                total += count_question_contents(v, only_under_question=only_under_question)
+        return total
     return 0
 
 
@@ -198,7 +219,7 @@ def main():
                     data = json.loads(chunk.strip(','))
                 except Exception:
                     continue
-            total_to_translate += count_user_content(data)
+            total_to_translate += count_question_contents(data)
 
     progress = Progress(total=total_to_translate)
     usage_accum = {"prompt": 0, "completion": 0, "total": 0}
