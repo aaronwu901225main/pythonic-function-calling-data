@@ -451,7 +451,7 @@ def load_dataset_entry(
             # Chinese translated files might be pretty-printed JSON objects
             # concatenated together (not strict JSONL). Enable robust parser.
             all_entries = load_file(CH_PROMPT_PATH / file_name, allow_concatenated_json=True)
-            # 規整 id：保留原始英文類別尾碼，前綴改為 zh_*，以保持和英文 GT 同步
+            # 規整 id：保留原始尾碼，前綴一律使用實際 test_category，避免與英文類別 ID 衝突
             for entry in all_entries:
                 try:
                     orig_id = str(entry.get("id", ""))
@@ -459,10 +459,10 @@ def load_dataset_entry(
                     if "_" in orig_id:
                         last_us_idx = orig_id.rfind("_")
                         tail = orig_id[last_us_idx + 1 : ]  # e.g. "0" 或 "19-3-15"
-                        entry["id"] = f"{test_category.replace('zh_','',1)}_{tail}" if test_category.startswith("zh_multi_turn_") else f"{test_category}_{tail}"
+                        entry["id"] = f"{test_category}_{tail}"
                     else:
                         # 沒有底線就直接接在後面
-                        entry["id"] = f"{test_category.replace('zh_','',1)}_{orig_id}" if test_category.startswith("zh_multi_turn_") else f"{test_category}_{orig_id}"
+                        entry["id"] = f"{test_category}_{orig_id}"
                 except Exception:
                     pass
         else:
