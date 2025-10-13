@@ -50,6 +50,16 @@ JUDGE_SYSTEM_PROMPT = (
     "只允許輸出 yes 或 no。不要加解釋。若 prediction 明顯不符合、缺重要參數、型別錯誤或語義偏離，就回答 no。\n"
 )
 
+# 更嚴格的 multi-turn 規則：逐回合全覆蓋
+JUDGE_SYSTEM_PROMPT_MULTI_TURN = (
+    "你是一個多輪函式呼叫語義評測助手。\n"
+    "你將收到: 問題(question)、函式描述與參數(schema)、模型在每一回合的函式呼叫(prediction_by_turn)、以及每一回合的參考函式呼叫(reference_by_turn)。\n"
+    "評分準則：\n"
+    "1) 必須逐回合檢查；每一回合都需要覆蓋該回合參考中的所有必要操作，允許等價/同義替代與輕微格式/單位差異。\n"
+    "2) 若某回合缺少必要步驟、或關鍵參數錯誤、或導致狀態上不可能與參考等價，則整題回答 no。\n"
+    "3) 僅輸出 yes 或 no，禁止任何解釋。\n"
+)
+
 @dataclass
 class JudgeConfig:
     mode: str  # 'original' | 'openai' | 'hf'
@@ -99,6 +109,22 @@ def build_param_judge_prompt_text(pred_params: Dict[str, Any], ref_params: Dict[
         "請判斷 A 與 B 是否在語義上等價，能導致相同的函式意圖與結果。"
         "允許表述差異、同義替換、單位/格式等小差異，但若關鍵資訊缺失或語義偏離則視為不等價。\n\n"
         "以下是 JSON：\n\n"
+        + json.dumps(payload, ensure_ascii=False, indent=2)
+        + "\n\n請你只輸出 yes 或 no："
+    )
+
+
+def build_multi_turn_judge_prompt_text(question: str, function_doc: List[Dict[str, Any]], prediction_by_turn: List[Any], references_by_turn: List[Any]) -> str:
+    payload = {
+        "question": question,
+        "function": function_doc,
+        "prediction_by_turn": prediction_by_turn,
+        "reference_by_turn": references_by_turn,
+        "rule": "逐回合全覆蓋；每回合都需涵蓋參考的所有必要操作，允許語義等價替代；任一回合缺少關鍵步驟則判 no。",
+    }
+    return (
+        JUDGE_SYSTEM_PROMPT_MULTI_TURN
+        + "以下是輸入的 JSON：\n\n"
         + json.dumps(payload, ensure_ascii=False, indent=2)
         + "\n\n請你只輸出 yes 或 no："
     )
@@ -229,6 +255,34 @@ def semantic_param_judge(config: JudgeConfig, pred_params: Dict[str, Any], ref_p
     if config.mode == "original":
         return None
     prompt_text = build_param_judge_prompt_text(pred_params, ref_params)
+    if config.mode == "openai":
+        if OpenAI is None:
+            raise RuntimeError("openai package not available")
+        api_key = os.getenv("OPENAI_API_KEY")
+        if not api_key:
+            raise RuntimeError("OPENAI_API_KEY not set for openai judge mode")
+        client = OpenAI(api_key=api_key)
+        result = openai_judge(client, config.model_id, prompt_text)
+        return True if result == "yes" else False
+    if config.mode == "hf":
+        global _HF_ENGINES
+        if '_HF_ENGINES' not in globals():
+            _HF_ENGINES = {}
+        key = (config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
+        engine = _HF_ENGINES.get(key)
+        if engine is None:
+            engine = _HFJudgeEngine(config.model_id, config.judge_backend, config.vllm_tp, config.vllm_dtype)
+            _HF_ENGINES[key] = engine
+        result = engine.judge(prompt_text)
+        return True if result == "yes" else False
+    return None
+
+
+def semantic_multi_turn_judge(config: JudgeConfig, question: str, function_doc: List[Dict[str, Any]], prediction_by_turn: List[Any], references_by_turn: List[Any]) -> Optional[bool]:
+    """Multi-turn judge enforcing per-turn full-coverage semantics. Return True/False if judged, or None if fallback."""
+    if config.mode == "original":
+        return None
+    prompt_text = build_multi_turn_judge_prompt_text(question, function_doc, prediction_by_turn, references_by_turn)
     if config.mode == "openai":
         if OpenAI is None:
             raise RuntimeError("openai package not available")

@@ -21,6 +21,7 @@ from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
 from bfcl_eval.eval_checker.zhtw_semantic_judge import (
     parse_zhtw_eval_arg,
     semantic_judge,
+    semantic_multi_turn_judge,
     semantic_param_judge,
 )
 from bfcl_eval.model_handler.base_handler import BaseHandler
@@ -608,12 +609,13 @@ def multi_turn_runner(
                                 continue
                         pred_decoded_all_turns.append(turn_decoded_items)
 
-                    judge_bool = semantic_judge(
+                    # Multi-turn 專用 judge：逐回合全覆蓋
+                    judge_bool = semantic_multi_turn_judge(
                         zhtw_eval_config,
                         question=test_entry.get("question"),
                         function_doc=test_entry.get("function"),
-                        prediction=pred_decoded_all_turns,
-                        references=multi_turn_ground_truth_list,
+                        prediction_by_turn=pred_decoded_all_turns,
+                        references_by_turn=multi_turn_ground_truth_list,
                     )
                     judge_logs.append({
                         "id": index,
@@ -628,10 +630,10 @@ def multi_turn_runner(
                         "prediction_decoded": pred_decoded_all_turns,
                         "references_all": multi_turn_ground_truth_list,
                         "decision": True if judge_bool is True else False if judge_bool is False else None,
-                        "semantic_scope": "multi_turn_conversation",
+                        "semantic_scope": "multi_turn_conversation_per_turn_full_coverage",
                     })
                     if judge_bool is True:
-                        entry_result = {"valid": True, "semantic_judge": True, "semantic_scope": "multi_turn_conversation"}
+                        entry_result = {"valid": True, "semantic_judge": True, "semantic_scope": "multi_turn_conversation_per_turn_full_coverage"}
                         recovered_count += 1
                         judged_override = True
                 except Exception as _sj_err:
