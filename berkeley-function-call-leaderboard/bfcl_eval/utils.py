@@ -448,7 +448,9 @@ def load_dataset_entry(
             if test_category not in zh_map:
                 raise Exception(f"Unknown zh category: {test_category}")
             file_name = zh_map[test_category]
-            all_entries = load_file(CH_PROMPT_PATH / file_name)
+            # Chinese translated files might be pretty-printed JSON objects
+            # concatenated together (not strict JSONL). Enable robust parser.
+            all_entries = load_file(CH_PROMPT_PATH / file_name, allow_concatenated_json=True)
             # 規整 id：保留原始英文類別尾碼，前綴改為 zh_*，以保持和英文 GT 同步
             for entry in all_entries:
                 try:
