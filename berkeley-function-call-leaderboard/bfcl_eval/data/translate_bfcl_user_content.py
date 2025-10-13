@@ -76,7 +76,40 @@ def walk_and_translate(obj: Any, translate_fn) -> Any:
         return obj
 
 
-def make_translator(client: "OpenAI", model: str):
+def count_user_content(obj: Any) -> int:
+    """計算所有 role=user 並且 content 為字串的節點數量。"""
+    if isinstance(obj, dict):
+        cnt = 1 if (obj.get("role") == "user" and isinstance(obj.get("content"), str)) else 0
+        for v in obj.values():
+            cnt += count_user_content(v)
+        return cnt
+    if isinstance(obj, list):
+        return sum(count_user_content(v) for v in obj)
+    return 0
+
+
+class Progress:
+    def __init__(self, total: int, width: int = 40):
+        self.total = total
+        self.current = 0
+        self.width = width
+
+    def update(self, step: int = 1):
+        if self.total <= 0:
+            return
+        self.current += step
+        self.current = min(self.current, self.total)
+        ratio = self.current / self.total
+        done = int(self.width * ratio)
+        bar = "#" * done + "-" * (self.width - done)
+        print(f"\r翻譯進度: [{bar}] {self.current}/{self.total} ({ratio*100:.1f}%)", end="", flush=True)
+
+    def finish(self):
+        if self.total > 0:
+            print()  # newline
+
+
+def make_translator(client: "OpenAI", model: str, usage_accum: Dict[str, int], progress: Progress | None):
     def _translate(text: str) -> str:
         resp = client.chat.completions.create(
             model=model,
@@ -96,6 +129,18 @@ def make_translator(client: "OpenAI", model: str):
                 },
             ],
         )
+        # 累計 token 使用量
+        try:
+            u = getattr(resp, "usage", None)
+            if u is not None:
+                usage_accum["prompt"] += getattr(u, "prompt_tokens", 0) or 0
+                usage_accum["completion"] += getattr(u, "completion_tokens", 0) or 0
+                usage_accum["total"] += getattr(u, "total_tokens", 0) or 0
+        except Exception:
+            pass
+        # 更新進度條
+        if progress is not None:
+            progress.update(1)
         return (resp.choices[0].message.content or "").strip()
     return _translate
 
@@ -136,7 +181,28 @@ def main():
 
     model = os.getenv("OPENAI_TRANSLATE_MODEL", "gpt-4o-mini")
     client = OpenAI()
-    translator = make_translator(client, model)
+
+    # 第一階段：先統計所有輸入檔中需要翻譯的句數，用於顯示進度條
+    total_to_translate = 0
+    for input_path_str in args.input:
+        in_path = Path(input_path_str)
+        if not in_path.exists():
+            raise SystemExit(f"找不到輸入檔: {in_path}")
+        text = in_path.read_text(encoding="utf-8")
+        parts = split_concatenated_json(text)
+        for chunk in parts:
+            try:
+                data = json.loads(chunk)
+            except json.JSONDecodeError:
+                try:
+                    data = json.loads(chunk.strip(','))
+                except Exception:
+                    continue
+            total_to_translate += count_user_content(data)
+
+    progress = Progress(total=total_to_translate)
+    usage_accum = {"prompt": 0, "completion": 0, "total": 0}
+    translator = make_translator(client, model, usage_accum, progress)
 
     multiple_inputs = len(args.input) > 1
     if multiple_inputs and args.output:
@@ -166,6 +232,13 @@ def main():
         out_path = Path(args.output) if (args.output and not multiple_inputs) else default_output_path(in_path)
         out_path.write_text("\n".join(translated_chunks) + "\n", encoding="utf-8")
         print(f"已輸出: {out_path}")
+
+    # 完成進度條並輸出用量
+    progress.finish()
+    print("本次翻譯 Token 使用量：")
+    print(f"  prompt_tokens:    {usage_accum['prompt']}")
+    print(f"  completion_tokens:{usage_accum['completion']}")
+    print(f"  total_tokens:     {usage_accum['total']}")
 
 
 if __name__ == "__main__":
