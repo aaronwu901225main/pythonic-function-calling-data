@@ -403,3 +403,13 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1211-merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1384-merged-1batch-2560seq-3epoch-accumulate32-multi-1500")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1557-merged-1batch-2560seq-3epoch-accumulate32-multi-1500")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1560-merged-1batch-2560seq-3epoch-accumulate32-multi-1500")
+# 1batch-2560seq-3epoch-multi-mix
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-205-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-410-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-615-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-820-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1025-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1230-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1435-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1640-merged-1batch-2560seq-3epoch-multi-mix")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1842-merged-1batch-2560seq-3epoch-multi-mix")
