@@ -9,19 +9,17 @@ Rank,Model,Multi Turn Overall Acc,Base,Miss Func,Miss Param,Long Context
 8,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,65.75%,74.50%,64.00%,58.00%,66.50%
 9,xLAM-2-8b-fc-r LoRA ckpt205-1batch-2560seq-3epoch-multi-mix,64.25%,73.50%,61.50%,60.00%,62.00%
 10,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,59.75%,70.50%,57.50%,51.50%,59.50%
-11,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,59.38%,72.00%,54.00%,48.00%,63.50%
-12,xLAM-2-8b-fc-r LoRA ckpt865-1batch-2560seq-3epoch-accumulate32-multi-1500,58.75%,71.00%,55.00%,47.00%,62.00%
-13,xLAM-2-8b-fc-r LoRA ckpt1560-1batch-2560seq-3epoch-accumulate32-multi-1500,58.25%,70.50%,55.00%,44.50%,63.00%
-14,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,58.00%,66.50%,55.00%,51.50%,59.00%
-15,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,45.12%,58.50%,41.00%,29.00%,52.00%
-16,ToolACE-2-8B (FC),38.62%,48.50%,31.50%,29.50%,45.00%
-17,watt-tool-8B (FC),37.88%,46.00%,39.50%,24.50%,41.50%
-18,Qwen3-8B (FC),37.88%,41.50%,43.50%,34.50%,32.00%
-19,BitAgent-8B,37.75%,46.00%,37.50%,24.50%,43.00%
-20,Qwen3-8B (Prompt),28.00%,33.00%,36.00%,23.50%,19.50%
-21,Ministral-8B-Instruct-2410 (FC),11.37%,20.50%,6.50%,9.50%,9.00%
-22,Llama-3.1-8B-Instruct (Prompt),7.25%,8.50%,6.50%,6.50%,7.50%
-23,CoALM-8B,6.38%,7.00%,8.50%,5.50%,4.50%
-24,Llama-3.1-8B-Instruct (FC),6.38%,6.00%,7.50%,6.00%,6.00%
-25,Gemma-3-4b-it (Prompt),1.75%,2.50%,1.50%,1.50%,1.50%
-26,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
+11,xLAM-2-8b-fc-r LoRA ckpt865-1batch-2560seq-3epoch-accumulate32-multi-1500,58.75%,71.00%,55.00%,47.00%,62.00%
+12,xLAM-2-8b-fc-r LoRA ckpt1560-1batch-2560seq-3epoch-accumulate32-multi-1500,58.25%,70.50%,55.00%,44.50%,63.00%
+13,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,58.00%,66.50%,55.00%,51.50%,59.00%
+14,ToolACE-2-8B (FC),38.62%,48.50%,31.50%,29.50%,45.00%
+15,watt-tool-8B (FC),37.88%,46.00%,39.50%,24.50%,41.50%
+16,Qwen3-8B (FC),37.88%,41.50%,43.50%,34.50%,32.00%
+17,BitAgent-8B,37.75%,46.00%,37.50%,24.50%,43.00%
+18,Qwen3-8B (Prompt),28.00%,33.00%,36.00%,23.50%,19.50%
+19,Ministral-8B-Instruct-2410 (FC),11.37%,20.50%,6.50%,9.50%,9.00%
+20,Llama-3.1-8B-Instruct (Prompt),7.25%,8.50%,6.50%,6.50%,7.50%
+21,CoALM-8B,6.38%,7.00%,8.50%,5.50%,4.50%
+22,Llama-3.1-8B-Instruct (FC),6.38%,6.00%,7.50%,6.00%,6.00%
+23,Gemma-3-4b-it (Prompt),1.75%,2.50%,1.50%,1.50%,1.50%
+24,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%

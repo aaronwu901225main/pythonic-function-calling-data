@@ -6,6 +6,8 @@
 - data_multi_turn.csv
 - data_non_live.csv
 - data_overall.csv
+- data_chinese_multi_turn.csv
+- data_chinese_overall.csv
 
 規則：
 1) 只繪製「Model」欄位內含 ckpt 的列（LoRA 版本）。
@@ -35,6 +37,8 @@ TARGET_FILES = [
     "data_live.csv",
     "data_non_live.csv",
     "data_multi_turn.csv",
+    "data_chinese_multi_turn.csv",
+    "data_chinese_overall.csv"
 ]
 
 # 可能的整體準確度欄位名稱候選（會依序嘗試）
@@ -45,6 +49,8 @@ ACC_COL_CANDIDATES = [
     "Multi Turn Overall Acc",
     "AST (ZH) Summary",
     "AST Summary",
+    "Multi Turn (ZH) Overall Acc",
+    "AST (ZH) Summary",
 ]
 
 # 解析 ckpt 的正則：抓出 ckpt 數字與後綴超參數字串
