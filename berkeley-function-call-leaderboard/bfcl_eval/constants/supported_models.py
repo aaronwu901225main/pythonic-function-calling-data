@@ -413,3 +413,75 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1230-merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1435-merged-1batch-2560seq-3epoch-multi-mix")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1640-merged-1batch-2560seq-3epoch-multi-mix")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1842-merged-1batch-2560seq-3epoch-multi-mix")
+
+'''
+mixture-1 的各類型數量統計：
+Simple           :   1290
+Multiple         :   3863
+Parallel         :   1273
+Parallel-Multiple:   4074
+Revalance  :   3500
+以上來自apigen
+---------------------------------
+multi-zhtw        :   3000(目前使用的量) 
+multi-eng        :   3000(目前使用的量) 
+---------------------------------
+'''
+# 1batch-2560seq-3epoch-accumulate64-mixture-1
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-102-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-204-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-306-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-408-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-510-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-612-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-714-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-816-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-918-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-921-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
+# 1batch-2560seq-3epoch-accumulate128-mixture-1
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-51-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-102-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-153-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-204-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-255-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-306-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-357-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-408-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-459-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-510-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-561-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-612-merged-1batch-2560seq-4epoch-accumulate128-mixture-1")
+'''
+mixture-2 的各類型數量統計：
+Simple           :   1290
+Multiple         :   3863
+Parallel         :   1273
+Parallel-Multiple:   4074
+Revalance  :   1500
+以上來自apigen
+---------------------------------
+multi-zhtw        :   2500(目前使用的量) 
+multi-eng        :   2500(目前使用的量) 
+---------------------------------
+'''
+# 1batch-2560seq-3epoch-accumulate32-mixture-2
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-354-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-531-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-708-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-885-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1062-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1239-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1416-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1593-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
+# 1batch-2560seq-3epoch-accumulate64-mixture-2
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-88-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-176-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-264-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-352-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-440-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-528-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-616-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-704-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-792-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-795-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
