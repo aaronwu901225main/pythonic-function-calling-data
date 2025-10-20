@@ -1,0 +1,27 @@
+Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No Snippet,Memory Summary,Memory KV,Memory Vector,Memory Recursive Summarization
+1,Qwen3-8B (FC),12.82%,5.00%,6.00%,4.00%,20.65%,2.58%,17.42%,41.94%
+2,xLAM-2-8b-fc-r LoRA ckpt171-1batch-2560seq-3epoch-eng-multi-all-only,8.49%,0.00%,0.00%,0.00%,16.99%,5.16%,16.77%,29.03%
+3,xLAM-2-8b-fc-r LoRA ckpt1542-1batch-2560seq-3epoch-eng-multi-all-only,8.28%,0.00%,0.00%,0.00%,16.56%,3.23%,17.42%,29.03%
+4,Llama-3.1-8B-Instruct (FC),8.24%,1.00%,1.00%,1.00%,15.48%,4.52%,12.26%,29.68%
+5,Qwen3-8B (Prompt),7.99%,2.00%,1.00%,3.00%,13.98%,6.45%,11.61%,23.87%
+6,xLAM-2-8b-fc-r (FC),7.96%,0.00%,0.00%,0.00%,15.91%,5.16%,16.13%,26.45%
+7,xLAM-2-8b-fc-r LoRA ckpt855-1batch-2560seq-3epoch-eng-multi-all-only,7.85%,0.00%,0.00%,0.00%,15.70%,2.58%,14.84%,29.68%
+8,xLAM-2-8b-fc-r LoRA ckpt62-1batch-2560seq-5epoch-zhtw-multi-3000-only,7.35%,0.50%,0.00%,1.00%,14.19%,7.10%,12.26%,23.23%
+9,xLAM-2-8b-fc-r LoRA ckpt930-1batch-2560seq-5epoch-zhtw-multi-3000-only,7.31%,0.00%,0.00%,0.00%,14.62%,5.81%,14.84%,23.23%
+10,xLAM-2-8b-fc-r LoRA ckpt205-1batch-2560seq-3epoch-multi-mix,7.20%,0.00%,0.00%,0.00%,14.41%,7.10%,10.32%,25.81%
+11,xLAM-2-8b-fc-r LoRA ckpt496-1batch-2560seq-5epoch-zhtw-multi-3000-only,7.20%,0.00%,0.00%,0.00%,14.41%,4.52%,12.26%,26.45%
+12,xLAM-2-8b-fc-r LoRA ckpt865-1batch-2560seq-3epoch-accumulate32-multi-1500,7.10%,0.00%,0.00%,0.00%,14.19%,1.94%,11.61%,29.03%
+13,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,6.77%,0.00%,0.00%,0.00%,13.55%,3.23%,12.90%,24.52%
+14,ToolACE-2-8B (FC),6.67%,0.00%,0.00%,0.00%,13.33%,4.52%,7.10%,28.39%
+15,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,6.56%,0.00%,0.00%,0.00%,13.12%,1.94%,14.19%,23.23%
+16,xLAM-2-8b-fc-r LoRA ckpt1560-1batch-2560seq-3epoch-accumulate32-multi-1500,6.56%,0.00%,0.00%,0.00%,13.12%,3.23%,12.26%,23.87%
+17,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,6.24%,0.00%,0.00%,0.00%,12.47%,2.58%,7.74%,27.10%
+18,Llama-3.1-8B-Instruct (Prompt),6.02%,0.00%,0.00%,0.00%,12.04%,9.68%,7.10%,19.35%
+19,BitAgent-8B,5.48%,0.00%,0.00%,0.00%,10.97%,1.94%,18.71%,12.26%
+20,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
+21,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,5.27%,0.00%,0.00%,0.00%,10.54%,0.65%,7.74%,23.23%
+22,Gemma-3-4b-it (Prompt),4.48%,1.00%,1.00%,1.00%,7.96%,7.74%,8.39%,7.74%
+23,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
+24,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,2.37%,0.00%,0.00%,0.00%,4.73%,1.29%,5.16%,7.74%
+25,Gemma-3-1b-it (Prompt),1.83%,0.00%,0.00%,0.00%,3.66%,4.52%,3.87%,2.58%
+26,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%

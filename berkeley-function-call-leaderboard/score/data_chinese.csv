@@ -1,0 +1,27 @@
+Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Multiple,ZH: Relevance
+1,Qwen3-8B (Prompt),93.56%,94.25%,93.00%,93.00%,94.00%,78.75%
+2,Qwen3-8B (FC),93.19%,91.75%,93.50%,93.00%,94.50%,76.25%
+3,ToolACE-2-8B (FC),92.12%,96.50%,92.00%,88.50%,91.50%,75.00%
+4,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,92.12%,94.00%,89.50%,92.50%,92.50%,78.75%
+5,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,89.94%,92.25%,87.00%,88.50%,92.00%,66.67%
+6,xLAM-2-8b-fc-r LoRA ckpt1560-1batch-2560seq-3epoch-accumulate32-multi-1500,89.75%,92.00%,87.50%,88.00%,91.50%,67.08%
+7,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,89.56%,92.25%,87.00%,89.00%,90.00%,66.67%
+8,watt-tool-8B (FC),89.56%,92.25%,91.50%,88.00%,86.50%,80.42%
+9,BitAgent-8B,89.50%,93.00%,91.50%,87.00%,86.50%,79.58%
+10,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,89.44%,92.25%,87.50%,87.50%,90.50%,65.83%
+11,xLAM-2-8b-fc-r LoRA ckpt865-1batch-2560seq-3epoch-accumulate32-multi-1500,88.75%,91.50%,86.50%,88.00%,89.00%,65.42%
+12,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
+13,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
+14,xLAM-2-8b-fc-r LoRA ckpt62-1batch-2560seq-5epoch-zhtw-multi-3000-only,87.00%,89.50%,87.50%,83.50%,87.50%,35.42%
+15,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,85.56%,87.25%,84.50%,82.00%,88.50%,74.58%
+16,xLAM-2-8b-fc-r LoRA ckpt205-1batch-2560seq-3epoch-multi-mix,85.25%,87.50%,84.00%,81.50%,88.00%,67.08%
+17,xLAM-2-8b-fc-r LoRA ckpt855-1batch-2560seq-3epoch-eng-multi-all-only,84.00%,89.00%,85.50%,81.00%,80.50%,45.42%
+18,xLAM-2-8b-fc-r LoRA ckpt1542-1batch-2560seq-3epoch-eng-multi-all-only,83.81%,88.75%,84.00%,82.00%,80.50%,45.00%
+19,xLAM-2-8b-fc-r LoRA ckpt171-1batch-2560seq-3epoch-eng-multi-all-only,83.56%,86.75%,85.50%,80.00%,82.00%,43.75%
+20,xLAM-2-8b-fc-r LoRA ckpt496-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.94%,80.25%,79.50%,67.50%,68.50%,20.42%
+21,xLAM-2-8b-fc-r LoRA ckpt930-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.62%,80.50%,79.50%,67.50%,67.00%,20.00%
+22,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+23,Gemma-3-4b-it (Prompt),57.75%,87.00%,82.50%,33.00%,28.50%,23.33%
+24,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+25,Gemma-3-1b-it (Prompt),21.69%,60.75%,25.50%,0.50%,0.00%,9.58%
+26,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
