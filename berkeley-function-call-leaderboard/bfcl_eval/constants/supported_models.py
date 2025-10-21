@@ -427,6 +427,7 @@ multi-zhtw        :   3000(目前使用的量)
 multi-eng        :   3000(目前使用的量) 
 ---------------------------------
 '''
+
 # 1batch-2560seq-3epoch-accumulate64-mixture-1
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-102-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-204-merged-1batch-2560seq-3epoch-accumulate64-mixture-1")
@@ -464,6 +465,7 @@ multi-zhtw        :   2500(目前使用的量)
 multi-eng        :   2500(目前使用的量) 
 ---------------------------------
 '''
+
 # 1batch-2560seq-3epoch-accumulate32-mixture-2
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-354-merged-1batch-2560seq-3epoch-accumulate32-mixture-2")
