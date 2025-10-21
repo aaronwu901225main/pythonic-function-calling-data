@@ -12,14 +12,18 @@ Rank,Model,Multi Turn (ZH) Overall Acc,ZH: Multi Turn Base,ZH: Multi Turn Miss F
 11,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,25.62%,31.50%,26.00%,17.50%,27.50%
 12,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,25.00%,30.50%,22.00%,19.00%,28.50%
 13,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,24.88%,31.00%,23.50%,17.00%,28.00%
-14,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
-15,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
-16,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
-17,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
-18,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
-19,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
-20,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
-21,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
-22,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
-23,Gemma-3-4b-it (Prompt),0.00%,N/A,N/A,N/A,N/A
-24,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
+14,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,23.25%,31.00%,20.00%,18.50%,23.50%
+15,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,22.25%,28.00%,22.50%,16.50%,22.00%
+16,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,20.38%,27.00%,19.00%,13.50%,22.00%
+17,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
+18,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
+19,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
+20,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
+21,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
+22,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
+23,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
+24,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
+25,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
+26,Gemma-3-4b-it (Prompt),0.00%,N/A,N/A,N/A,N/A
+27,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,0.00%,N/A,N/A,N/A,N/A
+28,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
