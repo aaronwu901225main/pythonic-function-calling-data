@@ -44,13 +44,13 @@ TARGET_FILES = [
 # 可能的整體準確度欄位名稱候選（會依序嘗試）
 ACC_COL_CANDIDATES = [
     "Overall Acc",
+    "Overall (ZH) Acc",
     "Live Overall Acc",
     "Non-Live Overall Acc",
     "Multi Turn Overall Acc",
     "AST (ZH) Summary",
     "AST Summary",
     "Multi Turn (ZH) Overall Acc",
-    "AST (ZH) Summary",
 ]
 
 # 解析 ckpt 的正則：抓出 ckpt 數字與後綴超參數字串
