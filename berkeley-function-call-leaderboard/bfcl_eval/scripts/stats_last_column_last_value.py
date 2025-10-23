@@ -1,4 +1,9 @@
 #!/usr/bin/env python3
+# python .\berkeley-function-call-leaderboard\bfcl_eval\scripts\stats_last_column_last_value.py ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\BFCL_v4_zh_multi_turn_base_result.json" --bins 30 --out ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\token_figure\BFCL_v4_zh_multi_turn_base_result_hist.png"
+# python .\berkeley-function-call-leaderboard\bfcl_eval\scripts\stats_last_column_last_value.py ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\BFCL_v4_zh_multi_turn_long_context_result.json" --bins 30 --out ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\token_figure\BFCL_v4_zh_multi_turn_long_context_result_hist.png"
+# python .\berkeley-function-call-leaderboard\bfcl_eval\scripts\stats_last_column_last_value.py ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\BFCL_v4_zh_multi_turn_miss_func_result.json" --bins 30 --out ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\token_figure\BFCL_v4_zh_multi_turn_miss_func_result_hist.png"
+# python .\berkeley-function-call-leaderboard\bfcl_eval\scripts\stats_last_column_last_value.py ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\BFCL_v4_zh_multi_turn_miss_param_result.json" --bins 30 --out ".\berkeley-function-call-leaderboard\result\Salesforce_Llama-xLAM-2-8b-fc-r\multi_turn\token_figure\BFCL_v4_zh_multi_turn_miss_param_result_hist.png"
+
 """
 Compute statistics (min, max, mean) over input_token_count[-1][-1] for each item in a BFCL result JSON file.
 
@@ -59,6 +64,10 @@ def extract_last_last(value: Any) -> Optional[float]:
 def main() -> int:
     parser = argparse.ArgumentParser(description="Compute stats over input_token_count[-1][-1] in BFCL result JSON")
     parser.add_argument("json_path", help="Path to BFCL result JSON file")
+    parser.add_argument("--bins", type=int, default=30, help="Number of bins for histogram (default: 30)")
+    parser.add_argument("--out", type=str, default=None, help="Output image path for histogram PNG (default: <json_basename>_hist.png next to JSON)")
+    parser.add_argument("--title", type=str, default=None, help="Title for the histogram plot")
+    parser.add_argument("--no-plot", action="store_true", help="Compute stats only without plotting")
     args = parser.parse_args()
 
     # Load JSON (supports JSON array or JSON Lines)
@@ -118,6 +127,39 @@ def main() -> int:
     print(f"Min:  {v_min}")
     print(f"Max:  {v_max}")
     print(f"Mean: {v_mean}")
+
+    if not args.no_plot:
+        # Lazy import for plotting to avoid hard dependency if not needed
+        try:
+            import matplotlib
+            # Use a non-interactive backend for headless save
+            matplotlib.use("Agg")
+            import matplotlib.pyplot as plt
+        except Exception as e:
+            print(f"Warning: matplotlib is not available ({e}); skipping histogram plot.", file=sys.stderr)
+            return 0
+
+        # Determine output path
+        out_path = args.out
+        if not out_path:
+            import os
+            base, _ = os.path.splitext(args.json_path)
+            out_path = base + "_hist.png"
+
+        # Create histogram
+        plt.figure(figsize=(8, 5))
+        plt.hist(values, bins=max(1, args.bins), color="#4C78A8", edgecolor="white")
+        plt.xlabel("input_token_count[-1][-1]")
+        plt.ylabel("Count")
+        plt.grid(True, axis="y", alpha=0.25)
+        title = args.title or "Distribution of input_token_count[-1][-1]"
+        plt.title(title)
+        # Annotate basic stats in the plot
+        text = f"n={len(values)}\nmin={v_min:.2f}\nmax={v_max:.2f}\nmean={v_mean:.2f}"
+        plt.gcf().text(0.98, 0.95, text, ha="right", va="top", fontsize=9, bbox=dict(boxstyle="round", facecolor="white", alpha=0.7))
+        plt.tight_layout()
+        plt.savefig(out_path, dpi=150)
+        print(f"Histogram saved to: {out_path}")
 
     return 0
 
