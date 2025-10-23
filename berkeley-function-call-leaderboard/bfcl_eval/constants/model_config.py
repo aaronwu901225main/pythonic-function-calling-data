@@ -3734,19 +3734,17 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        '''
-        mixture-1 的各類型數量統計：
-        Simple           :   1290
-        Multiple         :   3863
-        Parallel         :   1273
-        Parallel-Multiple:   4074
-        Revalance  :   3500
-        以上來自apigen
-        ---------------------------------
-        multi-zhtw        :   3000(目前使用的量) 
-        multi-eng        :   3000(目前使用的量) 
-        ---------------------------------
-        '''
+        #mixture-1 的各類型數量統計：
+        #Simple           :   1290
+        #Multiple         :   3863
+        #Parallel         :   1273
+        #Parallel-Multiple:   4074
+        #Revalance  :   3500
+        #以上來自apigen
+        #---------------------------------
+        #multi-zhtw        :   3000(目前使用的量) 
+        #multi-eng        :   3000(目前使用的量) 
+        #---------------------------------
         # 1batch-2560seq-3epoch-accumulate64-mixture-1
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-102-merged-1batch-2560seq-3epoch-accumulate64-mixture-1": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-102-merged-1batch-2560seq-3epoch-accumulate64-mixture-1",
@@ -4013,20 +4011,17 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-
-        '''
-        mixture-2 的各類型數量統計：
-        Simple           :   1290
-        Multiple         :   3863
-        Parallel         :   1273
-        Parallel-Multiple:   4074
-        Revalance  :   1500
-        以上來自apigen
-        ---------------------------------
-        multi-zhtw        :   2500(目前使用的量) 
-        multi-eng        :   2500(目前使用的量) 
-        ---------------------------------
-        '''
+        #mixture-2 的各類型數量統計：
+        #Simple           :   1290
+        #Multiple         :   3863
+        #Parallel         :   1273
+        #Parallel-Multiple:   4074
+        #Revalance  :   1500
+        #以上來自apigen
+        #---------------------------------
+        #multi-zhtw        :   2500(目前使用的量) 
+        #multi-eng        :   2500(目前使用的量) 
+        #---------------------------------
         # 1batch-2560seq-3epoch-accumulate32-mixture-2
         "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-1batch-2560seq-3epoch-accumulate32-mixture-2": ModelConfig(
             model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-1batch-2560seq-3epoch-accumulate32-mixture-2",
