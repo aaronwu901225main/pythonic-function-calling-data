@@ -31,7 +31,7 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
     """
     from openai import OpenAI
 
-    model = model or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
+    model = model or os.getenv("OPENAI_MODEL", "gpt-5-mini")
     client = OpenAI()
 
     messages = []
