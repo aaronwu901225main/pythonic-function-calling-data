@@ -1,7 +1,8 @@
-conda create -n pythonic-function-calling-data python=3.10
+conda create -n pythonic-function-calling-data python=3.11.9
 conda activate pythonic-function-calling-data
 
-# Clone the Gorilla repository
-git clone https://github.com/aaronwu901225main/gorilla
+git clone https://github.com/aaronwu901225main/pythonic-function-calling-data.git
+
+cd pythonic-function-calling-data
 
 pip install -e .
