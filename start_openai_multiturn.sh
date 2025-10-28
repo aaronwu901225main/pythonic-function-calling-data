@@ -10,6 +10,14 @@ if [ ! -f run_id ]; then
 fi
 
 RUN_ID=$(cat run_id)
+
+# Ensure scenarios.json exists for this run_id; if missing, rerun Stage 1 to create a fresh run_id
+if [ ! -f "pipeline/data/$RUN_ID/scenarios.json" ]; then
+  echo "scenarios.json not found for run_id=$RUN_ID, running Stage 1 (OpenAI)..."
+  python run_s1_openai.py
+  RUN_ID=$(cat run_id)
+fi
+
 if [ ! -f "pipeline/data/$RUN_ID/functions.json" ]; then
   echo "functions.json not found for run_id=$RUN_ID, running Stage 2 (OpenAI)..."
   python run_s2_openai.py

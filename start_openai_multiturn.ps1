@@ -14,6 +14,14 @@ if (!(Test-Path -Path $functionsPath)) {
   Write-Host "functions.json not found for run_id=$run_id, running Stage 2 (OpenAI)..."
   python run_s2_openai.py
 }
+$scenariosPath = Join-Path -Path "pipeline/data/$run_id" -ChildPath "scenarios.json"
+
+# Ensure scenarios.json exists for this run_id; if missing, rerun Stage 1 to create a fresh run_id
+if (!(Test-Path -Path $scenariosPath)) {
+  Write-Host "scenarios.json not found for run_id=$run_id, running Stage 1 (OpenAI)..."
+  python run_s1_openai.py
+  $run_id = (Get-Content -Path "run_id").Trim()
+}
 
 $env:ONLY_MULTI_TURN = "1"
 python run_s3_openai.py
