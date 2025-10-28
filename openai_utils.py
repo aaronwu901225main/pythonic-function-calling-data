@@ -39,12 +39,21 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
 
-    resp = client.chat.completions.create(
-        model=model,
-        messages=messages,
-        temperature=float(os.getenv("OPENAI_TEMPERATURE", "0.7")),
-        max_tokens=int(os.getenv("OPENAI_MAX_TOKENS", "1200")),
-    )
+    # Some newer models require 'max_completion_tokens' instead of 'max_tokens'
+    max_tokens_field = os.getenv("OPENAI_MAX_TOKENS_FIELD", "max_completion_tokens")
+    max_tokens_value = int(os.getenv("OPENAI_MAX_TOKENS", "1200"))
+
+    kwargs = {
+        "model": model,
+        "messages": messages,
+        "temperature": float(os.getenv("OPENAI_TEMPERATURE", "0.7")),
+    }
+    if max_tokens_field == "max_tokens":
+        kwargs["max_tokens"] = max_tokens_value
+    else:
+        kwargs["max_completion_tokens"] = max_tokens_value
+
+    resp = client.chat.completions.create(**kwargs)
     return resp.choices[0].message.content or ""
 
 
