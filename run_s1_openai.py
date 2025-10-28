@@ -4,6 +4,7 @@ import json
 import logging
 import os
 import uuid
+import time
 from typing import List, Dict
 
 from openai_utils import render_template, extract_tags, chat_complete
@@ -31,6 +32,13 @@ async def generate_scenarios_openai(run_id: str):
     data: List[Dict] = []
 
     rows = read_curriculum("pipeline/data/curriculum.csv")
+    # Optional: limit number of curriculum rows (to reduce API calls)
+    s1_limit_rows = os.getenv("S1_LIMIT_ROWS")
+    if s1_limit_rows:
+        try:
+            rows = rows[: int(s1_limit_rows)]
+        except Exception:
+            pass
     for row in rows:
         prompt = render_template(
             template_path,
@@ -55,6 +63,13 @@ async def generate_scenarios_openai(run_id: str):
                     "scenario": sce.strip(),
                 }
             )
+        # Optional: rate limiting sleep between calls
+        try:
+            rate_sleep = float(os.getenv("OPENAI_RATE_SLEEP", "0"))
+            if rate_sleep > 0:
+                time.sleep(rate_sleep)
+        except Exception:
+            pass
 
     with open(f"pipeline/data/{run_id}/scenarios.json", "w", encoding="utf-8") as f:
         f.write(json.dumps(data, ensure_ascii=False, indent=2))

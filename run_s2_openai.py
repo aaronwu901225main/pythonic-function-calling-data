@@ -2,6 +2,7 @@ import asyncio
 import json
 import logging
 import os
+import time
 from typing import Any, Dict, List
 
 from openai_utils import render_template, extract_tags, extract_code_fence, chat_complete
@@ -46,6 +47,14 @@ async def generate_functions_openai(run_id: str):
     with open(f"pipeline/data/{run_id}/scenarios.json", "r", encoding="utf-8") as f:
         scenario_inputs: List[Dict[str, Any]] = json.load(f)
 
+    # Optional: limit number of scenarios to process (to reduce API calls)
+    s2_limit = os.getenv("S2_LIMIT_SCENARIOS")
+    if s2_limit:
+        try:
+            scenario_inputs = scenario_inputs[: int(s2_limit)]
+        except Exception:
+            pass
+
     template_path = "pipeline/s2_functions/prompt.md"
     out: List[Dict[str, Any]] = []
 
@@ -84,6 +93,14 @@ async def generate_functions_openai(run_id: str):
                 "functions": functions,
             }
         )
+
+        # Optional: rate limiting sleep between calls
+        try:
+            rate_sleep = float(os.getenv("OPENAI_RATE_SLEEP", "0"))
+            if rate_sleep > 0:
+                time.sleep(rate_sleep)
+        except Exception:
+            pass
 
     os.makedirs(f"pipeline/data/{run_id}", exist_ok=True)
     with open(f"pipeline/data/{run_id}/functions.json", "w", encoding="utf-8") as f:
