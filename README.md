@@ -119,6 +119,31 @@ And you're set. The pipeline will generate the dataset in the `pipeline/data` fo
 
 _"Data generation takes time!"_ - _Unknown_
 
+### Optional: OpenAI-only mode (no Dria network)
+
+If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API directly, you can run Stage 1 with OpenAI only:
+
+1) Set your OpenAI API key (PowerShell):
+```powershell
+$env:OPENAI_API_KEY = "sk-..."
+```
+
+2) Optionally set a model (defaults to gpt-4o-mini):
+```powershell
+$env:OPENAI_MODEL = "gpt-4o-mini"
+```
+
+3) Run Stage 1 (OpenAI mode):
+```bash
+uv run python run_s1_openai.py
+```
+
+This will read `pipeline/data/curriculum.csv`, use `pipeline/s1_scenario/prompt.md` to prompt the model, parse `<scenario>` tags, and write `pipeline/data/<run_id>/scenarios.json`.
+
+Notes:
+- You can control the number of scenarios per row with `S1_NUM_SCENARIOS` env var (default: 10).
+- You can still use the original pipeline for subsequent stages, or we can extend OpenAI-only runners for Stage 2/3 on request.
+
 ## Pipeline Folder Structure
 
 ```
