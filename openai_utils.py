@@ -31,7 +31,7 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
     """
     from openai import OpenAI
 
-    model = model or os.getenv("OPENAI_MODEL", "gpt-5-mini")
+    model = model or os.getenv("OPENAI_MODEL", "gpt-4o-mini")
     client = OpenAI()
 
     messages = []
@@ -39,19 +39,30 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
         messages.append({"role": "system", "content": system})
     messages.append({"role": "user", "content": prompt})
 
-    # Some newer models require 'max_completion_tokens' instead of 'max_tokens'
-    max_tokens_field = os.getenv("OPENAI_MAX_TOKENS_FIELD", "max_completion_tokens")
-    max_tokens_value = int(os.getenv("OPENAI_MAX_TOKENS", "1200"))
-
     kwargs = {
         "model": model,
         "messages": messages,
         "temperature": float(os.getenv("OPENAI_TEMPERATURE", "0.7")),
     }
-    if max_tokens_field == "max_tokens":
-        kwargs["max_tokens"] = max_tokens_value
-    else:
-        kwargs["max_completion_tokens"] = max_tokens_value
+
+    # Token limit handling:
+    # To avoid API incompatibility, we DO NOT send any token limit by default.
+    # If you explicitly set OPENAI_MAX_TOKENS, we will include it using the field
+    # specified by OPENAI_MAX_TOKENS_FIELD (default: max_completion_tokens).
+    max_tokens_env = os.getenv("OPENAI_MAX_TOKENS")
+    if max_tokens_env:
+        try:
+            max_tokens_value = int(max_tokens_env)
+            max_tokens_field = os.getenv(
+                "OPENAI_MAX_TOKENS_FIELD", "max_completion_tokens"
+            )
+            if max_tokens_field == "max_tokens":
+                kwargs["max_tokens"] = max_tokens_value
+            else:
+                kwargs["max_completion_tokens"] = max_tokens_value
+        except ValueError:
+            # ignore invalid value, proceed without token cap
+            pass
 
     resp = client.chat.completions.create(**kwargs)
     return resp.choices[0].message.content or ""

@@ -128,9 +128,9 @@ If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API d
 $env:OPENAI_API_KEY = "sk-..."
 ```
 
-2) Optionally set a model (defaults to gpt-5-mini):
+2) Optionally set a model (defaults to gpt-4o-mini):
 ```powershell
-$env:OPENAI_MODEL = "gpt-5-mini"
+$env:OPENAI_MODEL = "gpt-4o-mini"
 ```
 
 3) Run Stage 1 (OpenAI mode):

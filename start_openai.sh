@@ -2,7 +2,7 @@
 # OpenAI-only pipeline (no Dria dependency)
 # Requirements:
 # - Environment variable OPENAI_API_KEY set to your key
-# - Optional: OPENAI_MODEL (default gpt-5-mini)
+# - Optional: OPENAI_MODEL (default gpt-4o-mini)
 
 set -e
 
