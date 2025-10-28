@@ -206,10 +206,27 @@ async def main():
     with open("run_id", "r", encoding="utf-8") as run_id_fp:
         run_id = run_id_fp.read().strip()
     logging.info(f"Run ID: {run_id}")
-    await generate_simple_queries_openai(run_id)
-    await generate_parallel_queries_openai(run_id)
-    await generate_multiple_queries_openai(run_id)
-    await generate_multi_turn_queries_openai(run_id)
+    # Feature toggles via env vars
+    only_multi = os.getenv("ONLY_MULTI_TURN", "0") == "1"
+    enable_simple = os.getenv("ENABLE_SIMPLE", "1") == "1"
+    enable_parallel = os.getenv("ENABLE_PARALLEL", "1") == "1"
+    enable_multiple = os.getenv("ENABLE_MULTIPLE", "1") == "1"
+    enable_multi = os.getenv("ENABLE_MULTI_TURN", "1") == "1"
+
+    if only_multi:
+        enable_simple = False
+        enable_parallel = False
+        enable_multiple = False
+        enable_multi = True
+
+    if enable_simple:
+        await generate_simple_queries_openai(run_id)
+    if enable_parallel:
+        await generate_parallel_queries_openai(run_id)
+    if enable_multiple:
+        await generate_multiple_queries_openai(run_id)
+    if enable_multi:
+        await generate_multi_turn_queries_openai(run_id)
     logging.info("Generated Queries (OpenAI mode)")
 
 
