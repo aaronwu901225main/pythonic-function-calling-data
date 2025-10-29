@@ -6,7 +6,7 @@ import os
 import uuid
 import time
 from typing import List, Dict
-
+from tqdm import tqdm
 from openai_utils import render_template, extract_tags, chat_complete
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -39,7 +39,7 @@ async def generate_scenarios_openai(run_id: str):
             rows = rows[: int(s1_limit_rows)]
         except Exception:
             pass
-    for row in rows:
+    for row in tqdm(rows):
         prompt = render_template(
             template_path,
             {
