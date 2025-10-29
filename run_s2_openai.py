@@ -4,7 +4,7 @@ import logging
 import os
 import time
 from typing import Any, Dict, List
-
+from tqdm import tqdm
 from openai_utils import render_template, extract_tags, extract_code_fence, chat_complete
 from pipeline.s2_functions.parser import parse_signature
 
@@ -58,7 +58,7 @@ async def generate_functions_openai(run_id: str):
     template_path = "pipeline/s2_functions/prompt.md"
     out: List[Dict[str, Any]] = []
 
-    for inp in scenario_inputs:
+    for inp in tqdm(scenario_inputs):
         prompt = render_template(template_path, {"scenario": inp["scenario"]})
         system = (
             "You are a careful data generator. Follow the format strictly, include multiple <function> blocks each with a <signature> code fence and an <expected> value."
