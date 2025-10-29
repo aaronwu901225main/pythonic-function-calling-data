@@ -4,7 +4,7 @@ import logging
 import os
 import random
 from typing import Any, Dict, List
-
+from tqdm import tqdm
 from openai_utils import render_template, extract_tags, chat_complete
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
@@ -60,7 +60,7 @@ async def generate_parallel_queries_openai(run_id: str):
     template_path = "pipeline/s3_queries/parallel/prompt.md"
     num_queries = os.getenv("S3_PARALLEL_NUM", "2")
 
-    for inp in function_inputs:
+    for inp in tqdm(function_inputs):
         for func in inp.get("functions", []):
             prompt = render_template(
                 template_path,
