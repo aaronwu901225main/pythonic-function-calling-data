@@ -46,7 +46,7 @@ async def generate_scenarios_openai(run_id: str):
                 "domain": row["domain"],
                 "subdomain": row["subdomain"],
                 # default number of scenarios
-                "num_scenarios": os.getenv("S1_NUM_SCENARIOS", "10"),
+                "num_scenarios": os.getenv("S1_NUM_SCENARIOS", "1"),
             },
         )
         system = (
