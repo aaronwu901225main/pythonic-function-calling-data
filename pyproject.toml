@@ -11,4 +11,5 @@ dependencies = [
     "dria>=0.0.111",
     "httpx==0.28.1",
   "openai>=1.44.0",
+  "jsonschema>=4.23.0",
 ]

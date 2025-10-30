@@ -28,6 +28,31 @@ sudo apt-get install -y \
     libtool \
     pkg-config \
     libffi-dev \
+
+## Export to multi_turn_eng.jsonl and Validate
+
+Some finetuning pipelines expect a JSONL format like `example/multi_turn_eng.jsonl` (each line is one sample with `tools` JSON schemas and `messages` with function `tool_calls`).
+
+After running Stage 3 and generating `pipeline/data/<run_id>/multi_turn_queries.json`, you can convert to the `multi_turn_eng.jsonl` format and validate it.
+
+1) Convert
+
+```powershell
+# Assumes the file `run_id` exists (created by earlier stages)
+uv run python pipeline/tools/convert_to_multi_turn_eng.py
+# Output: pipeline/data/<run_id>/multi_turn_eng.jsonl
+```
+
+2) Validate
+
+```powershell
+uv run python pipeline/tools/validate_multi_turn_eng.py pipeline/data/<run_id>/multi_turn_eng.jsonl
+```
+
+Notes:
+- The converter builds the `tools` list by parsing function signatures from `functions.json` and mapping Python types to JSON Schema.
+- The converter reconstructs `messages` from the multi-turn `trace` triples: user `<query>`, assistant `tool_calls` for `<function_call>`, and `tool` content for `<tool>`.
+- If you prefer to generate directly in this format, we can add an alternate Stage 3 template and schema; the converter is the least invasive path for now.
     libssl-dev \
     python3-dev
 sudo apt-get install -y build-essential
