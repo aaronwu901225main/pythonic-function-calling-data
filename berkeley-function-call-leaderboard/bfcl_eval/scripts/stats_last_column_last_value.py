@@ -148,15 +148,15 @@ def main() -> int:
 
         # Create histogram
         plt.figure(figsize=(8, 5))
-        plt.hist(values, bins=max(1, args.bins), color="#4C78A8", edgecolor="white")
-        plt.xlabel("input_token_count[-1][-1]")
+        plt.hist(values, bins=max(1, args.bins), color="#81730DFF", edgecolor="white")
+        plt.xlabel("token_count")
         plt.ylabel("Count")
         plt.grid(True, axis="y", alpha=0.25)
-        title = args.title or "Distribution of input_token_count[-1][-1]"
+        title = args.title or args.json_path[:-5].split("\\")[-1]
         plt.title(title)
         # Annotate basic stats in the plot
         text = f"n={len(values)}\nmin={v_min:.2f}\nmax={v_max:.2f}\nmean={v_mean:.2f}"
-        plt.gcf().text(0.98, 0.95, text, ha="right", va="top", fontsize=9, bbox=dict(boxstyle="round", facecolor="white", alpha=0.7))
+        plt.gcf().text(0.965, 0.9, text, ha="right", va="top", fontsize=12, bbox=dict(boxstyle="round", facecolor="white", alpha=0.7))
         plt.tight_layout()
         plt.savefig(out_path, dpi=150)
         print(f"Histogram saved to: {out_path}")
