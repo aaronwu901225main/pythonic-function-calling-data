@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 #SBATCH -J bfcl-gen
-#SBATCH -p defq
+#SBATCH -p h200q
 #SBATCH --gres=gpu:1
 #SBATCH -c 8
 #SBATCH --mem=32G
@@ -42,4 +42,5 @@ bfcl generate \
   --model "$MODEL_NAME" \
   --test-category "$TEST_CATEGORY" \
   --result-dir "$RESULT_DIR" \
+  --backend vllm\
   $( [ "$ALLOW_OVERWRITE" = "true" ] && echo "--allow-overwrite" )
