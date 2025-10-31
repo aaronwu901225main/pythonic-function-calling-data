@@ -17,7 +17,7 @@ if command -v module &>/dev/null; then
 fi
 
 # 3) 建立/啟用 conda env
-ENV_NAME="gorilla-hpc"
+ENV_NAME="BFCL"
 PY_VER="3.11"
 
 if ! conda env list | awk '{print $1}' | grep -qx "$ENV_NAME"; then

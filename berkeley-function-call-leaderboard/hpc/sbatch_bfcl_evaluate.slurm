@@ -19,7 +19,7 @@ if command -v module &>/dev/null; then
 fi
 # shellcheck disable=SC1091
 source "$(conda info --base)/etc/profile.d/conda.sh"
-conda activate gorilla-hpc
+conda activate BFCL
 
 cd "$SLURM_SUBMIT_DIR"
 

@@ -28,7 +28,7 @@
 我們提供 `hpc/env-setup.sh` 可一次完成：
 - module 載入 anaconda
 - 設定 TMPDIR 到 $HOME/tmp（避免共用 /tmp 滿）
-- 建立並啟用 conda 環境 `gorilla-hpc`（Python 3.11）
+- 建立並啟用 conda 環境 `BFCL`（Python 3.11）
 - 以 conda 安裝 PyTorch CUDA 11.8（符合叢集建議）
 - 以 pip 安裝必要 Python 套件：
   - 安裝 BFCL 套件（`berkeley-function-call-leaderboard`）
