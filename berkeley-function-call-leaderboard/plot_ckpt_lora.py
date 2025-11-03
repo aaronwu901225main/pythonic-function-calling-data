@@ -26,8 +26,31 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import transforms
 
-# 中文字型設定（視系統而定，避免亂碼）
-plt.rcParams['font.sans-serif'] = ['Arial Unicode MS', 'Microsoft JhengHei', 'SimHei', 'DejaVu Sans']
+font_path = "/home/at0842/aaronwu901225master.ai13/fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
+if os.path.exists(font_path):
+    from matplotlib import font_manager
+    # 將字型檔加入 Matplotlib 字型管理器，避免 findfont 找不到
+    font_manager.fontManager.addfont(font_path)
+    font_prop = font_manager.FontProperties(fname=font_path)
+    family_name = font_prop.get_name()  # 通常是 'Microsoft JhengHei'
+    # 以新增的家族名稱為優先，確保中文可正常顯示
+    plt.rcParams['font.family'] = [family_name]
+    plt.rcParams['font.sans-serif'] = [
+        family_name,
+        'Noto Sans CJK TC',
+        'Source Han Sans TC',
+        'WenQuanYi Zen Hei',
+        'DejaVu Sans',
+    ]
+    print(f"使用字型：{family_name} (from {font_path})")
+else:
+    # 中文字型設定（視系統而定，避免亂碼）— Linux 常見可用的 CJK 字型做為備援
+    plt.rcParams['font.sans-serif'] = [
+        'Noto Sans CJK TC',
+        'Source Han Sans TC',
+        'WenQuanYi Zen Hei',
+        'DejaVu Sans',
+    ]
 plt.rcParams['axes.unicode_minus'] = False  # 負號正常顯示
 
 # 需要讀的檔名（固定）
@@ -227,7 +250,7 @@ def main():
     outputs = []
     for fname in TARGET_FILES:
         csv_path = os.path.join(here+"/score", fname)
-        out_png = plot_one_csv(csv_path, out_dir="./figures")
+        out_png = plot_one_csv(csv_path, out_dir=here+"/score/figures")
         if out_png:
             outputs.append(out_png)
 
