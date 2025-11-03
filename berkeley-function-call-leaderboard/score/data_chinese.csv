@@ -21,12 +21,13 @@ Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Mu
 20,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,85.56%,87.25%,84.50%,82.00%,88.50%,74.58%
 21,xLAM-2-8b-fc-r LoRA ckpt205-1batch-2560seq-3epoch-multi-mix,85.25%,87.50%,84.00%,81.50%,88.00%,67.08%
 22,xLAM-2-8b-fc-r LoRA ckpt855-1batch-2560seq-3epoch-eng-multi-all-only,84.00%,89.00%,85.50%,81.00%,80.50%,45.42%
-23,xLAM-2-8b-fc-r LoRA ckpt1542-1batch-2560seq-3epoch-eng-multi-all-only,83.81%,88.75%,84.00%,82.00%,80.50%,45.00%
-24,xLAM-2-8b-fc-r LoRA ckpt171-1batch-2560seq-3epoch-eng-multi-all-only,83.56%,86.75%,85.50%,80.00%,82.00%,43.75%
-25,xLAM-2-8b-fc-r LoRA ckpt496-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.94%,80.25%,79.50%,67.50%,68.50%,20.42%
-26,xLAM-2-8b-fc-r LoRA ckpt930-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.62%,80.50%,79.50%,67.50%,67.00%,20.00%
-27,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-28,Gemma-3-4b-it (Prompt),57.75%,87.00%,82.50%,33.00%,28.50%,23.33%
-29,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-30,Gemma-3-1b-it (Prompt),21.69%,60.75%,25.50%,0.50%,0.00%,9.58%
-31,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+23,BitAgent-Bounty-8B,83.81%,79.25%,84.50%,85.00%,86.50%,94.17%
+24,xLAM-2-8b-fc-r LoRA ckpt1542-1batch-2560seq-3epoch-eng-multi-all-only,83.81%,88.75%,84.00%,82.00%,80.50%,45.00%
+25,xLAM-2-8b-fc-r LoRA ckpt171-1batch-2560seq-3epoch-eng-multi-all-only,83.56%,86.75%,85.50%,80.00%,82.00%,43.75%
+26,xLAM-2-8b-fc-r LoRA ckpt496-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.94%,80.25%,79.50%,67.50%,68.50%,20.42%
+27,xLAM-2-8b-fc-r LoRA ckpt930-1batch-2560seq-5epoch-zhtw-multi-3000-only,73.62%,80.50%,79.50%,67.50%,67.00%,20.00%
+28,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+29,Gemma-3-4b-it (Prompt),57.75%,87.00%,82.50%,33.00%,28.50%,23.33%
+30,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+31,Gemma-3-1b-it (Prompt),21.69%,60.75%,25.50%,0.50%,0.00%,9.58%
+32,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%

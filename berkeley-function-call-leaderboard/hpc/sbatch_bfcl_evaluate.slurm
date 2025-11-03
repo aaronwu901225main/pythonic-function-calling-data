@@ -23,13 +23,5 @@ conda activate BFCL
 
 cd "$SLURM_SUBMIT_DIR"
 
-## 注意：bfcl 期望路徑為相對於 berkeley-function-call-leaderboard 專案根目錄
-RESULT_DIR=${RESULT_DIR:-"result"}
-SCORE_DIR=${SCORE_DIR:-"score"}
-ZHTW_EVAL=${ZHTW_EVAL:-original} # 可選 original|llm-judge
-
 # BFCL 的 evaluate 會自動找結果並產出分數
-bfcl evaluate \
-  --result-dir "$RESULT_DIR" \
-  --score-dir "$SCORE_DIR" \
-  --zhtw-eval "$ZHTW_EVAL"
+bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model BitAgent/BitAgent-Bounty-8B

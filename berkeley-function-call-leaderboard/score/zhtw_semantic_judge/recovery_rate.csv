@@ -265,3 +265,11 @@ Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-921-merged-1batch-2560seq-3epoch-accu
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-921-merged-1batch-2560seq-3epoch-accumulate64-mixture-1,zh_multi_turn_miss_func,2,154,0.012987012987012988
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-921-merged-1batch-2560seq-3epoch-accumulate64-mixture-1,zh_multi_turn_base,2,141,0.014184397163120567
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-921-merged-1batch-2560seq-3epoch-accumulate64-mixture-1,zh_multi_turn_long_context,2,148,0.013513513513513514
+BitAgent_BitAgent-Bounty-8B,zh_multi_turn_base,8,162,0.04938271604938271
+BitAgent_BitAgent-Bounty-8B,zh_multi_turn_miss_func,3,152,0.019736842105263157
+BitAgent_BitAgent-Bounty-8B,zh_multi_turn_long_context,9,169,0.05325443786982249
+BitAgent_BitAgent-Bounty-8B,zh_multi_turn_miss_param,3,159,0.018867924528301886
+BitAgent_BitAgent-Bounty-8B,zh_parallel_multiple,62,141,0.4397163120567376
+BitAgent_BitAgent-Bounty-8B,zh_simple_python,30,79,0.379746835443038
+BitAgent_BitAgent-Bounty-8B,zh_multiple,8,28,0.2857142857142857
+BitAgent_BitAgent-Bounty-8B,zh_parallel,19,125,0.152
