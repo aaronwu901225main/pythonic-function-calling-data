@@ -141,6 +141,36 @@ def parse_function_call(call: str, param_names: List[str]) -> Tuple[str, Dict[st
         return name, args_out
 
 
+def json_sanitize(obj: Any) -> Any:
+    """Recursively convert objects to JSON-serializable forms.
+
+    - Ellipsis -> "..."
+    - set -> list
+    - tuple -> list
+    - bytes -> utf-8 decoded (errors ignored)
+    - Any non-serializable fallback -> str(obj)
+    """
+    if obj is Ellipsis:
+        return "..."
+    if obj is None or isinstance(obj, (str, int, float, bool)):
+        return obj
+    if isinstance(obj, bytes):
+        try:
+            return obj.decode("utf-8", errors="ignore")
+        except Exception:
+            return str(obj)
+    if isinstance(obj, dict):
+        return {str(k): json_sanitize(v) for k, v in obj.items()}
+    if isinstance(obj, (list, tuple, set)):
+        return [json_sanitize(v) for v in list(obj)]
+    # Try JSON dump; if fails, fallback to str
+    try:
+        json.dumps(obj)
+        return obj
+    except Exception:
+        return str(obj)
+
+
 def convert(run_id: str, out_path: str | None = None) -> str:
     base_dir = os.path.join("pipeline", "data", run_id)
     functions_fp = os.path.join(base_dir, "functions.json")
@@ -240,7 +270,8 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                 "messages": messages,
                 "label_kind": "full",
             }
-            out.write(json.dumps(item, ensure_ascii=False) + "\n")
+            safe_item = json_sanitize(item)
+            out.write(json.dumps(safe_item, ensure_ascii=False) + "\n")
             written += 1
     return out_path
 
