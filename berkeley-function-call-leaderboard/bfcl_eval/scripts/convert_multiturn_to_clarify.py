@@ -230,7 +230,12 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
 
     # Execute per turn to generate outputs using provided evaluator
     model_name = "clarify_converter"
-    long_context = bool(entry.get("long_context", False))
+    # Align with BFCL: decide long_context from id/category keywords
+    long_context = (
+        (test_entry_id or "") and (
+            ("long_context" in test_entry_id) or ("composite" in test_entry_id)
+        )
+    )
 
     missed_map: Dict[str, List[str]] = entry.get("missed_function", {}) or {}
 
