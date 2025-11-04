@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # python pipeline/countoken/countoken.py --input pipeline/data/087190226fd447b5b4595971dc8a8728/multi_turn_eng.jsonl --bin_size 50
+# python pipeline/countoken/countoken.py --input /home/at0842/aaronwu901225master.ai13/gorilla/berkeley-function-call-leaderboard/bfcl_eval/clarify_multi_turn/bfcl_multi_turn_base_en.jsonl --bin_size 50
 # 說明：
 # 1) 若輸入 JSONL 每列含有 text 欄位，直接以 text 計數。
 # 2) 若輸入 JSONL 每列含有 messages（與可選 tools），會在記憶體中用 chat template 渲染後直接計數，無需輸出中間檔。
+#    若發現 assistant.tool_calls 的 arguments 為 dict，程式會自動轉為 JSON 字串以提升相容性。
 
 import argparse
 import json
@@ -12,6 +14,45 @@ from collections import Counter
 from statistics import median
 from transformers import AutoTokenizer
 import math
+import copy
+
+def _safe_json_dumps(obj):
+    try:
+        return json.dumps(obj, ensure_ascii=False)
+    except Exception:
+        # 退而求其次的轉字串
+        return str(obj)
+
+def normalize_messages_for_chat_template(messages):
+    """將 messages 正規化，以符合常見 chat template 的預期格式。
+
+    - 將 tool_calls 中 function.arguments 若為 dict 轉為 JSON 字串
+    - 自動補齊缺少的必要欄位（若 chat template 需要時較不容易出錯）
+    - 不修改原輸入，傳回深拷貝
+    """
+    msgs = copy.deepcopy(messages)
+    call_seq = 0
+    for m in msgs:
+        # OpenAI 風格：assistant 可能包含 tool_calls
+        if isinstance(m, dict) and m.get("role") == "assistant" and "tool_calls" in m:
+            tc_list = m.get("tool_calls") or []
+            for tc in tc_list:
+                if isinstance(tc, dict) and tc.get("type") == "function":
+                    fn = tc.get("function") or {}
+                    # 將 dict 轉成字串，避免 tokenizer.apply_chat_template 拒收
+                    if isinstance(fn.get("arguments"), (dict, list)):
+                        fn["arguments"] = _safe_json_dumps(fn["arguments"])
+                    # 有些模板要求 id
+                    if not tc.get("id"):
+                        tc["id"] = f"call_{call_seq}"
+                        call_seq += 1
+        # tool 角色：通常 content 為字串即可
+        if isinstance(m, dict) and m.get("role") == "tool":
+            if not isinstance(m.get("content"), str):
+                m["content"] = _safe_json_dumps(m.get("content"))
+    return msgs
+
+## 已移除 fallback_render_text：若 chat template 渲染失敗將直接計為壞掉筆數
 
 def bucketize(n, bin_size=50):
     """把 token 數量分到區間"""
@@ -54,6 +95,8 @@ def main():
 
     counts = []
     bad_rows = 0
+    parsed_rows = 0
+    # 不使用 fallback，渲染失敗直接計入壞掉筆數
 
     with open(args.input, "r", encoding="utf-8") as f:
         for i, line in enumerate(f):
@@ -67,16 +110,22 @@ def main():
                     token_ids = tokenizer.encode(text)
                     counts.append(len(token_ids))
                 elif "messages" in obj and isinstance(obj.get("messages"), (list, tuple)):
-                    # 先在記憶體中用 chat template 渲染，再直接取得 token ids
                     messages = obj.get("messages")
                     tools = obj.get("tools")
-                    token_ids = tokenizer.apply_chat_template(
-                        messages,
-                        tools=tools,
-                        tokenize=True,
-                        add_generation_prompt=False,
-                    )
-                    counts.append(len(token_ids))
+                    # 嘗試正規化後以 chat template 渲染
+                    try:
+                        norm_msgs = normalize_messages_for_chat_template(messages)
+                        token_ids = tokenizer.apply_chat_template(
+                            norm_msgs,
+                            tools=tools,
+                            tokenize=True,
+                            add_generation_prompt=False,
+                        )
+                        counts.append(len(token_ids))
+                        parsed_rows += 1
+                    except Exception:
+                        # 不使用 fallback：渲染失敗直接計入壞掉筆數
+                        bad_rows += 1
                 else:
                     # 資料行格式不符，計入壞掉筆數
                     bad_rows += 1
@@ -95,7 +144,7 @@ def main():
         print(f"{rng}: {cnt} 筆")
 
     print("\n—— 總結 ——")
-    print(f"總筆數: {len(counts)} (壞掉 {bad_rows} 筆)")
+    print(f"總筆數: {len(counts)} (chat 成功 {parsed_rows} 筆, 壞掉 {bad_rows} 筆)")
     print(f"總 token 數: {sum(counts)}")
     print(f"平均 tokens/筆: {sum(counts)/len(counts):.2f}")
     print(f"最大 tokens/筆: {max(counts)}")
