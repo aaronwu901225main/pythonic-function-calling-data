@@ -10,6 +10,11 @@ from bfcl_eval.constants.executable_backend_config import (
 from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
     execute_multi_turn_func_call,
 )
+from bfcl_eval.model_handler.utils import formulate_system_prompt
+from bfcl_eval.constants.default_prompts import (
+    DEFAULT_SYSTEM_PROMPT_FORMAT,
+    DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING,
+)
 
 
 DATA_ROOT = os.path.join(
@@ -202,8 +207,44 @@ def get_param_order_for_tool(tool_spec: Dict[str, Any]) -> List[str]:
         return []
     return order
 
+def _get_missed_function_map(entry: Dict[str, Any]) -> Dict[str, List[str]]:
+    """
+    Normalize missed_function structure to {turn_index_str: [func_name, ...]}.
+    The dataset might store names or full docs; we always return names.
+    """
+    missed: Dict[str, List[str]] = {}
+    raw = entry.get("missed_function", {}) or {}
+    for k, v in raw.items():
+        names: List[str] = []
+        for item in v or []:
+            if isinstance(item, str):
+                names.append(item.split(".")[-1])
+            elif isinstance(item, dict):
+                nm = item.get("name")
+                if nm:
+                    names.append(nm.split(".")[-1])
+        if names:
+            missed[str(k)] = names
+    return missed
 
-def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]], tools_index: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+
+def _build_system_prompt_for_entry(entry: Dict[str, Any], tools_for_prompt: List[Dict[str, Any]]) -> str:
+    """
+    Build a BFCL-style system prompt (persona/task/tool_call_format/multiturn_behavior/available_tools)
+    using DEFAULT_SYSTEM_PROMPT_FORMAT. We keep tools_for_prompt consistent with the top-level tools to
+    avoid changing existing output format expectations.
+    """
+    try:
+        return formulate_system_prompt(DEFAULT_SYSTEM_PROMPT_FORMAT, tools_for_prompt)
+    except Exception:
+        # Fallback: minimal system hint if formatting fails
+        return (
+            "You are an expert in composing functions. Respond with function calls only when applicable.\n"
+            "Here are available tools in JSON format:\n" + json.dumps(tools_for_prompt, ensure_ascii=False)
+        )
+
+
+def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]], tools_index: Dict[str, Dict[str, Any]], tools_for_prompt: List[Dict[str, Any]] | None = None) -> List[Dict[str, Any]]:
     """
     Build clarify-style messages:
     - For each user turn: add user message
@@ -221,16 +262,35 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
     model_name = "clarify_converter"
     long_context = bool(entry.get("long_context", False))
 
+    # Inject BFCL-style system prompt once at the beginning
+    if tools_for_prompt is None:
+        tools_for_prompt = list(tools_index.values())
+    system_prompt = _build_system_prompt_for_entry(entry, tools_for_prompt)
+    messages.append({"role": "system", "content": system_prompt})
+
+    missed_map = _get_missed_function_map(entry)
+
     for t_idx, turn in enumerate(question_turns):
         # user content: expect list of message dicts; take the first user content
-        user_msg = None
-        for m in turn:
-            if m.get("role") == "user":
-                user_msg = m.get("content", "")
-                break
-        if user_msg is None:
-            # fallback: concatenate all contents
-            user_msg = "\n".join([m.get("content", "") for m in turn])
+        # Missed-Function turn: show newly added functions + fixed sentence
+        if str(t_idx) in missed_map and missed_map[str(t_idx)]:
+            fn_docs = []
+            for nm in missed_map[str(t_idx)]:
+                spec = tools_index.get(nm)
+                if spec:
+                    fn_docs.append(spec)
+            user_msg = DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING.format(
+                functions=json.dumps(fn_docs, ensure_ascii=False)
+            )
+        else:
+            user_msg = None
+            for m in turn:
+                if m.get("role") == "user":
+                    user_msg = m.get("content", "")
+                    break
+            if user_msg is None:
+                # fallback: concatenate all contents
+                user_msg = "\n".join([m.get("content", "") for m in turn])
         messages.append({"role": "user", "content": user_msg})
 
         # prepare calls for this turn
@@ -326,8 +386,13 @@ def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: s
             if not tools and all_tools_index:
                 tools = list(all_tools_index.values())
 
-            # messages
-            messages = build_messages_for_entry(entry, ground_truth, all_tools_index)
+            # messages (inject system prompt + missed-function user replacements)
+            messages = build_messages_for_entry(
+                entry,
+                ground_truth,
+                all_tools_index,
+                tools_for_prompt=tools if tools else list(all_tools_index.values()),
+            )
 
             obj = {
                 "id": entry_id,
@@ -338,16 +403,56 @@ def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: s
             out_f.write(json.dumps(obj, ensure_ascii=False) + "\n")
 
 
+def _batch_convert_all(output_dir: str):
+    os.makedirs(output_dir, exist_ok=True)
+
+    en_files = [
+        "BFCL_v4_multi_turn_base.json",
+        "BFCL_v4_multi_turn_miss_func.json",
+        "BFCL_v4_multi_turn_miss_param.json",
+        "BFCL_v4_multi_turn_long_context.json",
+    ]
+    zh_files = [
+        "BFCL_v4_zh_multi_turn_base.json",
+        "BFCL_v4_zh_multi_turn_miss_func.json",
+        "BFCL_v4_zh_multi_turn_miss_param.json",
+        "BFCL_v4_zh_multi_turn_long_context.json",
+    ]
+
+    # English datasets
+    for fn in en_files:
+        ds = os.path.join(DATA_ROOT, fn)
+        pa = os.path.join(POSSIBLE_ANSWER_DIR, fn)
+        outp = os.path.join(output_dir, fn.replace(".json", ".clarify.jsonl"))
+        if os.path.exists(ds) and os.path.exists(pa):
+            convert_file(ds, pa, outp)
+
+    # Chinese datasets (reuse EN possible answers)
+    for fn in zh_files:
+        ds = os.path.join(DATA_ROOT, "Chinese_dataset_format", fn)
+        mapped = fn.replace("BFCL_v4_zh_multi_turn_", "BFCL_v4_multi_turn_")
+        pa = os.path.join(POSSIBLE_ANSWER_DIR, mapped)
+        outp = os.path.join(output_dir, fn.replace(".json", ".clarify.jsonl"))
+        if os.path.exists(ds) and os.path.exists(pa):
+            convert_file(ds, pa, outp)
+
+
 def main():
-    parser = argparse.ArgumentParser(description="Convert BFCL multi-turn dataset to clarify_eng.jsonl schema")
+    parser = argparse.ArgumentParser(description="Convert BFCL multi-turn dataset(s) to clarify schema")
     parser.add_argument("--dataset", required=False, default=os.path.join(DATA_ROOT, "BFCL_v4_multi_turn_base.json"), help="Input dataset JSON path")
     parser.add_argument("--possible_answer", required=False, default=os.path.join(POSSIBLE_ANSWER_DIR, "BFCL_v4_multi_turn_base.json"), help="Possible answer JSON path containing ground_truth")
-    parser.add_argument("--output", required=False, default=os.path.join(os.path.dirname(DATA_ROOT), "multi-turn-example", "bfcl_multi_turn_clarify.jsonl"), help="Output JSONL path")
+    parser.add_argument("--output", required=False, default=os.path.join(os.path.dirname(DATA_ROOT), "multi-turn-example", "bfcl_multi_turn_clarify.jsonl"), help="Output JSONL path for single conversion")
+    parser.add_argument("--batch_all", action="store_true", help="Convert EN+ZH 8 multi-turn datasets in batch")
+    parser.add_argument("--output_dir", required=False, default=os.path.join(os.path.dirname(DATA_ROOT), "clarify_multi_turn"), help="Output directory for --batch_all mode")
     args = parser.parse_args()
 
-    os.makedirs(os.path.dirname(args.output), exist_ok=True)
-    convert_file(args.dataset, args.possible_answer, args.output)
-    print(f"Wrote: {args.output}")
+    if args.batch_all:
+        _batch_convert_all(args.output_dir)
+        print(f"Wrote batch outputs to: {args.output_dir}")
+    else:
+        os.makedirs(os.path.dirname(args.output), exist_ok=True)
+        convert_file(args.dataset, args.possible_answer, args.output)
+        print(f"Wrote: {args.output}")
 
 
 if __name__ == "__main__":
