@@ -3,13 +3,14 @@ Name: pythonic-function-calling-data
 Version: 0.1.0
 Summary: Repository for the Pythonic Function Calling data generation with Dria Network
 Author: andthattoo
-License: UNKNOWN
-Platform: UNKNOWN
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
 Requires-Dist: dria>=0.0.111
 Requires-Dist: httpx==0.28.1
 Requires-Dist: openai>=1.44.0
+Requires-Dist: jsonschema>=4.23.0
+Requires-Dist: matplotlib>=3.7.0
+Requires-Dist: transformers>=4.30.0
 
 # Function Calling Dataset Generator
 
@@ -41,6 +42,31 @@ sudo apt-get install -y \
     libtool \
     pkg-config \
     libffi-dev \
+
+## Export to multi_turn_eng.jsonl and Validate
+
+Some finetuning pipelines expect a JSONL format like `example/multi_turn_eng.jsonl` (each line is one sample with `tools` JSON schemas and `messages` with function `tool_calls`).
+
+After running Stage 3 and generating `pipeline/data/<run_id>/multi_turn_queries.json`, you can convert to the `multi_turn_eng.jsonl` format and validate it.
+
+1) Convert
+
+```powershell
+# Assumes the file `run_id` exists (created by earlier stages)
+uv run python pipeline/tools/convert_to_multi_turn_eng.py
+# Output: pipeline/data/<run_id>/multi_turn_eng.jsonl
+```
+
+2) Validate
+
+```powershell
+uv run python pipeline/tools/validate_multi_turn_eng.py pipeline/data/<run_id>/multi_turn_eng.jsonl
+```
+
+Notes:
+- The converter builds the `tools` list by parsing function signatures from `functions.json` and mapping Python types to JSON Schema.
+- The converter reconstructs `messages` from the multi-turn `trace` triples: user `<query>`, assistant `tool_calls` for `<function_call>`, and `tool` content for `<tool>`.
+- If you prefer to generate directly in this format, we can add an alternate Stage 3 template and schema; the converter is the least invasive path for now.
     libssl-dev \
     python3-dev
 sudo apt-get install -y build-essential
@@ -141,9 +167,9 @@ If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API d
 $env:OPENAI_API_KEY = "sk-..."
 ```
 
-2) Optionally set a model (defaults to gpt-5-mini):
+2) Optionally set a model (defaults to gpt-4o-mini):
 ```powershell
-$env:OPENAI_MODEL = "gpt-5-mini"
+$env:OPENAI_MODEL = "gpt-4o-mini"
 ```
 
 3) Run Stage 1 (OpenAI mode):

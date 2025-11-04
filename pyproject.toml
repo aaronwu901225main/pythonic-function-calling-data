@@ -8,8 +8,10 @@ authors = [
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
-    "dria>=0.0.111",
-    "httpx==0.28.1",
+  "dria>=0.0.111",
+  "httpx==0.28.1",
   "openai>=1.44.0",
   "jsonschema>=4.23.0",
+  "matplotlib>=3.7.0",
+  "transformers>=4.30.0",
 ]
