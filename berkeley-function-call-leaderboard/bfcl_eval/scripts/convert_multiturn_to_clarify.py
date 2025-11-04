@@ -10,6 +10,14 @@ from bfcl_eval.constants.executable_backend_config import (
 from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
     execute_multi_turn_func_call,
 )
+from bfcl_eval.constants.default_prompts import (
+    DEFAULT_SYSTEM_PROMPT_FORMAT,
+    DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING,
+    OUTPUT_FORMAT_MAPPING,
+    PARAM_TYPE_MAPPING,
+    PROMPT_STYLE_TEMPLATES,
+    PROMPT_TEMPLATE_MAPPING,
+)
 
 
 DATA_ROOT = os.path.join(
@@ -203,7 +211,7 @@ def get_param_order_for_tool(tool_spec: Dict[str, Any]) -> List[str]:
     return order
 
 
-def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]], tools_index: Dict[str, Dict[str, Any]]) -> List[Dict[str, Any]]:
+def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]], tools_index: Dict[str, Dict[str, Any]], system_prompt: str | None = None) -> List[Dict[str, Any]]:
     """
     Build clarify-style messages:
     - For each user turn: add user message
@@ -216,10 +224,15 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
     initial_config = entry.get("initial_config", {})
     involved_classes = entry.get("involved_classes", [])
     test_entry_id = entry.get("id")
+    # Insert BFCL-style system prompt at the very beginning if provided
+    if system_prompt:
+        messages.append({"role": "system", "content": system_prompt})
 
     # Execute per turn to generate outputs using provided evaluator
     model_name = "clarify_converter"
     long_context = bool(entry.get("long_context", False))
+
+    missed_map: Dict[str, List[str]] = entry.get("missed_function", {}) or {}
 
     for t_idx, turn in enumerate(question_turns):
         # user content: expect list of message dicts; take the first user content
@@ -231,6 +244,20 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
         if user_msg is None:
             # fallback: concatenate all contents
             user_msg = "\n".join([m.get("content", "") for m in turn])
+
+        # Missed-Function（Prompting 規則）：在指定回合把「新增函式文件清單」以純文字貼到該輪 user 訊息
+        miss_funcs = missed_map.get(str(t_idx))
+        if miss_funcs:
+            missed_specs: List[Dict[str, Any]] = []
+            for nm in miss_funcs:
+                spec = tools_index.get(nm) or tools_index.get(nm.split(".")[-1])
+                if spec:
+                    missed_specs.append(spec)
+            if missed_specs:
+                functions_text = json.dumps(missed_specs, ensure_ascii=False, indent=2)
+                user_msg = DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING.format(
+                    functions=functions_text
+                )
         messages.append({"role": "user", "content": user_msg})
 
         # prepare calls for this turn
@@ -326,8 +353,59 @@ def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: s
             if not tools and all_tools_index:
                 tools = list(all_tools_index.values())
 
+            # Compose BFCL-style system prompt using all available tool docs (lightweight, local)
+            def _parse_prompt_variation_params_local(cfg: str) -> tuple[str, bool, str, str, str]:
+                parts = dict(item.split("=", 1) for item in cfg.split("&"))
+                return (
+                    parts.get("ret_fmt", "python"),
+                    parts.get("tool_call_tag", "False") == "True",
+                    parts.get("func_doc_fmt", "json"),
+                    parts.get("prompt_fmt", "plaintext"),
+                    parts.get("style", "classic"),
+                )
+
+            def _format_function_doc_local(funcs: List[Dict[str, Any]], fmt: str) -> str:
+                # For our datasets, default is json；其餘格式在此輕量支援為 JSON。
+                return json.dumps(funcs, ensure_ascii=False, indent=4)
+
+            def _compose_system_prompt_local(cfg: str, funcs: List[Dict[str, Any]]) -> str:
+                ret_fmt, has_tag, func_doc_fmt, prompt_fmt, style_key = _parse_prompt_variation_params_local(cfg)
+                formatted_funcs = _format_function_doc_local(funcs, func_doc_fmt)
+                prompt_template = PROMPT_TEMPLATE_MAPPING.get(prompt_fmt, PROMPT_TEMPLATE_MAPPING["plaintext"])
+                style_template = PROMPT_STYLE_TEMPLATES.get(style_key, PROMPT_STYLE_TEMPLATES["classic"])
+
+                persona = style_template["persona"]
+                task = style_template["task"]
+                if has_tag:
+                    tool_call_format = style_template["tool_call_with_tag"].format(
+                        output_format=OUTPUT_FORMAT_MAPPING[ret_fmt],
+                        param_types=PARAM_TYPE_MAPPING[ret_fmt],
+                    )
+                else:
+                    tool_call_format = style_template["tool_call_no_tag"].format(
+                        output_format=OUTPUT_FORMAT_MAPPING[ret_fmt],
+                        param_types=PARAM_TYPE_MAPPING[ret_fmt],
+                    )
+                multiturn_behavior = style_template["multiturn_behavior"]
+                available_tools = style_template["available_tools"].format(
+                    format=func_doc_fmt,
+                    functions=formatted_funcs,
+                )
+
+                system_prompt_local = prompt_template.format(
+                    persona=persona,
+                    task=task,
+                    tool_call_format=tool_call_format,
+                    multiturn_behavior=multiturn_behavior,
+                    available_tools=available_tools,
+                )
+                return system_prompt_local
+
+            all_function_docs = list(all_tools_index.values()) if all_tools_index else []
+            system_prompt = _compose_system_prompt_local(DEFAULT_SYSTEM_PROMPT_FORMAT, all_function_docs)
+
             # messages
-            messages = build_messages_for_entry(entry, ground_truth, all_tools_index)
+            messages = build_messages_for_entry(entry, ground_truth, all_tools_index, system_prompt)
 
             obj = {
                 "id": entry_id,
