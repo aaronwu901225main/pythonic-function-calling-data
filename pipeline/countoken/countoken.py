@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # python pipeline/countoken/countoken.py --input pipeline/data/087190226fd447b5b4595971dc8a8728/multi_turn_eng.jsonl --bin_size 50
+# 說明：
+# 1) 若輸入 JSONL 每列含有 text 欄位，直接以 text 計數。
+# 2) 若輸入 JSONL 每列含有 messages（與可選 tools），會在記憶體中用 chat template 渲染後直接計數，無需輸出中間檔。
 
 import argparse
 import json
@@ -18,8 +21,19 @@ def bucketize(n, bin_size=50):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument("--input", type=str, required=True, help="輸入 JSONL 檔 (每行有 text 欄位)")
+    ap.add_argument(
+        "--input",
+        type=str,
+        required=True,
+        help="輸入 JSONL 檔（每行含 text，或含 messages 與可選 tools 皆可）",
+    )
     ap.add_argument("--bin_size", type=int, default=50, help="區間大小 (預設 50)")
+    ap.add_argument(
+        "--model",
+        type=str,
+        default="Salesforce/Llama-xLAM-2-8b-fc-r",
+        help="用於渲染與分詞的模型（預設 Salesforce/Llama-xLAM-2-8b-fc-r）",
+    )
     ap.add_argument(
         "--output",
         type=str,
@@ -33,8 +47,10 @@ def main():
     )
     args = ap.parse_args()
 
-    model_name = "Salesforce/Llama-xLAM-2-8b-fc-r"
-    tokenizer = AutoTokenizer.from_pretrained(model_name, use_fast=True)
+    # 為了支援自定義 chat template，需 trust_remote_code=True
+    tokenizer = AutoTokenizer.from_pretrained(
+        args.model, use_fast=True, trust_remote_code=True
+    )
 
     counts = []
     bad_rows = 0
@@ -45,9 +61,25 @@ def main():
                 continue
             try:
                 obj = json.loads(line)
-                text = obj.get("text", "")
-                tokens = tokenizer.encode(text)
-                counts.append(len(tokens))
+                if "text" in obj and isinstance(obj.get("text"), str):
+                    # 直接使用 text 欄位計數
+                    text = obj.get("text", "")
+                    token_ids = tokenizer.encode(text)
+                    counts.append(len(token_ids))
+                elif "messages" in obj and isinstance(obj.get("messages"), (list, tuple)):
+                    # 先在記憶體中用 chat template 渲染，再直接取得 token ids
+                    messages = obj.get("messages")
+                    tools = obj.get("tools")
+                    token_ids = tokenizer.apply_chat_template(
+                        messages,
+                        tools=tools,
+                        tokenize=True,
+                        add_generation_prompt=False,
+                    )
+                    counts.append(len(token_ids))
+                else:
+                    # 資料行格式不符，計入壞掉筆數
+                    bad_rows += 1
             except Exception:
                 bad_rows += 1
 
@@ -79,8 +111,7 @@ def main():
     except Exception as e:
         print(f"⚠️ 無法載入繪圖套件 matplotlib，略過作圖：{e}")
         return
-    
-    # 設定中文字型（避免亂碼）
+        
     font_path = "/home/at0842/aaronwu901225master.ai13/fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
     if os.path.exists(font_path):
         from matplotlib import font_manager
@@ -107,6 +138,7 @@ def main():
             'DejaVu Sans',
         ]
     plt.rcParams['axes.unicode_minus'] = False  # 負號正常顯示
+
 
     max_cnt = max(counts)
     # 依 bin_size 建立桶邊界，例如 0, 50, 100, ...
