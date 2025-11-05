@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 # python pipeline/countoken/countoken.py --input pipeline/data/087190226fd447b5b4595971dc8a8728/multi_turn_eng.jsonl --bin_size 50
-# python pipeline/countoken/countoken.py --input /home/at0842/aaronwu901225master.ai13/gorilla/berkeley-function-call-leaderboard/bfcl_eval/clarify_multi_turn/bfcl_multi_turn_base_en.jsonl --bin_size 50
+# python pipeline/countoken/countoken.py --input /home/at0842/aaronwu901225master.ai13/gorilla/berkeley-function-call-leaderboard/bfcl_eval/clarify_multi_turn/bfcl_multi_turn_long_context_en.jsonl --bin_size 50
 # 說明：
 # 1) 若輸入 JSONL 每列含有 text 欄位，直接以 text 計數。
 # 2) 若輸入 JSONL 每列含有 messages（與可選 tools），會在記憶體中用 chat template 渲染後直接計數，無需輸出中間檔。
@@ -32,6 +32,7 @@ def normalize_messages_for_chat_template(messages):
     """
     msgs = copy.deepcopy(messages)
     call_seq = 0
+    pending_tool_call_ids = []  # 用於將後續 tool 回應綁定到對應的 tool_call
     for m in msgs:
         # OpenAI 風格：assistant 可能包含 tool_calls
         if isinstance(m, dict) and m.get("role") == "assistant" and "tool_calls" in m:
@@ -46,11 +47,48 @@ def normalize_messages_for_chat_template(messages):
                     if not tc.get("id"):
                         tc["id"] = f"call_{call_seq}"
                         call_seq += 1
+                    # 收集以便下一個/幾個 tool 訊息能綁定對應 id
+                    if tc.get("id"):
+                        pending_tool_call_ids.append(tc["id"])
         # tool 角色：通常 content 為字串即可
         if isinstance(m, dict) and m.get("role") == "tool":
             if not isinstance(m.get("content"), str):
                 m["content"] = _safe_json_dumps(m.get("content"))
+            # 若缺少 tool_call_id，嘗試按順序配對到先前的 assistant.tool_calls
+            if not m.get("tool_call_id") and pending_tool_call_ids:
+                m["tool_call_id"] = pending_tool_call_ids.pop(0)
     return msgs
+
+def normalize_tools_for_chat_template(tools):
+    """將 tools 轉為常見 chat template 期望的 {"type":"function","function":{...}} 結構。
+
+    - 若已是期望結構則原樣返回
+    - 若為 {name, description, parameters} 形式，則包一層
+    - 非法/未知類型則盡力保留資訊
+    """
+    if not tools:
+        return tools
+    norm = []
+    for t in tools:
+        if not isinstance(t, dict):
+            # 盡力轉字串保留
+            norm.append({"type": "function", "function": {"name": str(t), "description": "", "parameters": {}}})
+            continue
+        if t.get("type") == "function" and isinstance(t.get("function"), dict):
+            norm.append(t)
+        else:
+            name = t.get("name") or "unknown"
+            desc = t.get("description", "")
+            params = t.get("parameters", {})
+            norm.append({
+                "type": "function",
+                "function": {
+                    "name": name,
+                    "description": desc,
+                    "parameters": params if isinstance(params, dict) else {}
+                }
+            })
+    return norm
 
 ## 已移除 fallback_render_text：若 chat template 渲染失敗將直接計為壞掉筆數
 
@@ -111,7 +149,7 @@ def main():
                     counts.append(len(token_ids))
                 elif "messages" in obj and isinstance(obj.get("messages"), (list, tuple)):
                     messages = obj.get("messages")
-                    tools = obj.get("tools")
+                    tools = normalize_tools_for_chat_template(obj.get("tools"))
                     # 嘗試正規化後以 chat template 渲染
                     try:
                         norm_msgs = normalize_messages_for_chat_template(messages)
