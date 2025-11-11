@@ -1,3 +1,5 @@
+#python c:\Users\AaronWu\Documents\GitHub\gorilla\berkeley-function-call-leaderboard\bfcl_eval\scripts\convert_multiturn_to_clarify.py --dataset C:\Users\AaronWu\Documents\GitHub\gorilla\berkeley-function-call-leaderboard\bfcl_eval\data\BFCL_v4_multi_turn_base.json --possible_answer C:\Users\AaronWu\Documents\GitHub\gorilla\berkeley-function-call-leaderboard\bfcl_eval\data\possible_answer\BFCL_v4_multi_turn_base.json --output C:\Users\AaronWu\Documents\GitHub\gorilla\berkeley-function-call-leaderboard\bfcl_eval\clarify_multi_turn\bfcl_multi_turn_base_en.jsonl
+
 import argparse
 import json
 import os
@@ -12,11 +14,15 @@ from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import (
 )
 from bfcl_eval.constants.default_prompts import (
     DEFAULT_SYSTEM_PROMPT_FORMAT,
+    ADDITIONAL_SYSTEM_PROMPT_FOR_AGENTIC_RESPONSE_FORMAT,
+    MEMORY_AGENT_SETTINGS,
+    MEMORY_BACKEND_INSTRUCTION_CORE_ARCHIVAL,
+    MEMORY_BACKEND_INSTRUCTION_UNIFIED,
     DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING,
-    OUTPUT_FORMAT_MAPPING,
-    PARAM_TYPE_MAPPING,
     PROMPT_STYLE_TEMPLATES,
     PROMPT_TEMPLATE_MAPPING,
+    OUTPUT_FORMAT_MAPPING,
+    PARAM_TYPE_MAPPING,
 )
 
 
@@ -142,6 +148,92 @@ def _extract_used_tool_names(ground_truth: List[List[str]]) -> List[str]:
     return ordered
 
 
+def _is_agentic(test_entry_id: str) -> bool:
+    # Align with BFCL logic: agentic includes web_search and memory categories
+    s = str(test_entry_id)
+    return ("web_search" in s) or ("memory" in s)
+
+
+def _is_memory_category(test_entry_id: str) -> bool:
+    return "memory" in str(test_entry_id)
+
+
+def _build_memory_system_prompt(entry: Dict[str, Any]) -> str:
+    """
+    Construct the memory system prompt content using BFCL templates.
+    Best-effort: include persona and an (empty) memory content dump if backend not available.
+    """
+    scenario = entry.get("scenario")
+    if not scenario or scenario not in MEMORY_AGENT_SETTINGS:
+        scenario_setting = "You are a personal assistant."
+    else:
+        scenario_setting = MEMORY_AGENT_SETTINGS[scenario]
+
+    # We don't have a live memory backend instance here; use empty memory content.
+    memory_content = ""
+
+    test_id = str(entry.get("id", ""))
+    if "rec_sum" in test_id:
+        tpl = MEMORY_BACKEND_INSTRUCTION_UNIFIED
+    else:
+        tpl = MEMORY_BACKEND_INSTRUCTION_CORE_ARCHIVAL
+
+    return tpl.format(scenario_setting=scenario_setting, memory_content=memory_content)
+
+
+def _build_default_system_prompt(functions: List[Dict[str, Any]], system_tools_mode: str = "embed") -> str:
+    """
+    Build the default BFCL system prompt (matching DEFAULT_SYSTEM_PROMPT_FORMAT):
+    ret_fmt=python & tool_call_tag=False & func_doc_fmt=json & prompt_fmt=plaintext & style=classic
+    """
+    # Fixed to DEFAULT_SYSTEM_PROMPT_FORMAT values to avoid extra dependencies
+    return_format = "python"
+    has_tool_call_tag = False
+    function_doc_format = "json"
+    prompt_format = "plaintext"
+    prompt_style = "classic"
+
+    if system_tools_mode == "embed":
+        formatted_function_doc = json.dumps(functions or [], indent=4)
+    else:
+        # Omit embedding function docs entirely from system prompt (no placeholder text)
+        formatted_function_doc = ""
+
+    prompt_template = PROMPT_TEMPLATE_MAPPING[prompt_format]
+    style_template = PROMPT_STYLE_TEMPLATES[prompt_style]
+
+    persona = style_template["persona"]
+    task = style_template["task"]
+    if has_tool_call_tag:
+        tool_call_format = style_template["tool_call_with_tag"].format(
+            output_format=OUTPUT_FORMAT_MAPPING[return_format],
+            param_types=PARAM_TYPE_MAPPING[return_format],
+        )
+    else:
+        tool_call_format = style_template["tool_call_no_tag"].format(
+            output_format=OUTPUT_FORMAT_MAPPING[return_format],
+            param_types=PARAM_TYPE_MAPPING[return_format],
+        )
+    multiturn_behavior = style_template["multiturn_behavior"]
+    if system_tools_mode == "embed":
+        available_tools = style_template["available_tools"].format(
+            format=function_doc_format,
+            functions=formatted_function_doc,
+        )
+    else:
+        # Remove the Available Tools section to avoid duplication and any placeholder notes
+        available_tools = ""
+
+    system_prompt = prompt_template.format(
+        persona=persona,
+        task=task,
+        tool_call_format=tool_call_format,
+        multiturn_behavior=multiturn_behavior,
+        available_tools=available_tools,
+    )
+    return system_prompt
+
+
 def _ast_to_py(node: ast.AST) -> Any:
     if isinstance(node, ast.Constant):
         return node.value
@@ -211,7 +303,13 @@ def get_param_order_for_tool(tool_spec: Dict[str, Any]) -> List[str]:
     return order
 
 
-def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]], tools_index: Dict[str, Dict[str, Any]], system_prompt: str | None = None) -> List[Dict[str, Any]]:
+def build_messages_for_entry(
+    entry: Dict[str, Any],
+    ground_truth: List[List[str]],
+    tools_index: Dict[str, Dict[str, Any]],
+    tools_for_prompt: List[Dict[str, Any]],
+    system_tools_mode: str = "embed",
+) -> List[Dict[str, Any]]:
     """
     Build clarify-style messages:
     - For each user turn: add user message
@@ -224,20 +322,23 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
     initial_config = entry.get("initial_config", {})
     involved_classes = entry.get("involved_classes", [])
     test_entry_id = entry.get("id")
-    # Insert BFCL-style system prompt at the very beginning if provided
-    if system_prompt:
-        messages.append({"role": "system", "content": system_prompt})
 
     # Execute per turn to generate outputs using provided evaluator
     model_name = "clarify_converter"
-    # Align with BFCL: decide long_context from id/category keywords
-    long_context = (
-        (test_entry_id or "") and (
-            ("long_context" in test_entry_id) or ("composite" in test_entry_id)
-        )
-    )
+    long_context = bool(entry.get("long_context", False))
 
-    missed_map: Dict[str, List[str]] = entry.get("missed_function", {}) or {}
+    # Insert combined system prompt at the beginning (BFCL order: default -> memory -> agentic)
+    try:
+        default_sys = _build_default_system_prompt(tools_for_prompt or [], system_tools_mode)
+        system_chunks = [default_sys]
+        if _is_memory_category(test_entry_id):
+            system_chunks.append(_build_memory_system_prompt(entry))
+        if _is_agentic(test_entry_id):
+            system_chunks.append(ADDITIONAL_SYSTEM_PROMPT_FOR_AGENTIC_RESPONSE_FORMAT)
+        messages.append({"role": "system", "content": "\n\n".join(system_chunks)})
+    except Exception:
+        # Be forgiving in conversion; if prompt synthesis fails, skip system message
+        pass
 
     for t_idx, turn in enumerate(question_turns):
         # user content: expect list of message dicts; take the first user content
@@ -249,20 +350,30 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
         if user_msg is None:
             # fallback: concatenate all contents
             user_msg = "\n".join([m.get("content", "") for m in turn])
-
-        # Missed-Function（Prompting 規則）：在指定回合把「新增函式文件清單」以純文字貼到該輪 user 訊息
-        miss_funcs = missed_map.get(str(t_idx))
-        if miss_funcs:
-            missed_specs: List[Dict[str, Any]] = []
-            for nm in miss_funcs:
-                spec = tools_index.get(nm) or tools_index.get(nm.split(".")[-1])
-                if spec:
-                    missed_specs.append(spec)
-            if missed_specs:
-                functions_text = json.dumps(missed_specs, ensure_ascii=False, indent=2)
+        # Missed-Function prompting-style insertion for this turn (if applicable)
+        missed = entry.get("missed_function", {})
+        if isinstance(missed, dict) and str(t_idx) in missed:
+            mf_items = missed[str(t_idx)] or []
+            mf_specs: List[Dict[str, Any]] = []
+            for it in mf_items:
+                if isinstance(it, dict) and it.get("name"):
+                    mf_specs.append(it)
+                else:
+                    nm = str(it)
+                    # try exact name, then strip qualifier
+                    spec = tools_index.get(nm) or tools_index.get(nm.split(".")[-1])
+                    if spec:
+                        mf_specs.append(spec)
+            try:
                 user_msg = DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING.format(
-                    functions=functions_text
+                    functions=json.dumps(mf_specs, ensure_ascii=False)
                 )
+            except Exception:
+                # fallback to raw repr
+                user_msg = DEFAULT_USER_PROMPT_FOR_ADDITIONAL_FUNCTION_PROMPTING.format(
+                    functions=repr(mf_specs)
+                )
+
         messages.append({"role": "user", "content": user_msg})
 
         # prepare calls for this turn
@@ -293,6 +404,15 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
         if tool_calls_payload:
             messages.append({"role": "assistant", "tool_calls": tool_calls_payload})
 
+        # Add ground-truth function calls as an explicit assistant message (metadata for FT; not part of original prompt)
+        # Represented in the default python return format, per-turn
+        if calls_this_turn:
+            messages.append({
+                "role": "assistant",
+                "content": repr(calls_this_turn),
+                "ground_truth": True,
+            })
+
         # Execute raw calls to produce tool outputs
         if calls_this_turn:
             exec_outputs, _ = execute_multi_turn_func_call(
@@ -304,29 +424,28 @@ def build_messages_for_entry(entry: Dict[str, Any], ground_truth: List[List[str]
                 long_context=long_context,
                 is_evaL_run=False,
             )
-            for out in exec_outputs:
-                # Ensure tool content is a JSON string
-                tool_content: str
+            # Prompting-style feedback: single user message containing a list of tool events
+            tool_events: List[Dict[str, Any]] = []
+            for out, parsed in zip(exec_outputs, parsed_calls):
+                fname, _args, raw = parsed
                 try:
-                    # If out is already JSON, keep as-is string
                     json.loads(out)
                     tool_content = out
                 except Exception:
-                    tool_content = json.dumps({"result": out})
-                messages.append({"role": "tool", "content": tool_content})
+                    tool_content = json.dumps({"result": out}, ensure_ascii=False)
+                tool_events.append({
+                    "role": "tool",
+                    "name": raw if raw else fname,
+                    "content": tool_content,
+                })
+            messages.append({"role": "user", "content": repr(tool_events)})
 
-        # Add a short assistant acknowledgement for the turn
-        if tool_calls_payload:
-            executed_names = ", ".join([c[0] for c in parsed_calls])
-            messages.append({
-                "role": "assistant",
-                "content": f"已執行工具：{executed_names}。",
-            })
+        # Note: BFCL 不會額外加入自然語言的助手致謝訊息，為了忠實重建，這裡不加入任何多餘的助手文字訊息。
 
     return messages
 
 
-def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: str):
+def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: str, system_tools_mode: str = "embed"):
     data = _load_json_or_ndjson(input_dataset)
     gt_map = {e.get("id"): e.get("ground_truth", []) for e in _load_json_or_ndjson(input_possible_answer)}
 
@@ -336,81 +455,48 @@ def convert_file(input_dataset: str, input_possible_answer: str, output_jsonl: s
             involved_classes = entry.get("involved_classes", [])
             path_funcs = entry.get("path", [])
 
-            # tools index across involved classes
+            # tools index across involved classes（完整函式文件集合）
             all_tools_index = load_func_docs_for_classes(involved_classes)
-            # Prefer tools actually used in ground_truth calls to ensure completeness (e.g., cd/ls/mkdir)
-            ground_truth = gt_map.get(entry_id, [])
-            used_names = _extract_used_tool_names(ground_truth)
-            # Fallback/extend with names from path when available
-            for qual in path_funcs:
-                nm = qual.split(".")[-1]
-                if nm not in used_names:
-                    used_names.append(nm)
-            # Build ordered tools list based on used_names; include only those we have specs for
-            tools: List[Dict[str, Any]] = []
-            seen_tools = set()
-            for nm in used_names:
-                spec = all_tools_index.get(nm)
-                if spec and nm not in seen_tools:
-                    tools.append(spec)
-                    seen_tools.add(nm)
-            # If still empty (edge case), include all available tools for involved classes
-            if not tools and all_tools_index:
-                tools = list(all_tools_index.values())
 
-            # Compose BFCL-style system prompt using all available tool docs (lightweight, local)
-            def _parse_prompt_variation_params_local(cfg: str) -> tuple[str, bool, str, str, str]:
-                parts = dict(item.split("=", 1) for item in cfg.split("&"))
-                return (
-                    parts.get("ret_fmt", "python"),
-                    parts.get("tool_call_tag", "False") == "True",
-                    parts.get("func_doc_fmt", "json"),
-                    parts.get("prompt_fmt", "plaintext"),
-                    parts.get("style", "classic"),
-                )
-
-            def _format_function_doc_local(funcs: List[Dict[str, Any]], fmt: str) -> str:
-                # For our datasets, default is json；其餘格式在此輕量支援為 JSON。
-                return json.dumps(funcs, ensure_ascii=False, indent=4)
-
-            def _compose_system_prompt_local(cfg: str, funcs: List[Dict[str, Any]]) -> str:
-                ret_fmt, has_tag, func_doc_fmt, prompt_fmt, style_key = _parse_prompt_variation_params_local(cfg)
-                formatted_funcs = _format_function_doc_local(funcs, func_doc_fmt)
-                prompt_template = PROMPT_TEMPLATE_MAPPING.get(prompt_fmt, PROMPT_TEMPLATE_MAPPING["plaintext"])
-                style_template = PROMPT_STYLE_TEMPLATES.get(style_key, PROMPT_STYLE_TEMPLATES["classic"])
-
-                persona = style_template["persona"]
-                task = style_template["task"]
-                if has_tag:
-                    tool_call_format = style_template["tool_call_with_tag"].format(
-                        output_format=OUTPUT_FORMAT_MAPPING[ret_fmt],
-                        param_types=PARAM_TYPE_MAPPING[ret_fmt],
-                    )
+            # 加上語言特定提示到描述（與 BFCL 一致；multi-turn 預設 Python，如需更嚴謹可依 id 判斷）
+            def _append_lang_hint(spec: Dict[str, Any], entry_id_val: str) -> Dict[str, Any]:
+                desc = spec.get("description", "")
+                if "java" in str(entry_id_val):
+                    hint = " Note that the provided function is in Java 8 SDK syntax."
+                elif "javascript" in str(entry_id_val):
+                    hint = " Note that the provided function is in JavaScript syntax."
                 else:
-                    tool_call_format = style_template["tool_call_no_tag"].format(
-                        output_format=OUTPUT_FORMAT_MAPPING[ret_fmt],
-                        param_types=PARAM_TYPE_MAPPING[ret_fmt],
-                    )
-                multiturn_behavior = style_template["multiturn_behavior"]
-                available_tools = style_template["available_tools"].format(
-                    format=func_doc_fmt,
-                    functions=formatted_funcs,
-                )
+                    hint = " Note that the provided function is in Python 3 syntax."
+                # 避免重複附加
+                if hint not in desc:
+                    spec = dict(spec)
+                    spec["description"] = desc + hint
+                return spec
 
-                system_prompt_local = prompt_template.format(
-                    persona=persona,
-                    task=task,
-                    tool_call_format=tool_call_format,
-                    multiturn_behavior=multiturn_behavior,
-                    available_tools=available_tools,
-                )
-                return system_prompt_local
+            all_tools_index = {
+                k: _append_lang_hint(v, entry_id)
+                for k, v in all_tools_index.items()
+            }
 
-            all_function_docs = list(all_tools_index.values()) if all_tools_index else []
-            system_prompt = _compose_system_prompt_local(DEFAULT_SYSTEM_PROMPT_FORMAT, all_function_docs)
+            # 依 BFCL 初始行為：初始 system 的工具清單為 involved_classes 全量，但對 Missed Function 類別，需要先從初始清單移除 holdout 函式
+            missed = (entry.get("missed_function") or {}) if isinstance(entry, dict) else {}
+            holdout_names: set[str] = set()
+            for _turn, lst in (missed.items() if isinstance(missed, dict) else []):
+                for it in (lst or []):
+                    if isinstance(it, dict) and it.get("name"):
+                        holdout_names.add(str(it["name"]).split(".")[-1])
+                    else:
+                        holdout_names.add(str(it).split(".")[-1])
+
+            # 初始工具：all - holdout
+            tools: List[Dict[str, Any]] = []
+            for nm, spec in all_tools_index.items():
+                if nm not in holdout_names:
+                    tools.append(spec)
 
             # messages
-            messages = build_messages_for_entry(entry, ground_truth, all_tools_index, system_prompt)
+            ground_truth = gt_map.get(entry_id, [])
+            messages = build_messages_for_entry(entry, ground_truth, all_tools_index, tools, system_tools_mode)
 
             obj = {
                 "id": entry_id,
@@ -426,10 +512,11 @@ def main():
     parser.add_argument("--dataset", required=False, default=os.path.join(DATA_ROOT, "BFCL_v4_multi_turn_base.json"), help="Input dataset JSON path")
     parser.add_argument("--possible_answer", required=False, default=os.path.join(POSSIBLE_ANSWER_DIR, "BFCL_v4_multi_turn_base.json"), help="Possible answer JSON path containing ground_truth")
     parser.add_argument("--output", required=False, default=os.path.join(os.path.dirname(DATA_ROOT), "multi-turn-example", "bfcl_multi_turn_clarify.jsonl"), help="Output JSONL path")
+    parser.add_argument("--system-tools", choices=["embed", "omit"], default="embed", help="Whether to embed function docs into the system prompt (embed) or omit them to avoid duplication when top-level tools are present (omit)")
     args = parser.parse_args()
 
     os.makedirs(os.path.dirname(args.output), exist_ok=True)
-    convert_file(args.dataset, args.possible_answer, args.output)
+    convert_file(args.dataset, args.possible_answer, args.output, system_tools_mode=args.system_tools)
     print(f"Wrote: {args.output}")
 
 
