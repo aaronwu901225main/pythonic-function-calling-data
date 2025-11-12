@@ -67,15 +67,42 @@ class MultiTurnQuery(SingletonTemplate):
     def callback(self, result: List[TaskResult]) -> List[MultiTurnOutput]:
         results = []
         for r in result:
-            queries = get_tags(r.result, "query")
-            calls = get_tags(r.result, "function_call")
-            tool_response = get_tags(r.result, "tool")
-
+            # Prefer parsing by <turn> blocks to support multiple calls per turn
+            dialogue_blocks = get_tags(r.result, "dialogue")
             traces = []
-            for q, c, t in zip(queries, calls, tool_response):
-                traces.append({"query": q})
-                traces.append({"function_call": c})
-                traces.append({"tool": t})
+            if dialogue_blocks:
+                dlg = dialogue_blocks[0]
+                turn_blocks = get_tags(dlg, "turn")
+                if turn_blocks:
+                    for tb in turn_blocks:
+                        q_blocks = get_tags(tb, "query")
+                        if not q_blocks:
+                            continue
+                        q = q_blocks[0]
+                        traces.append({"query": q})
+                        fcs = get_tags(tb, "function_call")
+                        tls = get_tags(tb, "tool")
+                        for c, t in zip(fcs, tls):
+                            traces.append({"function_call": c})
+                            traces.append({"tool": t})
+                else:
+                    # Fallback to legacy flat parsing
+                    queries = get_tags(dlg, "query")
+                    calls = get_tags(dlg, "function_call")
+                    tool_response = get_tags(dlg, "tool")
+                    for q, c, t in zip(queries, calls, tool_response):
+                        traces.append({"query": q})
+                        traces.append({"function_call": c})
+                        traces.append({"tool": t})
+            else:
+                # Fallback if no <dialogue> wrapper found
+                queries = get_tags(r.result, "query")
+                calls = get_tags(r.result, "function_call")
+                tool_response = get_tags(r.result, "tool")
+                for q, c, t in zip(queries, calls, tool_response):
+                    traces.append({"query": q})
+                    traces.append({"function_call": c})
+                    traces.append({"tool": t})
 
             results.append(
                 MultiTurnOutput(

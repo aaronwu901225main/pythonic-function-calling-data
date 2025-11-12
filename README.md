@@ -51,7 +51,9 @@ uv run python pipeline/tools/validate_multi_turn_eng.py pipeline/data/<run_id>/m
 
 Notes:
 - The converter builds the `tools` list by parsing function signatures from `functions.json` and mapping Python types to JSON Schema.
-- The converter reconstructs `messages` from the multi-turn `trace` triples: user `<query>`, assistant `tool_calls` for `<function_call>`, and `tool` content for `<tool>`.
+- The converter reconstructs `messages` from the multi-turn `trace`. It supports both:
+    - Single-call turns (legacy): `<query>`, `<function_call>`, `<tool>` repeated.
+    - Multi-call turns (new): a `<query>` followed by multiple `<function_call>/<tool>` pairs in the same turn. These are grouped into a single assistant message with multiple `tool_calls`.
 - If you prefer to generate directly in this format, we can add an alternate Stage 3 template and schema; the converter is the least invasive path for now.
     libssl-dev \
     python3-dev

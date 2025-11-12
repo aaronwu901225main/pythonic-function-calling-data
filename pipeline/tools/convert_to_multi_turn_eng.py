@@ -219,50 +219,48 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                 tools.append(build_tool_from_signature(sig))
                 tool_names_seen.add(name)
 
-            # build messages from trace triples
+            # build messages from trace allowing multiple function calls per user turn
             messages: List[Dict[str, Any]] = []
-            # iterate in steps of 3: query, function_call, tool
             i = 0
-            while i < len(trace):
-                t = trace[i:i+3]
-                if len(t) < 2:
-                    break
-                q = t[0].get("query") if "query" in t[0] else None
-                fc = None
-                tool_resp = None
-                if len(t) >= 2:
-                    fc = t[1].get("function_call") if "function_call" in t[1] else None
-                if len(t) >= 3:
-                    tool_resp = t[2].get("tool") if "tool" in t[2] else None
-
-                if q:
-                    messages.append({"role": "user", "content": q})
-                if fc:
-                    m = CALL_RE.match(fc)
-                    func_name = None
-                    args_obj: Dict[str, Any] = {}
-                    if m:
-                        func_name, args_obj = parse_function_call(fc, name_to_param_names.get(m.group(1), []))
-                        # parse_function_call returns name, args
-                    # Build assistant with tool_calls
-                    if func_name:
-                        messages.append({
-                            "role": "assistant",
-                            "tool_calls": [
-                                {
-                                    "type": "function",
-                                    "function": {
-                                        "name": func_name,
-                                        "arguments": args_obj,
-                                    }
+            n = len(trace)
+            while i < n:
+                item = trace[i]
+                if "query" in item:
+                    # Start a new user turn
+                    messages.append({"role": "user", "content": item["query"]})
+                    i += 1
+                    # Collect one or more (function_call, tool) pairs that follow
+                    tool_calls: List[Dict[str, Any]] = []
+                    tool_messages: List[Dict[str, Any]] = []
+                    while i < n and "function_call" in trace[i]:
+                        fc_text = trace[i]["function_call"]
+                        tool_text = None
+                        if i + 1 < n and "tool" in trace[i + 1]:
+                            tool_text = trace[i + 1]["tool"]
+                        # Parse function call
+                        m = CALL_RE.match(fc_text)
+                        func_name = None
+                        args_obj: Dict[str, Any] = {}
+                        if m:
+                            func_name, args_obj = parse_function_call(fc_text, name_to_param_names.get(m.group(1), []))
+                        if func_name:
+                            tool_calls.append({
+                                "type": "function",
+                                "function": {
+                                    "name": func_name,
+                                    "arguments": args_obj,
                                 }
-                            ]
-                        })
-                if tool_resp is not None:
-                    # Tool responses are strings or JSON-like
-                    # Keep as string
-                    messages.append({"role": "tool", "content": str(tool_resp)})
-                i += 3
+                            })
+                        if tool_text is not None:
+                            tool_messages.append({"role": "tool", "content": str(tool_text)})
+                        # advance past function_call and optional tool
+                        i += 2 if (i + 1 < n and "tool" in trace[i + 1]) else 1
+                    if tool_calls:
+                        messages.append({"role": "assistant", "tool_calls": tool_calls})
+                        messages.extend(tool_messages)
+                else:
+                    # If the structure is unexpected, advance safely
+                    i += 1
 
             item = {
                 "id": f"ex_{run_id}_{idx:06d}_{uuid.uuid4().hex[:8]}",

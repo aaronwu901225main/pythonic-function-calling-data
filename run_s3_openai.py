@@ -177,15 +177,32 @@ async def generate_multi_turn_queries_openai(run_id: str):
         if not dialogue_blocks:
             continue
         dlg = dialogue_blocks[0]
-        queries = extract_tags(dlg, "query")
-        calls = extract_tags(dlg, "function_call")
-        tools = extract_tags(dlg, "tool")
 
+        # Prefer new <turn> format allowing multiple function calls per user turn
+        turn_blocks = extract_tags(dlg, "turn")
         traces: List[Dict[str, str]] = []
-        for q, c, t in zip(queries, calls, tools):
-            traces.append({"query": q})
-            traces.append({"function_call": c})
-            traces.append({"tool": t})
+        if turn_blocks:
+            for tb in turn_blocks:
+                q_blocks = extract_tags(tb, "query")
+                if not q_blocks:
+                    continue
+                q = q_blocks[0]
+                traces.append({"query": q})
+                # Multiple function_call/tool pairs per turn
+                fcs = extract_tags(tb, "function_call")
+                tls = extract_tags(tb, "tool")
+                for c, t in zip(fcs, tls):
+                    traces.append({"function_call": c})
+                    traces.append({"tool": t})
+        else:
+            # Backward compatibility: flat sequence of <query>, <function_call>, <tool>
+            queries = extract_tags(dlg, "query")
+            calls = extract_tags(dlg, "function_call")
+            tools = extract_tags(dlg, "tool")
+            for q, c, t in zip(queries, calls, tools):
+                traces.append({"query": q})
+                traces.append({"function_call": c})
+                traces.append({"tool": t})
 
         dataset.append(
             {
