@@ -480,3 +480,17 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-616-merged-1
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-704-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-792-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-795-merged-1batch-2560seq-3epoch-accumulate64-mixture-2")
+# 1epoch-accumulate32-new-multiturn
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-new-multiturn")
+# 3epoch-accumulate32-new-multiturn
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-672-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-840-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1008-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1176-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1344-merged-3epoch-accumulate32-new-multiturn")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1512-merged-3epoch-accumulate32-new-multiturn")
