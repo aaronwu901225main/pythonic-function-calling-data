@@ -30,62 +30,17 @@ conda activate BFCL
 
 cd "$SLURM_SUBMIT_DIR"
 
-# 主要參數（可在 sbatch --export 覆蓋）
-MODEL_NAME=${MODEL_NAME:-BitAgent/BitAgent-Bounty-8B}
-TEST_CATEGORY=${TEST_CATEGORY:-all}
-
-# 注意：bfcl 期望此路徑為相對於 berkeley-function-call-leaderboard 專案根目錄
-RESULT_DIR=${RESULT_DIR:-"result"}
-ALLOW_OVERWRITE=${ALLOW_OVERWRITE:-false}
-
 # bfcl CLI 由 berkeley-function-call-leaderboard 套件提供
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-new-multiturn/checkpoint-168_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-toollist-17K \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-168_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-new-multiturn/checkpoint-336_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-toollist-17K \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-336_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-new-multiturn/checkpoint-504_merged
-
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-168_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-336_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-504_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-672-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-672_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-840-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-840_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1008-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-1008_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1176-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-1176_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1344-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-1344_merged
-
-bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1512-merged-3epoch-accumulate32-new-multiturn \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-new-multiturn/checkpoint-1512_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-toollist-17K \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-504_merged
 
 # bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-672-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-840-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1008-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1176-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1344-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1512-merged-3epoch-accumulate32-new-multiturn \
