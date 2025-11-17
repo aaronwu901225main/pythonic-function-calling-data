@@ -7,9 +7,9 @@ from peft import PeftModel
 # 基礎模型路徑
 BASE_MODEL = "Llama-xLAM-2-8b-fc-r"
 # LoRA checkpoints 總資料夾
-LORA_DIR = "xlam_1epoch_add_toollist_accumulate32"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
+LORA_DIR = "xlam_3epoch_FUN_orignal_2000"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
 # 輸出完整模型的路徑
-OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K"
+OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-mix"
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 

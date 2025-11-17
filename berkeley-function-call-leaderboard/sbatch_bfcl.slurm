@@ -3,7 +3,7 @@
 #SBATCH -p h200q
 #SBATCH --gres=gpu:1
 #SBATCH -c 8
-#SBATCH --mem=32G
+#SBATCH --mem=70G
 #SBATCH --time=24:00:00
 #SBATCH -o %x-%j.out
 
@@ -32,15 +32,30 @@ cd "$SLURM_SUBMIT_DIR"
 
 # bfcl CLI 由 berkeley-function-call-leaderboard 套件提供
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-toollist-17K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-168_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-135-merged-3epoch-accumulate32-toollist-2K-mix \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-mix/checkpoint-135_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-toollist-17K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-336_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-540-merged-3epoch-accumulate32-toollist-2K-mix \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-mix/checkpoint-540_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-toollist-17K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-accumulate32-toollist-17K/checkpoint-504_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1080-merged-3epoch-accumulate32-toollist-2K-mix \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-mix/checkpoint-1080_merged
 
-# bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-672-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-840-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1008-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1176-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1344-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1512-merged-3epoch-accumulate32-new-multiturn,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-1epoch-accumulate32-toollist-17K,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-336-merged-1epoch-accumulate32-toollist-17K,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-504-merged-1epoch-accumulate32-toollist-17K \
+bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-20-merged-3epoch-accumulate32-toollist-2K-only \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-only/checkpoint-20_merged
+
+bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-100-merged-3epoch-accumulate32-toollist-2K-only \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-only/checkpoint-100_merged
+
+bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-3epoch-accumulate32-toollist-2K-only \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-toollist-2K-only/checkpoint-177_merged
+
+export OPENAI_API_KEY=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
+bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-135-merged-3epoch-accumulate32-toollist-2K-mix,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-540-merged-3epoch-accumulate32-toollist-2K-mix,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1080-merged-3epoch-accumulate32-toollist-2K-mix
+export OPENAI_API_KEY=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
+bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-20-merged-3epoch-accumulate32-toollist-2K-only,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-100-merged-3epoch-accumulate32-toollist-2K-only,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-3epoch-accumulate32-toollist-2K-only
