@@ -44,3 +44,4 @@ merge_lora_model/
 
 # Ignore the wandb cache:
 **/wandb/
+**.slurm

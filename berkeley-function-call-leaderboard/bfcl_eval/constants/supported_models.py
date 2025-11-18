@@ -537,3 +537,13 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-120-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-140-merged-3epoch-accumulate32-toollist-2K-only")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-160-merged-3epoch-accumulate32-toollist-2K-only")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-3epoch-accumulate32-toollist-2K-only")
+# 3epoch-accumulate32-toollist-2K-only-new
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-20-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-40-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-80-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-100-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-120-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-140-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-160-merged-3epoch-accumulate32-toollist-2K-only-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-177-merged-3epoch-accumulate32-toollist-2K-only-new")

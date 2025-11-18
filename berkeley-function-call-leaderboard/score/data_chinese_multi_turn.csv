@@ -10,45 +10,48 @@ Rank,Model,Multi Turn (ZH) Overall Acc,ZH: Multi Turn Base,ZH: Multi Turn Miss F
 9,xLAM-2-8b-fc-r LoRA ckpt1560-1batch-2560seq-3epoch-accumulate32-multi-1500,25.62%,30.00%,25.50%,17.00%,30.00%
 10,xLAM-2-8b-fc-r LoRA ckpt930-1batch-2560seq-5epoch-zhtw-multi-3000-only,25.62%,33.50%,25.00%,17.00%,27.00%
 11,xLAM-2-8b-fc-r LoRA ckpt173-1batch-2560seq-3epoch-accumulate32-multi-1500,25.62%,31.50%,26.00%,17.50%,27.50%
-12,xLAM-2-8b-fc-r LoRA ckpt204-1batch-2560seq-3epoch-accumulate64-mixture-1,25.13%,31.00%,26.00%,18.50%,25.00%
-13,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-accumulate32-toollist-2K-only,25.12%,23.50%,28.00%,22.00%,27.00%
-14,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,25.00%,30.50%,22.00%,19.00%,28.50%
-15,xLAM-2-8b-fc-r LoRA ckpt921-1batch-2560seq-3epoch-accumulate64-mixture-1,25.00%,30.50%,24.00%,18.50%,27.00%
-16,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,24.88%,31.00%,23.50%,17.00%,28.00%
-17,xLAM-2-8b-fc-r LoRA ckpt510-1batch-2560seq-3epoch-accumulate64-mixture-1,24.50%,29.00%,22.00%,18.50%,28.50%
-18,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,23.25%,31.00%,20.00%,18.50%,23.50%
-19,BitAgent-Bounty-8B,22.62%,23.00%,25.50%,22.00%,20.00%
+12,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-accumulate32-toollist-2K-only-new,25.25%,23.00%,28.00%,22.00%,28.00%
+13,xLAM-2-8b-fc-r LoRA ckpt204-1batch-2560seq-3epoch-accumulate64-mixture-1,25.13%,31.00%,26.00%,18.50%,25.00%
+14,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-accumulate32-toollist-2K-only,25.12%,23.50%,28.00%,22.00%,27.00%
+15,xLAM-2-8b-fc-r LoRA ckpt1025-1batch-2560seq-3epoch-multi-mix,25.00%,30.50%,22.00%,19.00%,28.50%
+16,xLAM-2-8b-fc-r LoRA ckpt921-1batch-2560seq-3epoch-accumulate64-mixture-1,25.00%,30.50%,24.00%,18.50%,27.00%
+17,xLAM-2-8b-fc-r LoRA ckpt1842-1batch-2560seq-3epoch-multi-mix,24.88%,31.00%,23.50%,17.00%,28.00%
+18,xLAM-2-8b-fc-r LoRA ckpt510-1batch-2560seq-3epoch-accumulate64-mixture-1,24.50%,29.00%,22.00%,18.50%,28.50%
+19,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,23.25%,31.00%,20.00%,18.50%,23.50%
 20,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,22.25%,28.00%,22.50%,16.50%,22.00%
 21,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,20.38%,27.00%,19.00%,13.50%,22.00%
-22,xLAM-2-8b-fc-r LoRA ckpt100-3epoch-accumulate32-toollist-2K-only,19.62%,20.50%,17.00%,18.50%,22.50%
-23,xLAM-2-8b-fc-r LoRA ckpt177-3epoch-accumulate32-toollist-2K-only,18.75%,20.00%,16.50%,17.50%,21.00%
-24,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
-25,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
-26,xLAM-2-8b-fc-r LoRA ckpt135-3epoch-accumulate32-toollist-2K-mix,17.50%,16.00%,16.00%,18.50%,19.50%
-27,xLAM-2-8b-fc-r LoRA ckpt144-3epoch-accumulate32-toollist-14K-fixed,16.50%,18.50%,12.00%,16.00%,19.50%
-28,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
-29,xLAM-2-8b-fc-r LoRA ckpt720-3epoch-accumulate32-toollist-14K-fixed,15.25%,15.50%,13.50%,14.50%,17.50%
-30,xLAM-2-8b-fc-r LoRA ckpt1293-3epoch-accumulate32-toollist-14K-fixed,13.50%,13.00%,12.00%,12.50%,16.50%
-31,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
-32,xLAM-2-8b-fc-r LoRA ckpt336-1epoch-accumulate32-toollist-17K,12.75%,12.50%,10.50%,12.50%,15.50%
-33,xLAM-2-8b-fc-r LoRA ckpt540-3epoch-accumulate32-toollist-2K-mix,12.75%,9.50%,13.50%,11.00%,17.00%
-34,xLAM-2-8b-fc-r LoRA ckpt168-3epoch-accumulate32-toollist-17K,12.62%,12.50%,8.00%,13.00%,17.00%
-35,xLAM-2-8b-fc-r LoRA ckpt504-1epoch-accumulate32-toollist-17K,12.12%,11.00%,8.50%,13.50%,15.50%
-36,xLAM-2-8b-fc-r LoRA ckpt168-3epoch-accumulate32-new-multiturn,11.37%,10.50%,9.50%,11.00%,14.50%
-37,xLAM-2-8b-fc-r LoRA ckpt168-1epoch-accumulate32-toollist-17K,11.25%,11.00%,7.00%,13.00%,14.00%
-38,xLAM-2-8b-fc-r LoRA ckpt336-1epoch-accumulate32-new-multiturn,11.00%,9.50%,11.50%,10.00%,13.00%
-39,xLAM-2-8b-fc-r LoRA ckpt168-1epoch-accumulate32-new-multiturn,10.88%,10.50%,9.00%,11.00%,13.00%
-40,xLAM-2-8b-fc-r LoRA ckpt840-3epoch-accumulate32-new-multiturn,10.75%,8.50%,12.50%,9.50%,12.50%
-41,xLAM-2-8b-fc-r LoRA ckpt1080-3epoch-accumulate32-toollist-2K-mix,10.25%,8.00%,12.50%,6.00%,14.50%
-42,xLAM-2-8b-fc-r LoRA ckpt840-3epoch-accumulate32-toollist-17K,10.12%,9.50%,7.00%,11.50%,12.50%
-43,xLAM-2-8b-fc-r LoRA ckpt1512-3epoch-accumulate32-toollist-17K,10.12%,9.50%,8.50%,11.00%,11.50%
-44,xLAM-2-8b-fc-r LoRA ckpt1512-3epoch-accumulate32-new-multiturn,8.38%,7.50%,8.00%,8.00%,10.00%
-45,xLAM-2-8b-fc-r LoRA ckpt504-1epoch-accumulate32-new-multiturn,7.75%,6.00%,8.00%,8.00%,9.00%
-46,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
-47,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
-48,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
-49,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
-50,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
-51,Gemma-3-4b-it (Prompt),0.00%,N/A,N/A,N/A,N/A
-52,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,0.00%,N/A,N/A,N/A,N/A
-53,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
+22,xLAM-2-8b-fc-r LoRA ckpt177-3epoch-accumulate32-toollist-2K-only-new,20.00%,23.00%,16.50%,17.50%,23.00%
+23,xLAM-2-8b-fc-r LoRA ckpt100-3epoch-accumulate32-toollist-2K-only,19.62%,20.50%,17.00%,18.50%,22.50%
+24,BitAgent-Bounty-8B,19.25%,19.00%,23.50%,19.00%,15.50%
+25,xLAM-2-8b-fc-r LoRA ckpt80-3epoch-accumulate32-toollist-2K-only-new,19.00%,20.00%,18.50%,17.50%,20.00%
+26,xLAM-2-8b-fc-r LoRA ckpt177-3epoch-accumulate32-toollist-2K-only,18.75%,20.00%,16.50%,17.50%,21.00%
+27,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
+28,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
+29,xLAM-2-8b-fc-r LoRA ckpt135-3epoch-accumulate32-toollist-2K-mix,17.50%,16.00%,16.00%,18.50%,19.50%
+30,xLAM-2-8b-fc-r LoRA ckpt144-3epoch-accumulate32-toollist-14K-fixed,16.50%,18.50%,12.00%,16.00%,19.50%
+31,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
+32,xLAM-2-8b-fc-r LoRA ckpt720-3epoch-accumulate32-toollist-14K-fixed,15.25%,15.50%,13.50%,14.50%,17.50%
+33,xLAM-2-8b-fc-r LoRA ckpt1293-3epoch-accumulate32-toollist-14K-fixed,13.50%,13.00%,12.00%,12.50%,16.50%
+34,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
+35,xLAM-2-8b-fc-r LoRA ckpt336-1epoch-accumulate32-toollist-17K,12.75%,12.50%,10.50%,12.50%,15.50%
+36,xLAM-2-8b-fc-r LoRA ckpt540-3epoch-accumulate32-toollist-2K-mix,12.75%,9.50%,13.50%,11.00%,17.00%
+37,xLAM-2-8b-fc-r LoRA ckpt168-3epoch-accumulate32-toollist-17K,12.62%,12.50%,8.00%,13.00%,17.00%
+38,xLAM-2-8b-fc-r LoRA ckpt504-1epoch-accumulate32-toollist-17K,12.12%,11.00%,8.50%,13.50%,15.50%
+39,xLAM-2-8b-fc-r LoRA ckpt168-3epoch-accumulate32-new-multiturn,11.37%,10.50%,9.50%,11.00%,14.50%
+40,xLAM-2-8b-fc-r LoRA ckpt168-1epoch-accumulate32-toollist-17K,11.25%,11.00%,7.00%,13.00%,14.00%
+41,xLAM-2-8b-fc-r LoRA ckpt336-1epoch-accumulate32-new-multiturn,11.00%,9.50%,11.50%,10.00%,13.00%
+42,xLAM-2-8b-fc-r LoRA ckpt168-1epoch-accumulate32-new-multiturn,10.88%,10.50%,9.00%,11.00%,13.00%
+43,xLAM-2-8b-fc-r LoRA ckpt840-3epoch-accumulate32-new-multiturn,10.75%,8.50%,12.50%,9.50%,12.50%
+44,xLAM-2-8b-fc-r LoRA ckpt1080-3epoch-accumulate32-toollist-2K-mix,10.25%,8.00%,12.50%,6.00%,14.50%
+45,xLAM-2-8b-fc-r LoRA ckpt840-3epoch-accumulate32-toollist-17K,10.12%,9.50%,7.00%,11.50%,12.50%
+46,xLAM-2-8b-fc-r LoRA ckpt1512-3epoch-accumulate32-toollist-17K,10.12%,9.50%,8.50%,11.00%,11.50%
+47,xLAM-2-8b-fc-r LoRA ckpt1512-3epoch-accumulate32-new-multiturn,8.38%,7.50%,8.00%,8.00%,10.00%
+48,xLAM-2-8b-fc-r LoRA ckpt504-1epoch-accumulate32-new-multiturn,7.75%,6.00%,8.00%,8.00%,9.00%
+49,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
+50,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
+51,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
+52,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
+53,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
+54,Gemma-3-4b-it (Prompt),0.00%,N/A,N/A,N/A,N/A
+55,xLAM-2-8b-fc-r LoRA ckpt6240-1batch-2560seq-3epoch-multi3000-nomlp,0.00%,N/A,N/A,N/A,N/A
+56,Gemma-3-1b-it (Prompt),0.00%,0.00%,0.00%,0.00%,0.00%
