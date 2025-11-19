@@ -300,6 +300,10 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
     data_chinese_overall = []
     for model_name, value in leaderboard_table.items():
         model_name_escaped = model_name.replace("_", "/")
+        # Skip models that are present in score folders but not registered in MODEL_CONFIG_MAPPING
+        if model_name_escaped not in MODEL_CONFIG_MAPPING:
+            print(f"[BFCL] Warning: unknown model in scores, skipped: {model_name}")
+            continue
         model_config = MODEL_CONFIG_MAPPING[model_name_escaped]
 
         cost_data = value.get("cost", {"input_data": [], "output_data": []})
@@ -817,7 +821,12 @@ def update_leaderboard_table_with_local_score_file(
         for model_score_json in subdir.rglob(pattern):
             # Some score files may contain a header JSON object followed by JSONL entries
             # (i.e., concatenated JSON objects). Enable robust parsing here.
-            metadata = load_file(model_score_json, allow_concatenated_json=True)[0]
+            entries = load_file(model_score_json, allow_concatenated_json=True)
+            if not entries:
+                # Empty or whitespace-only file; skip to avoid IndexError while keeping the run going
+                print(f"[BFCL] Warning: empty score file skipped: {model_score_json}")
+                continue
+            metadata = entries[0]
             test_category = extract_test_category(model_score_json)
             if model_name not in leaderboard_table:
                 leaderboard_table[model_name] = {}
