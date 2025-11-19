@@ -139,10 +139,59 @@ Or run stages separately:
 ```bash
 uv run run_s1.py
 uv run run_s2.py
-uv run run_s3.py
+3. **Conversation Generation** (`run_s3.py`)
 ```
 
 And you're set. The pipeline will generate the dataset in the `pipeline/data` folder.
+
+4. **Pseudo Functions (Distractors)** (`run_s4_openai.py`)
+    - Generates many out-of-scope pseudo functions per multi-turn sample
+    - Input: Stage 3 `multi_turn_queries.json` (+ Stage 2 `functions.json` for reference)
+    - Ensures pseudo functions are unrelated to the queries and real functions
+    - Outputs:
+      - `pseudo_functions.json` (per-sample list)
+      - `pseudo_functions_global.json` (flat unique list)
+
+#### Including Pseudo Functions in Export
+
+During conversion to `multi_turn_eng.jsonl` you can append the per-sample pseudo functions as distractor tools. Set the environment variable `INCLUDE_PSEUDO_TOOLS=1` when running the converter:
+
+```bash
+INCLUDE_PSEUDO_TOOLS=1 uv run python pipeline/tools/convert_to_multi_turn_eng.py
+```
+
+Each appended pseudo tool now carries an extra marker field:
+
+```json
+{
+    "name": "generate_random_username",
+    "description": "Auto-generated tool for function generate_random_username",
+    "parameters": { "type": "object", "properties": {"base_name": {"type": "string"}, "length": {"type": "integer"}}, "required": ["base_name"] },
+    "x_pseudo": true
+}
+```
+
+Notes:
+- Real function tools do NOT have `x_pseudo`; only distractors are tagged.
+- Messages (assistant tool calls) never invoke pseudo tools; they appear solely as extra schemas to increase selection difficulty.
+- Downstream training can filter pseudo tools with a simple predicate (`if tool.get('x_pseudo'):`) if needed.
+
+Quick inspection snippet (first line only):
+
+```bash
+python - <<'PY'
+import json, pathlib
+run_id=pathlib.Path('run_id').read_text().strip()
+fp=pathlib.Path('pipeline/data')/run_id/'multi_turn_eng.jsonl'
+first=json.loads(fp.open().readline())
+total=len(first['tools'])
+pseudo=sum(1 for t in first['tools'] if t.get('x_pseudo'))
+print('Total tools:', total, 'Pseudo tools:', pseudo)
+print('Pseudo names:', [t['name'] for t in first['tools'] if t.get('x_pseudo')])
+PY
+```
+
+If you omit `INCLUDE_PSEUDO_TOOLS=1`, the converter will ignore `pseudo_functions.json` and only include real function tools.
 
 _"Data generation takes time!"_ - _Unknown_
 
@@ -153,6 +202,7 @@ If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API d
 1) Set your OpenAI API key (PowerShell):
 ```powershell
 $env:OPENAI_API_KEY = "sk-..."
+ You can include Step 4 pseudo tools by setting `INCLUDE_PSEUDO_TOOLS=1` during conversion; the converter will append pseudo functions (as tools) per-sample if `pseudo_functions.json` exists.
 ```
 
 2) Optionally set a model (defaults to gpt-4o-mini):
@@ -161,8 +211,20 @@ $env:OPENAI_MODEL = "gpt-4o-mini"
 ```
 
 3) Run Stage 1 (OpenAI mode):
+ # Optional Step 4 (OpenAI):
+ uv run python run_s4_openai.py
 ```bash
 uv run python run_s1_openai.py
+### OpenAI-only multi-turn with pseudo functions
+
+```bash
+chmod +x start_openai_multiturn_with_pseudo.sh
+./start_openai_multiturn_with_pseudo.sh
+
+# Optionally export with pseudo tools appended
+INCLUDE_PSEUDO_TOOLS=1 uv run python pipeline/tools/convert_to_multi_turn_eng.py
+```
+
 ```
 
 This will read `pipeline/data/curriculum.csv`, use `pipeline/s1_scenario/prompt.md` to prompt the model, parse `<scenario>` tags, and write `pipeline/data/<run_id>/scenarios.json`.

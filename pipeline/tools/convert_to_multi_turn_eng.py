@@ -175,6 +175,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
     base_dir = os.path.join("pipeline", "data", run_id)
     functions_fp = os.path.join(base_dir, "functions.json")
     multi_turn_fp = os.path.join(base_dir, "multi_turn_queries.json")
+    pseudo_fp = os.path.join(base_dir, "pseudo_functions.json")
 
     if not os.path.exists(functions_fp) or not os.path.exists(multi_turn_fp):
         raise FileNotFoundError("Required files not found. Make sure functions.json and multi_turn_queries.json exist.")
@@ -199,6 +200,19 @@ def convert(run_id: str, out_path: str | None = None) -> str:
     with open(multi_turn_fp, "r", encoding="utf-8") as f:
         multi_turn_data = json.load(f)
 
+    # Optional: include pseudo tools
+    include_pseudo = os.getenv("INCLUDE_PSEUDO_TOOLS", "0") == "1"
+    pseudo_by_index: Dict[int, List[str]] = {}
+    if include_pseudo and os.path.exists(pseudo_fp):
+        try:
+            with open(pseudo_fp, "r", encoding="utf-8") as f:
+                pseudo_data = json.load(f)
+            for item in pseudo_data:
+                idx = int(item.get("sample_index"))
+                pseudo_by_index[idx] = item.get("pseudo_functions", [])
+        except Exception:
+            pseudo_by_index = {}
+
     if out_path is None:
         out_path = os.path.join(base_dir, "multi_turn_eng.jsonl")
 
@@ -218,6 +232,22 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                     continue
                 tools.append(build_tool_from_signature(sig))
                 tool_names_seen.add(name)
+
+            # Optionally append pseudo tools (signatures)
+            if include_pseudo and idx in pseudo_by_index:
+                for psig in pseudo_by_index[idx]:
+                    try:
+                        parsed = parse_signature(psig)
+                        name = parsed.get("function_name")
+                        if not name or name in tool_names_seen:
+                            continue
+                        pseudo_tool = build_tool_from_signature(psig)
+                        # 標記為 pseudo，方便下游區分/過濾
+                        pseudo_tool["x_pseudo"] = True
+                        tools.append(pseudo_tool)
+                        tool_names_seen.add(name)
+                    except Exception:
+                        continue
 
             # build messages from trace allowing multiple function calls per user turn
             messages: List[Dict[str, Any]] = []

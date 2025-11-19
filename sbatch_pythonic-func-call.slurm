@@ -1,10 +1,10 @@
 #!/usr/bin/env bash
-#SBATCH -J bfcl-gen
-#SBATCH -p h200q
+#SBATCH -J pythonic-func-call
+#SBATCH -p defq
 #SBATCH --gres=gpu:1
 #SBATCH -c 8
-#SBATCH --mem=10G
-#SBATCH --time=04:00:00
+#SBATCH --mem=70G
+#SBATCH --time=24:00:00
 #SBATCH -o %x-%j.out
 
 # 透過 UC Berkeley hosted OpenFunctions v2 生成（免金鑰，需外網）。
@@ -13,10 +13,6 @@
 set -euo pipefail
 export OMP_NUM_THREADS=1
 export MKL_NUM_THREADS=1
-
-# 推薦將 tmp 指到家目錄
-export TMPDIR="$HOME/tmp"
-mkdir -p "$TMPDIR"
 
 # 載入 conda
 if command -v module &>/dev/null; then
@@ -29,4 +25,5 @@ conda activate pythonic-function-calling-data
 
 cd "$SLURM_SUBMIT_DIR"
 
-python pipeline/countoken/countoken.py --input pipeline/data/a74d225c86b74961a0e2a3b1e12e0e83/multi_turn_eng.jsonl --bin_size 50
+export S4_PSEUDO_PER_SAMPLE=10
+python run_s4_openai.py
