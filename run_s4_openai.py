@@ -50,6 +50,100 @@ def _dedup_signatures(sigs: List[str]) -> List[str]:
     return out
 
 
+def _dedup_with_dups(sigs: List[str]) -> Tuple[List[str], List[str]]:
+    """Return (unique, duplicates_removed)."""
+    uniq: List[str] = []
+    dups: List[str] = []
+    seen: Set[str] = set()
+    for s in sigs:
+        k = s.strip()
+        if k in seen:
+            dups.append(s)
+        else:
+            seen.add(k)
+            uniq.append(s)
+    return uniq, dups
+
+
+def _write_debug(enabled: bool, path: str, rec: Dict[str, Any]):
+    if not enabled:
+        return
+    try:
+        os.makedirs(os.path.dirname(path), exist_ok=True)
+        with open(path, "a", encoding="utf-8") as fh:
+            fh.write(json.dumps(rec, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
+def _dedup_with_dups(sigs: List[str]) -> Tuple[List[str], List[str]]:
+    """Return (unique_list, duplicates_removed) by signature string (stripped)."""
+    seen: Set[str] = set()
+    unique: List[str] = []
+    dups: List[str] = []
+    for s in sigs:
+        key = s.strip()
+        if key in seen:
+            dups.append(s)
+        else:
+            seen.add(key)
+            unique.append(s)
+    return unique, dups
+
+
+def _write_debug(debug_enabled: bool, debug_out_path: str, record: Dict[str, Any]):
+    if not debug_enabled:
+        return
+    try:
+        os.makedirs(os.path.dirname(debug_out_path), exist_ok=True)
+        with open(debug_out_path, "a", encoding="utf-8") as df:
+            df.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+# Fallback regex for function headers
+DEF_HEADER_RE = re.compile(r"^def\s+([A-Za-z_]\w*)\s*\(.*?\)\s*->\s*[^:]+:")
+
+def _fallback_extract_functions(full_text: str) -> List[str]:
+    """Attempt to salvage function snippets when no <pseudo_function> tags are present.
+    Strategy:
+    1. Extract ALL python fenced blocks from the entire completion text.
+    2. Inside each block, scan lines; when header matches DEF_HEADER_RE, capture until an unindented 'pass' or blank line after docstring.
+    3. Return unique snippets.
+    """
+    code_blocks = extract_code_fence(full_text, lang="python")
+    salvaged: List[str] = []
+    for block in code_blocks:
+        lines = block.splitlines()
+        i = 0
+        while i < len(lines):
+            line = lines[i]
+            if DEF_HEADER_RE.match(line.strip()):
+                fn_lines = [line]
+                i += 1
+                while i < len(lines):
+                    nxt = lines[i]
+                    if nxt.strip().startswith("def "):
+                        break
+                    fn_lines.append(nxt)
+                    if nxt.strip() == "pass":
+                        i += 1
+                        break
+                    i += 1
+                salvaged.append("\n".join(fn_lines))
+            else:
+                i += 1
+    # Deduplicate
+    out: List[str] = []
+    seen: Set[str] = set()
+    for s in salvaged:
+        k = s.strip()
+        if k not in seen:
+            seen.add(k)
+            out.append(s)
+    return out
+
+
 async def generate_pseudo_functions_openai(run_id: str):
     base_dir = f"pipeline/data/{run_id}"
     # Load step3 output (multi-turn as default input)
@@ -80,13 +174,23 @@ async def generate_pseudo_functions_openai(run_id: str):
                 pass
 
     # Config
-    template_path = "pipeline/s4_pseudo_functions/prompt.md"
+    # Style switch: "distractor" (original out-of-scope) or "related" (contextually complementary)
+    style = os.getenv("PSEUDO_STYLE", "distractor").strip().lower()
+    if style not in {"distractor", "related"}:
+        style = "distractor"
+    template_path = (
+        "pipeline/s4_pseudo_functions/prompt_related.md"
+        if style == "related"
+        else "pipeline/s4_pseudo_functions/prompt.md"
+    )
     num_pseudo = int(os.getenv("S4_PSEUDO_PER_SAMPLE", "6"))
     max_retries = int(os.getenv("S4_MAX_RETRIES", "2"))
     topup_extra = int(os.getenv("S4_TOPUP_EXTRA", "2"))  # ask a bit more on retries
 
     output_samples: List[Dict[str, Any]] = []
     global_pseudo_set: Set[str] = set()  # signature-based dedup across samples
+    debug_enabled = os.getenv("PSEUDO_DEBUG", "0") == "1"
+    debug_path = os.path.join(base_dir, "pseudo_functions_debug.jsonl")
 
     outer_bar = tqdm(total=len(multi_turn_data), desc="Step4 Pseudo Functions", dynamic_ncols=True)
     for idx, sample in enumerate(multi_turn_data):
@@ -102,6 +206,7 @@ async def generate_pseudo_functions_openai(run_id: str):
         used_names = _collect_used_function_names(sample.get("trace", []))
 
         filtered: List[str] = []
+        debug_info: Dict[str, List[Dict[str, Any]]] = {"accepted": [], "rejected": []} if debug_enabled else {}
         # Per-sample progress bar towards requested count
         try:
             sample_bar = tqdm(total=num_pseudo, desc=f"sample {idx}", leave=False, dynamic_ncols=True)
@@ -111,6 +216,7 @@ async def generate_pseudo_functions_openai(run_id: str):
         need = num_pseudo
         while attempts == 0 or (len(filtered) < num_pseudo and attempts <= max_retries):
             req_num = need if attempts == 0 else max(1, need) + topup_extra
+            # For related style, still pass queries_text; forbidden_keywords kept for backwards compatibility.
             prompt = render_template(
                 template_path,
                 {
@@ -120,24 +226,84 @@ async def generate_pseudo_functions_openai(run_id: str):
                     "num_pseudo": str(req_num),
                 },
             )
-            system = (
-                "You are a careful data generator. Produce only out-of-scope pseudo functions that cannot help answer the given queries."
-            )
+            if style == "related":
+                system = (
+                    "You generate complementary, non-equivalent helper functions strictly related to the context without duplicating existing semantics."
+                )
+            else:
+                system = (
+                    "You are a careful data generator. Produce only out-of-scope pseudo functions that cannot help answer the given queries."
+                )
             content = chat_complete(prompt=prompt, system=system)
 
             pf_blocks = extract_tags(content, "pseudo_function")
             pseudo_sigs: List[str] = []
+            if not pf_blocks:
+                # Salvage attempt
+                salvaged = _fallback_extract_functions(content)
+                if salvaged:
+                    pf_blocks = [f"<signature>```python\n{sig}\n```</signature>" for sig in salvaged]
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "fallback",
+                            "event": "salvaged_functions",
+                            "count": len(salvaged),
+                        })
+                else:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "extract",
+                            "event": "none",
+                            "reason": "no_pseudo_function_blocks",
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "extract", "reason": "no_pseudo_function_blocks"})
             for pb in pf_blocks:
                 sig_blocks = extract_tags(pb, "signature")
                 if not sig_blocks:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "extract",
+                            "event": "rejected",
+                            "reason": "no_signature_block",
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "extract", "reason": "no_signature_block"})
                     continue
                 code_blocks = extract_code_fence(sig_blocks[0], lang="python")
                 if not code_blocks:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "extract",
+                            "event": "rejected",
+                            "reason": "no_code_fence",
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "extract", "reason": "no_code_fence"})
                     continue
-                sig = code_blocks[0]
-                pseudo_sigs.append(sig)
+                pseudo_sigs.append(code_blocks[0])
 
-            pseudo_sigs = _dedup_signatures(pseudo_sigs)
+            pseudo_sigs, inner_dups = _dedup_with_dups(pseudo_sigs)
+            for d in inner_dups:
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempts,
+                        "phase": "dedup",
+                        "event": "rejected",
+                        "reason": "duplicate_within_response",
+                        "signature": d,
+                        "style": style,
+                    })
+                    debug_info["rejected"].append({"phase": "dedup", "reason": "duplicate_within_response", "signature": d})
 
             # Safety filters: drop if colliding with real/used or global dups
             added_this_round = 0
@@ -147,18 +313,76 @@ async def generate_pseudo_functions_openai(run_id: str):
                     name = parsed.get("function_name")
                 except Exception:
                     name = None
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "parse",
+                            "event": "rejected",
+                            "reason": "parse_failed",
+                            "signature": sig,
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "parse", "reason": "parse_failed", "signature": sig})
                 if not name:
                     continue
                 if name in real_name_set:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "filter",
+                            "event": "rejected",
+                            "reason": "name_in_real",
+                            "signature": sig,
+                            "name": name,
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "filter", "reason": "name_in_real", "signature": sig, "name": name})
                     continue
                 if name in used_names:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "filter",
+                            "event": "rejected",
+                            "reason": "name_in_used_trace",
+                            "signature": sig,
+                            "name": name,
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "filter", "reason": "name_in_used_trace", "signature": sig, "name": name})
                     continue
                 key = sig.strip()
                 if key in global_pseudo_set:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempts,
+                            "phase": "filter",
+                            "event": "rejected",
+                            "reason": "duplicate_global",
+                            "signature": sig,
+                            "name": name,
+                            "style": style,
+                        })
+                        debug_info["rejected"].append({"phase": "filter", "reason": "duplicate_global", "signature": sig, "name": name})
                     continue
                 global_pseudo_set.add(key)
                 filtered.append(sig)
                 added_this_round += 1
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempts,
+                        "phase": "filter",
+                        "event": "accepted",
+                        "signature": sig,
+                        "name": name,
+                        "style": style,
+                    })
+                    debug_info["accepted"].append({"phase": "filter", "signature": sig, "name": name})
 
             need = max(0, num_pseudo - len(filtered))
             # update per-sample progress
@@ -175,6 +399,8 @@ async def generate_pseudo_functions_openai(run_id: str):
                 "domain": sample.get("domain"),
                 "subdomain": sample.get("subdomain"),
                 "pseudo_functions": filtered[:num_pseudo],
+                "style": style,
+                "debug_info": debug_info if debug_enabled else None,
             }
         )
         # close and update outer progress

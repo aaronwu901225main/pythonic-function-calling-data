@@ -2,3 +2,6 @@
 .idea
 uv.lock
 .venv
+*.slurm
+*.out
+sbatch_pythonic-func-call.slurm

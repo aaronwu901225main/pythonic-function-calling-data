@@ -13,5 +13,5 @@ dependencies = [
   "openai>=1.44.0",
   "jsonschema>=4.23.0",
   "matplotlib>=3.7.0",
-  "transformers>=4.30.0",
+  "numpy"====1.26.4,
 ]

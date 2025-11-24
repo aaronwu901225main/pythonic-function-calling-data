@@ -65,7 +65,9 @@ uv run python pipeline/tools/validate_multi_turn_eng.py pipeline/data/<run_id>/m
 
 Notes:
 - The converter builds the `tools` list by parsing function signatures from `functions.json` and mapping Python types to JSON Schema.
-- The converter reconstructs `messages` from the multi-turn `trace` triples: user `<query>`, assistant `tool_calls` for `<function_call>`, and `tool` content for `<tool>`.
+- The converter reconstructs `messages` from the multi-turn `trace`. It supports both:
+    - Single-call turns (legacy): `<query>`, `<function_call>`, `<tool>` repeated.
+    - Multi-call turns (new): a `<query>` followed by multiple `<function_call>/<tool>` pairs in the same turn. These are grouped into a single assistant message with multiple `tool_calls`.
 - If you prefer to generate directly in this format, we can add an alternate Stage 3 template and schema; the converter is the least invasive path for now.
     libssl-dev \
     python3-dev
@@ -151,12 +153,121 @@ Or run stages separately:
 ```bash
 uv run run_s1.py
 uv run run_s2.py
-uv run run_s3.py
+3. **Conversation Generation** (`run_s3.py`)
 ```
 
 And you're set. The pipeline will generate the dataset in the `pipeline/data` folder.
 
+4. **Pseudo Functions (Distractors)** (`run_s4_openai.py`)
+    - Generates many out-of-scope pseudo functions per multi-turn sample
+    - Input: Stage 3 `multi_turn_queries.json` (+ Stage 2 `functions.json` for reference)
+    - Ensures pseudo functions are unrelated to the queries and real functions
+    - Outputs:
+      - `pseudo_functions.json` (per-sample list)
+      - `pseudo_functions_global.json` (flat unique list)
+
+#### Including Pseudo Functions in Export
+
+During conversion to `multi_turn_eng.jsonl` you can append the per-sample pseudo functions as distractor tools. Set the environment variable `INCLUDE_PSEUDO_TOOLS=1` when running the converter:
+
+```bash
+INCLUDE_PSEUDO_TOOLS=1 uv run python pipeline/tools/convert_to_multi_turn_eng.py
+```
+
+Each appended pseudo tool now carries an extra marker field:
+
+```json
+{
+    "name": "generate_random_username",
+    "description": "Auto-generated tool for function generate_random_username",
+    "parameters": { "type": "object", "properties": {"base_name": {"type": "string"}, "length": {"type": "integer"}}, "required": ["base_name"] },
+    "x_pseudo": true
+}
+```
+
+Notes:
+- Real function tools do NOT have `x_pseudo`; only distractors are tagged.
+- Messages (assistant tool calls) never invoke pseudo tools; they appear solely as extra schemas to increase selection difficulty.
+- Downstream training can filter pseudo tools with a simple predicate (`if tool.get('x_pseudo'):`) if needed.
+
+Quick inspection snippet (first line only):
+
+```bash
+python - <<'PY'
+import json, pathlib
+run_id=pathlib.Path('run_id').read_text().strip()
+fp=pathlib.Path('pipeline/data')/run_id/'multi_turn_eng.jsonl'
+first=json.loads(fp.open().readline())
+total=len(first['tools'])
+pseudo=sum(1 for t in first['tools'] if t.get('x_pseudo'))
+print('Total tools:', total, 'Pseudo tools:', pseudo)
+print('Pseudo names:', [t['name'] for t in first['tools'] if t.get('x_pseudo')])
+PY
+```
+
+If you omit `INCLUDE_PSEUDO_TOOLS=1`, the converter will ignore `pseudo_functions.json` and only include real function tools.
+
 _"Data generation takes time!"_ - _Unknown_
+
+### Multi-API Key Rotation (Token Quota Management)
+
+If you have multiple OpenAI API keys each with a daily free quota (e.g. 2.5M tokens), you can let the pipeline automatically rotate keys when usage approaches the quota.
+
+Set environment variables before running any `run_s*_openai.py` steps:
+
+```bash
+export OPENAI_API_KEYS="key1,key2,key3"         # Comma-separated list of API keys
+export API_DAILY_LIMIT_TOKENS=2500000           # Daily free quota per key (default 2_500_000)
+export API_ROTATE_MARGIN=25000                  # Rotate to next key when usage >= limit - margin
+export API_ROTATE_VERBOSE=1                     # (Optional) Print rotation usage info per call
+```
+
+Usage is tracked in a JSON file (default: `.api_usage_daily.json`) keyed by ISO date and API key. Example snippet after several calls:
+
+```json
+{
+    "2025-11-22": {
+        "sk-...A": 1485320,
+        "sk-...B": 123450,
+        "sk-...C": 0
+    }
+}
+```
+
+Rotation strategy:
+- On each chat completion, the system selects the first key whose `used_tokens < (API_DAILY_LIMIT_TOKENS - API_ROTATE_MARGIN)`.
+- If all keys exceeded the threshold, it continues using the last key (you may wish to halt manually at that point).
+- Token usage relies on OpenAI response `usage` fields; if missing, it falls back to a heuristic (4 characters ≈ 1 token).
+
+Override the usage file path by setting `API_USAGE_FILE=/custom/path/usage.json` if you want per-run isolation (e.g. inside `pipeline/data/<run_id>/`).
+
+Minimal example running Stage 1 with rotation:
+
+```bash
+export OPENAI_API_KEYS="sk-AAA...,sk-BBB...,sk-CCC..."
+uv run python run_s1_openai.py
+```
+
+To inspect current usage:
+
+```bash
+python - <<'PY'
+import json, datetime, pathlib
+fp=pathlib.Path('.api_usage_daily.json')
+data=json.loads(fp.read_text()) if fp.exists() else {}
+today=datetime.date.today().isoformat()
+print('Today:', today)
+for k,v in data.get(today, {}).items():
+        print(k[-6:], v)
+PY
+```
+
+Tips:
+- Adjust `API_ROTATE_MARGIN` upward if you need an earlier switch (e.g. set 100000 to leave buffer for retries).
+- For parallel usage from multiple processes, consider a shared network FS; current implementation uses simple atomic replace writes (no lock) — avoid extremely high concurrency.
+- If you want strict stop instead of continuing on last key, add a wrapper script to check usage file before invoking next stage.
+
+---
 
 ### Optional: OpenAI-only mode (no Dria network)
 
@@ -165,6 +276,7 @@ If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API d
 1) Set your OpenAI API key (PowerShell):
 ```powershell
 $env:OPENAI_API_KEY = "sk-..."
+ You can include Step 4 pseudo tools by setting `INCLUDE_PSEUDO_TOOLS=1` during conversion; the converter will append pseudo functions (as tools) per-sample if `pseudo_functions.json` exists.
 ```
 
 2) Optionally set a model (defaults to gpt-4o-mini):
@@ -173,8 +285,20 @@ $env:OPENAI_MODEL = "gpt-4o-mini"
 ```
 
 3) Run Stage 1 (OpenAI mode):
+ # Optional Step 4 (OpenAI):
+ uv run python run_s4_openai.py
 ```bash
 uv run python run_s1_openai.py
+### OpenAI-only multi-turn with pseudo functions
+
+```bash
+chmod +x start_openai_multiturn_with_pseudo.sh
+./start_openai_multiturn_with_pseudo.sh
+
+# Optionally export with pseudo tools appended
+INCLUDE_PSEUDO_TOOLS=1 uv run python pipeline/tools/convert_to_multi_turn_eng.py
+```
+
 ```
 
 This will read `pipeline/data/curriculum.csv`, use `pipeline/s1_scenario/prompt.md` to prompt the model, parse `<scenario>` tags, and write `pipeline/data/<run_id>/scenarios.json`.

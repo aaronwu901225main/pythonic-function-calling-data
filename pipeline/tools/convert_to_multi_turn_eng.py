@@ -34,21 +34,84 @@ def _python_type_to_jsonschema(t: str) -> Dict[str, Any]:
 
 
 def build_tool_from_signature(signature: str) -> Dict[str, Any]:
+    """Build a tool (function calling schema) from a full function snippet including docstring.
+
+    Enhancements:
+    - Extract full docstring (summary + details) as tool description.
+    - Extract per-parameter descriptions from :param lines and attach to JSON Schema properties.
+    - Preserve return / raises info appended to description if present.
+    """
     parsed = parse_signature(signature)
     name = parsed.get("function_name", "unknown")
     params = parsed.get("parameters", [])
 
+    # --- Docstring extraction ---
+    docstring_summary_lines: List[str] = []
+    param_descriptions: Dict[str, str] = {}
+    return_description: str | None = None
+    raises_descriptions: List[str] = []
+
+    # Match triple quotes (""" ... """ or ''' ... ''')
+    doc_match = re.search(r'(["\"])\1\1(.*?)\1\1\1', signature, re.DOTALL)  # not reliable, fallback below
+    if not doc_match:
+        # Simpler explicit patterns
+        doc_match = re.search(r'"""(.*?)"""', signature, re.DOTALL) or re.search(r"'''(.*?)'''", signature, re.DOTALL)
+
+    if doc_match:
+        raw_doc = doc_match.group(1) if doc_match.lastindex == 1 else doc_match.group(doc_match.lastindex) if doc_match.lastindex else doc_match.group(0)
+        # If using explicit pattern raw_doc may be entire group; ensure we take inner content for explicit pattern
+        if '"""' in raw_doc or "'''" in raw_doc:
+            # Already full; attempt capture again
+            inner = re.search(r'"""(.*?)"""', raw_doc, re.DOTALL) or re.search(r"'''(.*?)'''", raw_doc, re.DOTALL)
+            if inner:
+                raw_doc = inner.group(1)
+        lines = [l.rstrip() for l in raw_doc.splitlines()]
+        for ln in lines:
+            stripped = ln.strip()
+            if not stripped:
+                continue
+            param_m = re.match(r':param\s+(\w+)\s*:\s*(.+)', stripped)
+            if param_m:
+                p_name = param_m.group(1)
+                p_desc = param_m.group(2).strip()
+                param_descriptions[p_name] = p_desc
+                continue
+            return_m = re.match(r':return:\s*(.+)', stripped)
+            if return_m:
+                return_description = return_m.group(1).strip()
+                continue
+            raises_m = re.match(r':raises\s+([A-Za-z_][A-Za-z0-9_]*):\s*(.+)', stripped)
+            if raises_m:
+                raises_descriptions.append(f"{raises_m.group(1)}: {raises_m.group(2).strip()}")
+                continue
+            # Normal descriptive line
+            docstring_summary_lines.append(stripped)
+
+    # Build combined description
+    description_parts: List[str] = []
+    if docstring_summary_lines:
+        description_parts.append(" ".join(docstring_summary_lines).strip())
+    if return_description:
+        description_parts.append(f"Return: {return_description}")
+    if raises_descriptions:
+        description_parts.append("Raises: " + "; ".join(raises_descriptions))
+    full_description = " \n".join(description_parts) if description_parts else f"Function {name}."
+
+    # --- Build properties ---
     properties: Dict[str, Any] = {}
     required: List[str] = []
-
     for p_name, p_type, p_default in params:
-        properties[p_name] = _python_type_to_jsonschema(p_type)
+        prop_schema = _python_type_to_jsonschema(p_type)
+        p_desc = param_descriptions.get(p_name)
+        if p_desc:
+            prop_schema["description"] = p_desc
+        properties[p_name] = prop_schema
         if p_default is None:
             required.append(p_name)
 
     schema = {
         "name": name,
-        "description": f"Auto-generated tool for function {name}",
+        "description": full_description,
         "parameters": {
             "type": "object",
             "properties": properties,
@@ -201,8 +264,9 @@ def convert(run_id: str, out_path: str | None = None) -> str:
         multi_turn_data = json.load(f)
 
     # Optional: include pseudo tools
-    include_pseudo = os.getenv("INCLUDE_PSEUDO_TOOLS", "0") == "1"
+    include_pseudo = os.getenv("INCLUDE_PSEUDO_TOOLS", "1") == "1"
     pseudo_by_index: Dict[int, List[str]] = {}
+    pseudo_style_by_index: Dict[int, str] = {}
     if include_pseudo and os.path.exists(pseudo_fp):
         try:
             with open(pseudo_fp, "r", encoding="utf-8") as f:
@@ -210,6 +274,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
             for item in pseudo_data:
                 idx = int(item.get("sample_index"))
                 pseudo_by_index[idx] = item.get("pseudo_functions", [])
+                pseudo_style_by_index[idx] = item.get("style", "distractor")
         except Exception:
             pseudo_by_index = {}
 
@@ -244,6 +309,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                         pseudo_tool = build_tool_from_signature(psig)
                         # 標記為 pseudo，方便下游區分/過濾
                         pseudo_tool["x_pseudo"] = True
+                        pseudo_tool["x_pseudo_kind"] = pseudo_style_by_index.get(idx, "distractor")
                         tools.append(pseudo_tool)
                         tool_names_seen.add(name)
                     except Exception:

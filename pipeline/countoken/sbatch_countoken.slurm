@@ -29,4 +29,4 @@ conda activate pythonic-function-calling-data
 
 cd "$SLURM_SUBMIT_DIR"
 
-python pipeline/countoken/countoken.py --input pipeline/data/a74d225c86b74961a0e2a3b1e12e0e83/multi_turn_eng.jsonl --bin_size 50
+python pipeline/countoken/countoken.py --input pipeline/data/a74d225c86b74961a0e2a3b1e12e0e83/multi_turn_eng.jsonl --bin_size 100

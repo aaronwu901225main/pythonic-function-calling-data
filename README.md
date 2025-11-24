@@ -195,6 +195,66 @@ If you omit `INCLUDE_PSEUDO_TOOLS=1`, the converter will ignore `pseudo_function
 
 _"Data generation takes time!"_ - _Unknown_
 
+### Multi-API Key Rotation (Token Quota Management)
+
+If you have multiple OpenAI API keys each with a daily free quota (e.g. 2.5M tokens), you can let the pipeline automatically rotate keys when usage approaches the quota.
+
+Set environment variables before running any `run_s*_openai.py` steps:
+
+```bash
+export OPENAI_API_KEYS="key1,key2,key3"         # Comma-separated list of API keys
+export API_DAILY_LIMIT_TOKENS=2500000           # Daily free quota per key (default 2_500_000)
+export API_ROTATE_MARGIN=25000                  # Rotate to next key when usage >= limit - margin
+export API_ROTATE_VERBOSE=1                     # (Optional) Print rotation usage info per call
+```
+
+Usage is tracked in a JSON file (default: `.api_usage_daily.json`) keyed by ISO date and API key. Example snippet after several calls:
+
+```json
+{
+    "2025-11-22": {
+        "sk-...A": 1485320,
+        "sk-...B": 123450,
+        "sk-...C": 0
+    }
+}
+```
+
+Rotation strategy:
+- On each chat completion, the system selects the first key whose `used_tokens < (API_DAILY_LIMIT_TOKENS - API_ROTATE_MARGIN)`.
+- If all keys exceeded the threshold, it continues using the last key (you may wish to halt manually at that point).
+- Token usage relies on OpenAI response `usage` fields; if missing, it falls back to a heuristic (4 characters ≈ 1 token).
+
+Override the usage file path by setting `API_USAGE_FILE=/custom/path/usage.json` if you want per-run isolation (e.g. inside `pipeline/data/<run_id>/`).
+
+Minimal example running Stage 1 with rotation:
+
+```bash
+export OPENAI_API_KEYS="sk-AAA...,sk-BBB...,sk-CCC..."
+uv run python run_s1_openai.py
+```
+
+To inspect current usage:
+
+```bash
+python - <<'PY'
+import json, datetime, pathlib
+fp=pathlib.Path('.api_usage_daily.json')
+data=json.loads(fp.read_text()) if fp.exists() else {}
+today=datetime.date.today().isoformat()
+print('Today:', today)
+for k,v in data.get(today, {}).items():
+        print(k[-6:], v)
+PY
+```
+
+Tips:
+- Adjust `API_ROTATE_MARGIN` upward if you need an earlier switch (e.g. set 100000 to leave buffer for retries).
+- For parallel usage from multiple processes, consider a shared network FS; current implementation uses simple atomic replace writes (no lock) — avoid extremely high concurrency.
+- If you want strict stop instead of continuing on last key, add a wrapper script to check usage file before invoking next stage.
+
+---
+
 ### Optional: OpenAI-only mode (no Dria network)
 
 If you cannot reach Dria's token endpoint or prefer to use your own OpenAI API directly, you can run Stage 1 with OpenAI only:
