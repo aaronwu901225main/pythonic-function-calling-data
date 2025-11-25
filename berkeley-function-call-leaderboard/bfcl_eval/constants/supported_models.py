@@ -558,3 +558,7 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-595-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-680-merged-3epoch-accumulate32-funreason-8K")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-765-merged-3epoch-accumulate32-funreason-8K")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-768-merged-3epoch-accumulate32-funreason-8K")
+# 1epoch-funreason-clean-toollist
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-1epoch-funreason-clean-toollist")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-94-merged-1epoch-funreason-clean-toollist")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-140-merged-1epoch-funreason-clean-toollist")

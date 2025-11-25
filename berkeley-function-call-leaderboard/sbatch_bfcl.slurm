@@ -32,19 +32,20 @@ cd "$SLURM_SUBMIT_DIR"
 
 # bfcl CLI 由 berkeley-function-call-leaderboard 套件提供
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-85-merged-3epoch-accumulate32-funreason-8K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-funreason-8K/checkpoint-85_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-1epoch-funreason-clean-toollist \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-funreason-clean-toollist/checkpoint-47_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-425-merged-3epoch-accumulate32-funreason-8K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-funreason-8K/checkpoint-425_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-94-merged-1epoch-funreason-clean-toollist \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-funreason-clean-toollist/checkpoint-94_merged
 
 bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
-  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-768-merged-3epoch-accumulate32-funreason-8K \
-  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-accumulate32-funreason-8K/checkpoint-768_merged
+  --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-140-merged-1epoch-funreason-clean-toollist \
+  --local-model-path merge_lora_model/Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-1epoch-funreason-clean-toollist/checkpoint-140_merged
 
-export OPENAI_API_KEY=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
-bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-85-merged-3epoch-accumulate32-funreason-8K,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-425-merged-3epoch-accumulate32-funreason-8K,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-768-merged-3epoch-accumulate32-funreason-8K
+export OPENAI_API_KEY=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
+bfcl evaluate  --test-category all --zhtw-eval gpt-4.1-mini --model Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-1epoch-funreason-clean-toollist,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-94-merged-1epoch-funreason-clean-toollist,Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-140-merged-1epoch-funreason-clean-toollist
+
 
 #bfcl generate  --test-category all  --gpu-memory-utilization 0.9 --num-gpus 1 --backend vllm \
 #  --model BitAgent/BitAgent-Bounty-8B
