@@ -5,3 +5,4 @@ uv.lock
 *.slurm
 *.out
 sbatch_pythonic-func-call.slurm
+*.global.jsonl

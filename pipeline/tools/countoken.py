@@ -228,6 +228,7 @@ def main():
 
 
     max_cnt = max(counts)
+    min_cnt = min(counts)
     # 依 bin_size 建立桶邊界，例如 0, 50, 100, ...
     # 多加一個邊界以覆蓋到最大值
     upper = ((max_cnt // args.bin_size) + 1) * args.bin_size
@@ -242,6 +243,13 @@ def main():
     plt.xlabel("每筆的 Token 數")
     plt.ylabel("筆數")
     plt.grid(axis="y", linestyle=":", alpha=0.5)
+
+    # 將 x 軸下界設為所有資料的最小值，集中顯示有資料的區間
+    try:
+        plt.xlim(left=min_cnt-1000)
+    except Exception:
+        # 若設定失敗則忽略，保持預設視窗
+        pass
 
     # 標出平均與中位數線
     ylim = plt.ylim()
