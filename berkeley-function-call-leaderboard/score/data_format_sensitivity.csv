@@ -6,9 +6,9 @@ Rank,Model,Format Sensitivity Max Delta,Format Sensitivity Standard Deviation,Co
 5,ToolACE-2-8B (FC),34.5,11.9,13.00%,24.00%,18.50%,33.50%,34.50%,33.50%,0.00%,0.00%,0.00%,12.50%,19.00%,9.50%,10.50%,4.00%,7.50%,8.50%,2.50%,4.50%,5.00%,5.50%,4.50%,10.00%,5.50%,2.50%,34.00%,33.00%
 6,Qwen3-8B (Prompt),20.0,5.32,34.50%,33.00%,34.00%,33.50%,33.50%,34.00%,34.50%,32.50%,35.00%,33.50%,33.00%,35.00%,15.50%,23.00%,21.00%,21.50%,25.00%,27.00%,27.00%,27.50%,31.00%,28.00%,27.50%,31.00%,34.50%,35.50%
 7,Ministral-8B-Instruct-2410 (FC),1.0,0.29,35.00%,34.50%,35.00%,35.00%,35.00%,34.50%,34.50%,34.50%,34.50%,34.50%,35.00%,34.50%,35.00%,35.50%,35.00%,34.50%,35.00%,35.00%,35.00%,34.50%,34.50%,34.50%,35.00%,35.00%,34.50%,34.50%
-8,xLAM-2-8b-fc-r LoRA ckpt141-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-9,xLAM-2-8b-fc-r LoRA ckpt94-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-10,BitAgent-Bounty-8B,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+8,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+9,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+10,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 11,Llama-3.1-8B-Instruct (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 12,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 13,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
@@ -16,8 +16,11 @@ Rank,Model,Format Sensitivity Max Delta,Format Sensitivity Standard Deviation,Co
 15,xLAM-2-8b-fc-r LoRA ckpt47-1epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 16,Qwen3-8B (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 17,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,xLAM-2-8b-fc-r LoRA ckpt94-1epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,xLAM-2-8b-fc-r LoRA ckpt140-1epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,xLAM-2-8b-fc-r LoRA ckpt94-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,xLAM-2-8b-fc-r LoRA ckpt141-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+22,BitAgent-Bounty-8B,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+23,xLAM-2-8b-fc-r LoRA ckpt94-1epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+24,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+25,xLAM-2-8b-fc-r LoRA ckpt140-1epoch-funreason-clean-toollist,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
