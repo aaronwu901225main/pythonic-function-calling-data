@@ -582,3 +582,13 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-282-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-329-merged-3epoch-funreason-clean-toollist")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-376-merged-3epoch-funreason-clean-toollist")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-420-merged-3epoch-funreason-clean-toollist")
+# 3epoch-funreason-pythonic-v1
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-21-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-42-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-63-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-84-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-105-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-126-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-147-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-funreason-pythonic-v1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-186-merged-3epoch-funreason-pythonic-v1")
