@@ -604,3 +604,7 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-12-merged-3epoch-simple-miss-para")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-3epoch-simple-miss-para")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3epoch-simple-miss-para")
+# 3epoch-Funreason-BFCL-sys-prompt
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-3epoch-Funreason-BFCL-sys-prompt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-235-merged-3epoch-Funreason-BFCL-sys-prompt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-420-merged-3epoch-Funreason-BFCL-sys-prompt")
