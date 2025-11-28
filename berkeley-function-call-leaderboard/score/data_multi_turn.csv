@@ -1,29 +1,38 @@
 Rank,Model,Multi Turn Overall Acc,Base,Miss Func,Miss Param,Long Context
 1,xLAM-2-8b-fc-r (FC),69.75%,77.50%,69.50%,64.50%,67.50%
-2,xLAM-2-8b-fc-r LoRA ckpt21-3epoch-funreason-pythonic-v1,63.25%,72.50%,63.00%,59.50%,58.00%
-3,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean,61.88%,75.50%,58.00%,55.50%,58.50%
-4,xLAM-2-8b-fc-r LoRA ckpt140-1epoch-funreason-clean-toollist,61.75%,74.00%,60.00%,57.00%,56.00%
-5,xLAM-2-8b-fc-r LoRA ckpt94-3epoch-funreason-clean,61.50%,74.00%,58.50%,57.50%,56.00%
-6,xLAM-2-8b-fc-r LoRA ckpt94-1epoch-funreason-clean-toollist,61.38%,72.50%,59.50%,57.50%,56.00%
-7,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean,61.25%,76.50%,53.00%,57.50%,58.00%
-8,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean-toollist,60.75%,75.00%,53.50%,55.50%,59.00%
-9,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean-toollist,60.75%,70.00%,59.50%,56.50%,57.00%
-10,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,60.75%,70.50%,59.50%,57.00%,56.00%
-11,xLAM-2-8b-fc-r LoRA ckpt47-1epoch-funreason-clean-toollist,60.50%,70.50%,58.50%,57.50%,55.50%
-12,xLAM-2-8b-fc-r LoRA ckpt141-3epoch-funreason-clean,60.25%,75.00%,56.50%,55.00%,54.50%
-13,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean-toollist,59.50%,74.50%,52.00%,54.50%,57.00%
-14,BitAgent-Bounty-8B,57.88%,75.50%,41.00%,60.00%,55.00%
-15,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,52.00%,63.50%,48.50%,38.50%,57.50%
-16,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,45.75%,61.50%,38.50%,30.00%,53.00%
-17,xLAM-2-8b-fc-r LoRA ckpt105-3epoch-funreason-pythonic-v1,45.75%,61.50%,34.50%,38.00%,49.00%
-18,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,45.00%,58.00%,41.50%,28.50%,52.00%
-19,xLAM-2-8b-fc-r LoRA ckpt186-3epoch-funreason-pythonic-v1,44.50%,59.00%,33.50%,39.00%,46.50%
-20,ToolACE-2-8B (FC),38.62%,48.50%,31.50%,29.50%,45.00%
-21,watt-tool-8B (FC),37.88%,46.00%,39.50%,24.50%,41.50%
-22,Qwen3-8B (FC),37.88%,41.50%,43.50%,34.50%,32.00%
-23,BitAgent-8B,37.75%,46.00%,37.50%,24.50%,43.00%
-24,Qwen3-8B (Prompt),28.00%,33.00%,36.00%,23.50%,19.50%
-25,Ministral-8B-Instruct-2410 (FC),11.37%,20.50%,6.50%,9.50%,9.00%
-26,Llama-3.1-8B-Instruct (Prompt),7.25%,8.50%,6.50%,6.50%,7.50%
-27,Llama-3.1-8B-Instruct (FC),6.38%,6.00%,7.50%,6.00%,6.00%
-28,CoALM-8B,6.38%,7.00%,8.50%,5.50%,4.50%
+2,xLAM-2-8b-fc-r LoRA ckpt12-3epoch-simple-miss-func,66.75%,78.00%,69.00%,57.50%,62.50%
+3,xLAM-2-8b-fc-r LoRA ckpt12-3epoch-simple-miss-para,66.50%,76.50%,68.50%,59.00%,62.00%
+4,xLAM-2-8b-fc-r LoRA ckpt12-3epoch-simple-long-text,66.00%,76.50%,65.50%,60.00%,62.00%
+5,xLAM-2-8b-fc-r LoRA ckpt21-3epoch-funreason-pythonic-v1,63.25%,72.50%,63.00%,59.50%,58.00%
+6,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean,61.88%,75.50%,58.00%,55.50%,58.50%
+7,xLAM-2-8b-fc-r LoRA ckpt140-1epoch-funreason-clean-toollist,61.75%,74.00%,60.00%,57.00%,56.00%
+8,xLAM-2-8b-fc-r LoRA ckpt94-3epoch-funreason-clean,61.50%,74.00%,58.50%,57.50%,56.00%
+9,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-simple-miss-func,61.38%,72.50%,59.00%,54.50%,59.50%
+10,xLAM-2-8b-fc-r LoRA ckpt94-1epoch-funreason-clean-toollist,61.38%,72.50%,59.50%,57.50%,56.00%
+11,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean,61.25%,76.50%,53.00%,57.50%,58.00%
+12,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean-toollist,60.75%,75.00%,53.50%,55.50%,59.00%
+13,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean-toollist,60.75%,70.00%,59.50%,56.50%,57.00%
+14,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,60.75%,70.50%,59.50%,57.00%,56.00%
+15,xLAM-2-8b-fc-r LoRA ckpt47-1epoch-funreason-clean-toollist,60.50%,70.50%,58.50%,57.50%,55.50%
+16,xLAM-2-8b-fc-r LoRA ckpt141-3epoch-funreason-clean,60.25%,75.00%,56.50%,55.00%,54.50%
+17,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean-toollist,59.50%,74.50%,52.00%,54.50%,57.00%
+18,xLAM-2-8b-fc-r LoRA ckpt111-3epoch-simple-miss-func,58.63%,68.50%,57.00%,53.50%,55.50%
+19,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-simple-miss-para,58.25%,69.00%,55.00%,55.00%,54.00%
+20,BitAgent-Bounty-8B,57.88%,75.50%,41.00%,60.00%,55.00%
+21,xLAM-2-8b-fc-r LoRA ckpt111-3epoch-simple-miss-para,57.50%,67.00%,55.50%,53.50%,54.00%
+22,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,52.00%,63.50%,48.50%,38.50%,57.50%
+23,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-simple-long-text,51.25%,66.00%,39.50%,45.00%,54.50%
+24,xLAM-2-8b-fc-r LoRA ckpt111-3epoch-simple-long-text,51.12%,67.50%,39.00%,41.50%,56.50%
+25,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,45.75%,61.50%,38.50%,30.00%,53.00%
+26,xLAM-2-8b-fc-r LoRA ckpt105-3epoch-funreason-pythonic-v1,45.75%,61.50%,34.50%,38.00%,49.00%
+27,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,45.00%,58.00%,41.50%,28.50%,52.00%
+28,xLAM-2-8b-fc-r LoRA ckpt186-3epoch-funreason-pythonic-v1,44.50%,59.00%,33.50%,39.00%,46.50%
+29,ToolACE-2-8B (FC),38.62%,48.50%,31.50%,29.50%,45.00%
+30,watt-tool-8B (FC),37.88%,46.00%,39.50%,24.50%,41.50%
+31,Qwen3-8B (FC),37.88%,41.50%,43.50%,34.50%,32.00%
+32,BitAgent-8B,37.75%,46.00%,37.50%,24.50%,43.00%
+33,Qwen3-8B (Prompt),28.00%,33.00%,36.00%,23.50%,19.50%
+34,Ministral-8B-Instruct-2410 (FC),11.37%,20.50%,6.50%,9.50%,9.00%
+35,Llama-3.1-8B-Instruct (Prompt),7.25%,8.50%,6.50%,6.50%,7.50%
+36,Llama-3.1-8B-Instruct (FC),6.38%,6.00%,7.50%,6.00%,6.00%
+37,CoALM-8B,6.38%,7.00%,8.50%,5.50%,4.50%

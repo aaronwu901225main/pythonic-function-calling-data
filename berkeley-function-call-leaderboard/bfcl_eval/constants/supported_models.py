@@ -592,3 +592,15 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-126-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-147-merged-3epoch-funreason-pythonic-v1")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-168-merged-3epoch-funreason-pythonic-v1")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-186-merged-3epoch-funreason-pythonic-v1")
+# 3epoch-simple-long-text
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-12-merged-3epoch-simple-long-text")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-3epoch-simple-long-text")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3epoch-simple-long-text")
+# 3epoch-simple-miss-func
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-12-merged-3epoch-simple-miss-func")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-3epoch-simple-miss-func")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3epoch-simple-miss-func")
+# 3epoch-simple-miss-para
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-12-merged-3epoch-simple-miss-para")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-3epoch-simple-miss-para")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3epoch-simple-miss-para")
