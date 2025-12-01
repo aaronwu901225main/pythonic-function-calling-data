@@ -628,3 +628,7 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-420-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-15-merged-3epoch-pythonic-v2")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-75-merged-3epoch-pythonic-v2")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-138-merged-3epoch-pythonic-v2")
+# 3epoch-simple-fix-tool-role
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-49-merged-3epoch-simple-fix-tool-role")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-245-merged-3epoch-simple-fix-tool-role")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-438-merged-3epoch-simple-fix-tool-role")
