@@ -608,3 +608,19 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-111-merged-3
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-3epoch-Funreason-BFCL-sys-prompt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-235-merged-3epoch-Funreason-BFCL-sys-prompt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-420-merged-3epoch-Funreason-BFCL-sys-prompt")
+# 3epoch-all-multi-1-1
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-213-merged-3epoch-all-multi-1-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1065-merged-3epoch-all-multi-1-1")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1917-merged-3epoch-all-multi-1-1")
+# 3epoch-all-multi-1-06
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-192-merged-3epoch-all-multi-1-06")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-768-merged-3epoch-all-multi-1-06")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1536-merged-3epoch-all-multi-1-06")
+# 3epoch-all-multi-zhtw-only
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-163-merged-3epoch-all-multi-zhtw-only")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-652-merged-3epoch-all-multi-zhtw-only")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1304-merged-3epoch-all-multi-zhtw-only")
+# 3epoch-zhtw-simple-only
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-47-merged-3epoch-zhtw-simple-only")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-235-merged-3epoch-zhtw-simple-only")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-420-merged-3epoch-zhtw-simple-only")
