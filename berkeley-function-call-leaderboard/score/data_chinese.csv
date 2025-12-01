@@ -42,12 +42,15 @@ Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Mu
 41,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,85.44%,92.75%,87.50%,79.50%,82.00%,49.17%
 42,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
 43,xLAM-2-8b-fc-r LoRA ckpt213-3epoch-all-multi-1-1,81.56%,86.75%,87.50%,80.00%,72.00%,64.17%
-44,xLAM-2-8b-fc-r LoRA ckpt652-3epoch-all-multi-zhtw-only,75.56%,61.25%,65.00%,85.00%,91.00%,94.58%
-45,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-46,xLAM-2-8b-fc-r LoRA ckpt768-3epoch-all-multi-1-06,65.19%,44.25%,48.50%,78.00%,90.00%,97.08%
-47,xLAM-2-8b-fc-r LoRA ckpt1304-3epoch-all-multi-zhtw-only,65.19%,42.75%,47.00%,81.50%,89.50%,96.67%
-48,xLAM-2-8b-fc-r LoRA ckpt1065-3epoch-all-multi-1-1,58.69%,45.75%,45.50%,74.00%,69.50%,95.83%
-49,xLAM-2-8b-fc-r LoRA ckpt1917-3epoch-all-multi-1-1,53.62%,35.00%,40.00%,70.00%,69.50%,96.25%
-50,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-51,xLAM-2-8b-fc-r LoRA ckpt1536-3epoch-all-multi-1-06,44.38%,16.00%,19.00%,63.00%,79.50%,99.58%
-52,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+44,xLAM-2-8b-fc-r LoRA ckpt15-3epoch-pythonic-v2,78.81%,87.25%,83.00%,79.00%,66.00%,49.17%
+45,xLAM-2-8b-fc-r LoRA ckpt138-3epoch-pythonic-v2,78.62%,85.50%,82.00%,80.50%,66.50%,27.50%
+46,xLAM-2-8b-fc-r LoRA ckpt75-3epoch-pythonic-v2,78.44%,85.25%,83.50%,80.50%,64.50%,30.83%
+47,xLAM-2-8b-fc-r LoRA ckpt652-3epoch-all-multi-zhtw-only,75.56%,61.25%,65.00%,85.00%,91.00%,94.58%
+48,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+49,xLAM-2-8b-fc-r LoRA ckpt768-3epoch-all-multi-1-06,65.19%,44.25%,48.50%,78.00%,90.00%,97.08%
+50,xLAM-2-8b-fc-r LoRA ckpt1304-3epoch-all-multi-zhtw-only,65.19%,42.75%,47.00%,81.50%,89.50%,96.67%
+51,xLAM-2-8b-fc-r LoRA ckpt1065-3epoch-all-multi-1-1,58.69%,45.75%,45.50%,74.00%,69.50%,95.83%
+52,xLAM-2-8b-fc-r LoRA ckpt1917-3epoch-all-multi-1-1,53.62%,35.00%,40.00%,70.00%,69.50%,96.25%
+53,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+54,xLAM-2-8b-fc-r LoRA ckpt1536-3epoch-all-multi-1-06,44.38%,16.00%,19.00%,63.00%,79.50%,99.58%
+55,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
