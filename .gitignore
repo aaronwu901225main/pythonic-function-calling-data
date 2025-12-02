@@ -6,3 +6,4 @@ uv.lock
 *.out
 sbatch_pythonic-func-call.slurm
 *.global.jsonl
+.api_usage_daily.json
