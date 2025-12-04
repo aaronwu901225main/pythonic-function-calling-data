@@ -1,6 +1,7 @@
-dria>=0.0.111
 httpx==0.28.1
 openai>=1.44.0
 jsonschema>=4.23.0
 matplotlib>=3.7.0
-transformers>=4.30.0
+numpy<2,>=1.26
+transformers>=4.37.0
+python-dateutil>=2.8.2

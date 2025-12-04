@@ -5,12 +5,13 @@ Summary: Repository for the Pythonic Function Calling data generation with Dria 
 Author: andthattoo
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown
-Requires-Dist: dria>=0.0.111
 Requires-Dist: httpx==0.28.1
 Requires-Dist: openai>=1.44.0
 Requires-Dist: jsonschema>=4.23.0
 Requires-Dist: matplotlib>=3.7.0
-Requires-Dist: transformers>=4.30.0
+Requires-Dist: numpy<2,>=1.26
+Requires-Dist: transformers>=4.37.0
+Requires-Dist: python-dateutil>=2.8.2
 
 # Function Calling Dataset Generator
 

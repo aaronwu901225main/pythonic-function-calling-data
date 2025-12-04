@@ -93,7 +93,11 @@ def main() -> None:
                     continue
                 if "parameters" not in t:
                     t["parameters"] = {"type": "object", "properties": {}, "required": []}
-                base_tools_by_name[name] = t
+                # 移除 pseudo 標記，避免影響下游
+                cleaned = dict(t)
+                cleaned.pop("x_pseudo", None)
+                cleaned.pop("x_pseudo_kind", None)
+                base_tools_by_name[name] = cleaned
 
             base_tools: List[Dict[str, Any]] = list(base_tools_by_name.values())
 
@@ -105,7 +109,11 @@ def main() -> None:
                 is_pseudo = bool(schema.get("x_pseudo"))
                 if is_pseudo and not args.include_pseudo:
                     continue
-                candidate_tools.append(schema)
+                # 移除 pseudo 標記，僅作為一般工具加入候選
+                cleaned = dict(schema)
+                cleaned.pop("x_pseudo", None)
+                cleaned.pop("x_pseudo_kind", None)
+                candidate_tools.append(cleaned)
 
             random.shuffle(candidate_tools)
 
@@ -137,6 +145,8 @@ def main() -> None:
                 # 不限制 token，就 base + 全部候選
                 merged_tools = list(base_tools) + candidate_tools
 
+            # 最終打亂整體順序，避免固定把本題工具排在前面
+            random.shuffle(merged_tools)
             obj["tools"] = merged_tools
             out_f.write(json.dumps(obj, ensure_ascii=False) + "\n")
             written += 1
