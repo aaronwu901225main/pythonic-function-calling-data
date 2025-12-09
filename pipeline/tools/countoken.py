@@ -171,22 +171,22 @@ def main():
                 bad_rows += 1
 
     if not counts:
-        print("❌ 沒有成功解析的資料")
+        print("❌ No data successfully parsed")
         return
 
     # 做區間分布
     hist = Counter(bucketize(n, args.bin_size) for n in counts)
 
-    print("—— 區間統計 ——")
+    print("—— Bin Statistics ——")
     for rng, cnt in sorted(hist.items(), key=lambda x: int(x[0].split("-")[0])):
-        print(f"{rng}: {cnt} 筆")
+        print(f"{rng}: {cnt} rows")
 
-    print("\n—— 總結 ——")
-    print(f"總筆數: {len(counts)} (chat 成功 {parsed_rows} 筆, 壞掉 {bad_rows} 筆)")
-    print(f"總 token 數: {sum(counts)}")
-    print(f"平均 tokens/筆: {sum(counts)/len(counts):.2f}")
-    print(f"最大 tokens/筆: {max(counts)}")
-    print(f"最小 tokens/筆: {min(counts)}")
+    print("\n—— Summary ——")
+    print(f"Total rows: {len(counts)} (chat success {parsed_rows} rows, failed {bad_rows} rows)")
+    print(f"Total tokens: {sum(counts)}")
+    print(f"Average tokens/row: {sum(counts)/len(counts):.2f}")
+    print(f"Max tokens/row: {max(counts)}")
+    print(f"Min tokens/row: {min(counts)}")
 
     # ——— 作圖：Token 分布直方圖（依 bin_size） ———
     # 在無桌面環境時切換到 Agg 後端，避免 import pyplot 失敗
@@ -196,7 +196,7 @@ def main():
             matplotlib.use("Agg", force=True)
         import matplotlib.pyplot as plt
     except Exception as e:
-        print(f"⚠️ 無法載入繪圖套件 matplotlib，略過作圖：{e}")
+        print(f"⚠️ Cannot load matplotlib, skipping plotting: {e}")
         return
         
     font_path = "/home/at0842/aaronwu901225master.ai13/fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
@@ -215,7 +215,7 @@ def main():
             'WenQuanYi Zen Hei',
             'DejaVu Sans',
         ]
-        print(f"使用字型：{family_name} (from {font_path})")
+        print(f"Using font: {family_name} (from {font_path})")
     else:
         # 中文字型設定（視系統而定，避免亂碼）— Linux 常見可用的 CJK 字型做為備援
         plt.rcParams['font.sans-serif'] = [
@@ -239,9 +239,9 @@ def main():
 
     plt.figure(figsize=(10, 6))
     plt.hist(counts, bins=bins, color="#4C78A8", edgecolor="white")
-    plt.title("Token 數量分布 (依區間)")
-    plt.xlabel("每筆的 Token 數")
-    plt.ylabel("筆數")
+    plt.title("Token Count Distribution (by bin)")
+    plt.xlabel("Tokens per row")
+    plt.ylabel("Count")
     plt.grid(axis="y", linestyle=":", alpha=0.5)
 
     # 將 x 軸下界設為所有資料的最小值，集中顯示有資料的區間
@@ -251,15 +251,15 @@ def main():
         # 若設定失敗則忽略，保持預設視窗
         pass
 
-    # 標出平均與中位數線
+    # Mark mean and median lines
     ylim = plt.ylim()
     plt.vlines([mean_val, median_val], ymin=0, ymax=ylim[1], colors=["#E45756", "#72B7B2"],
-               linestyles=["--", "-."] , label=["平均", "中位數"])
-    # 補上圖例（手動建立兩條線的圖例）
+               linestyles=["--", "-."] , label=["Mean", "Median"])
+    # Add legend (manually create legend for two lines)
     from matplotlib.lines import Line2D
     legend_elems = [
-        Line2D([0], [0], color="#E45756", linestyle="--", label=f"平均 {mean_val:.1f}"),
-        Line2D([0], [0], color="#72B7B2", linestyle="-.", label=f"中位數 {median_val:.1f}"),
+        Line2D([0], [0], color="#E45756", linestyle="--", label=f"Mean {mean_val:.1f}"),
+        Line2D([0], [0], color="#72B7B2", linestyle="-.", label=f"Median {median_val:.1f}"),
     ]
     plt.legend(handles=legend_elems)
 
@@ -273,7 +273,7 @@ def main():
 
     plt.tight_layout()
     plt.savefig(out_path, dpi=150)
-    print(f"\n🖼️ 已輸出圖檔: {out_path}")
+    print(f"\n🖼️ Plot saved to: {out_path}")
 
     if args.show:
         try:

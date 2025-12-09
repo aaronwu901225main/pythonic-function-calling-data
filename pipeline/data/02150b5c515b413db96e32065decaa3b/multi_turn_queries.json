@@ -1,0 +1,374 @@
+[
+  {
+    "trace": [
+      {
+        "query": "Max, can you help me reschedule my lunch with John Smith to a later time today?"
+      },
+      {
+        "function_call": "check_availability(time=\"14:00\")"
+      },
+      {
+        "tool": "{\"available\": true, \"reason\": \"\"}"
+      },
+      {
+        "function_call": "reschedule_meeting(original_time=\"13:00\", new_time=\"14:00\", participant=\"John Smith\")"
+      },
+      {
+        "tool": "{\"success\": true, \"message\": \"Meeting with John Smith successfully rescheduled to 2 PM.\"}"
+      },
+      {
+        "query": "Great! Can you notify John Smith about the new time?"
+      },
+      {
+        "function_call": "notify_participant(participant=\"John Smith\", new_time=\"14:00\")"
+      },
+      {
+        "tool": "{\"notification_status\": true, \"message\": \"John Smith has been notified about the new meeting time at 2 PM.\"}"
+      },
+      {
+        "query": "Can you remind me who else is in the meeting with John Smith and what the agenda is?"
+      },
+      {
+        "function_call": "get_meeting_details(time=\"14:00\")"
+      },
+      {
+        "tool": "{\"meeting_details\": {\"participants\": [\"Alice\", \"John Smith\"], \"agenda\": \"Discuss potential collaboration.\"}}"
+      },
+      {
+        "query": "Thanks, Max. Just to double-check, is there anything else scheduled at 2 PM?"
+      },
+      {
+        "function_call": "check_availability(time=\"14:00\")"
+      },
+      {
+        "tool": "{\"available\": true, \"reason\": \"\"}"
+      },
+      {
+        "query": "Perfect! Can you also check if I have any meetings after 3 PM today?"
+      },
+      {
+        "function_call": "check_availability(time=\"15:00\")"
+      },
+      {
+        "tool": "{\"available\": false, \"reason\": \"You have a project deadline meeting scheduled at that time.\"}"
+      },
+      {
+        "query": "Okay, so my only free slot after 3 PM is before the project deadline. Can you remind me of the time for that meeting?"
+      },
+      {
+        "function_call": "get_meeting_details(time=\"15:00\")"
+      },
+      {
+        "tool": "{\"meeting_details\": {\"participants\": [\"Alice\", \"Project Team\"], \"agenda\": \"Finalize project deadline.\"}}"
+      },
+      {
+        "query": "Got it, thank you, Max! I appreciate your help in managing my schedule."
+      },
+      {
+        "function_call": "notify_participant(participant=\"Alice\", new_time=\"15:00\")"
+      },
+      {
+        "tool": "{\"notification_status\": true, \"message\": \"Alice has been reminded about the project deadline meeting at 3 PM.\"}"
+      }
+    ],
+    "function_schemas": [
+      "def reschedule_meeting(original_time: str, new_time: str, participant: str) -> Dict[str, Any]:\n    \"\"\"Reschedule a meeting to a new time.\n    \n    :param original_time: The original time of the meeting in HH:MM format.\n    :param new_time: The new time for the meeting in HH:MM format.\n    :param participant: The name of the participant to inform about the rescheduling.\n    :return_fields:\n      - success (bool): True if the meeting was successfully rescheduled, False otherwise.\n      - message (str): A message indicating the result of the rescheduling attempt.\n    \"\"\"\n    pass",
+      "def check_availability(time: str) -> Dict[str, Any]:\n    \"\"\"Check if a specific time slot is available for scheduling.\n    \n    :param time: The time to check availability for in HH:MM format.\n    :return_fields:\n      - available (bool): True if the time slot is available, False otherwise.\n      - reason (str): A message explaining why the time is not available if applicable.\n    \"\"\"\n    pass",
+      "def notify_participant(participant: str, new_time: str) -> Dict[str, Any]:\n    \"\"\"Notify a participant about the new meeting time.\n    \n    :param participant: The name of the participant to notify.\n    :param new_time: The new meeting time in HH:MM format.\n    :return_fields:\n      - notification_status (bool): True if the participant was notified successfully, False otherwise.\n      - message (str): A message indicating the result of the notification attempt.\n    \"\"\"\n    pass",
+      "def get_meeting_details(time: str) -> Dict[str, Any]:\n    \"\"\"Retrieve the details of a meeting scheduled at a specific time.\n    \n    :param time: The time of the meeting in HH:MM format.\n    :return_fields:\n      - meeting_details (Dict[str, Any]): Details of the meeting including participants and agenda.\n        - participants (List[str]): List of participants in the meeting.\n        - agenda (str): Agenda of the meeting.\n    \"\"\"\n    pass"
+    ],
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management"
+  },
+  {
+    "trace": [
+      {
+        "query": "Can you help me create a study schedule for this week that allows time for my classes, work, and finishing my research paper?"
+      },
+      {
+        "function_call": "create_study_schedule(classes=[\"Math\", \"Physics\", \"History\", \"Chemistry\", \"English\"], work_hours=[\"5pm-9pm\", \"5pm-9pm\", \"5pm-9pm\"], deadline=\"2023-10-15\")"
+      },
+      {
+        "tool": "{\"schedule\":{\"Monday\":[\"Class: Math\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Tuesday\":[\"Class: Physics\",\"Study: Research Paper\"],\"Wednesday\":[\"Class: History\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Thursday\":[\"Class: Chemistry\",\"Study: Research Paper\"],\"Friday\":[\"Class: English\",\"Work: 5pm-9pm\"],\"Saturday\":[\"Study: Research Paper\"],\"Sunday\":[\"Finish: Research Paper\"]},\"success\":true}"
+      },
+      {
+        "query": "That looks good! But do I have enough time for all these activities this week?"
+      },
+      {
+        "function_call": "check_time_availability(activities=[\"Class: Math\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Class: Physics\", \"Study: Research Paper\", \"Class: History\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Class: Chemistry\", \"Study: Research Paper\", \"Class: English\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Finish: Research Paper\"], total_hours=40)"
+      },
+      {
+        "tool": "{\"has_time\":true,\"required_hours\":30}"
+      },
+      {
+        "function_call": "prioritize_tasks(tasks=[\"Finish Research Paper\", \"Attend Classes\", \"Work Hours\"], deadline=\"2023-10-15\")"
+      },
+      {
+        "tool": "{\"prioritized_tasks\":[\"Finish Research Paper\",\"Attend Classes\",\"Work Hours\"],\"urgent\":[\"Finish Research Paper\"]}"
+      },
+      {
+        "query": "Great! Since finishing my research paper is urgent, should I add more study time to my schedule?"
+      },
+      {
+        "function_call": "allocate_study_time(existing_schedule={\"Monday\":[\"Class: Math\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Tuesday\":[\"Class: Physics\",\"Study: Research Paper\"],\"Wednesday\":[\"Class: History\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Thursday\":[\"Class: Chemistry\",\"Study: Research Paper\"],\"Friday\":[\"Class: English\",\"Work: 5pm-9pm\"],\"Saturday\":[\"Study: Research Paper\"],\"Sunday\":[\"Finish: Research Paper\"]}, additional_time=10)"
+      },
+      {
+        "tool": "{\"updated_schedule\":{\"Monday\":[\"Class: Math\",\"Work: 5pm-9pm\",\"Study: Research Paper\",\"Extra Study Time\"],\"Tuesday\":[\"Class: Physics\",\"Study: Research Paper\",\"Extra Study Time\"],\"Wednesday\":[\"Class: History\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Thursday\":[\"Class: Chemistry\",\"Study: Research Paper\",\"Extra Study Time\"],\"Friday\":[\"Class: English\",\"Work: 5pm-9pm\"],\"Saturday\":[\"Study: Research Paper\",\"Extra Study Time\"],\"Sunday\":[\"Finish: Research Paper\",\"Extra Study Time\"]},\"success\":true}"
+      },
+      {
+        "query": "Can you summarize my updated study schedule for the week?"
+      },
+      {
+        "function_call": "create_study_schedule(classes=[\"Math\", \"Physics\", \"History\", \"Chemistry\", \"English\"], work_hours=[\"5pm-9pm\", \"5pm-9pm\", \"5pm-9pm\"], deadline=\"2023-10-15\")"
+      },
+      {
+        "tool": "{\"schedule\":{\"Monday\":[\"Class: Math\",\"Work: 5pm-9pm\",\"Study: Research Paper\",\"Extra Study Time\"],\"Tuesday\":[\"Class: Physics\",\"Study: Research Paper\",\"Extra Study Time\"],\"Wednesday\":[\"Class: History\",\"Work: 5pm-9pm\",\"Study: Research Paper\"],\"Thursday\":[\"Class: Chemistry\",\"Study: Research Paper\",\"Extra Study Time\"],\"Friday\":[\"Class: English\",\"Work: 5pm-9pm\"],\"Saturday\":[\"Study: Research Paper\",\"Extra Study Time\"],\"Sunday\":[\"Finish: Research Paper\",\"Extra Study Time\"]},\"success\":true}"
+      },
+      {
+        "query": "Thanks, Clara! That helps a lot. I feel more organized now."
+      },
+      {
+        "function_call": "check_time_availability(activities=[\"Class: Math\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Extra Study Time\", \"Class: Physics\", \"Study: Research Paper\", \"Extra Study Time\", \"Class: History\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Class: Chemistry\", \"Study: Research Paper\", \"Extra Study Time\", \"Class: English\", \"Work: 5pm-9pm\", \"Study: Research Paper\", \"Extra Study Time\", \"Finish: Research Paper\", \"Extra Study Time\"], total_hours=40)"
+      },
+      {
+        "tool": "{\"has_time\":true,\"required_hours\":32}"
+      }
+    ],
+    "function_schemas": [
+      "def create_study_schedule(classes: List[str], work_hours: List[str], deadline: str) -> Dict[str, Any]:\n    \"\"\"Create a study schedule for the week to meet the research paper deadline.\n    \n    :param classes: List of classes that Bob needs to attend during the week.\n    :param work_hours: List of work hours that Bob has scheduled.\n    :param deadline: The deadline date for the research paper in 'YYYY-MM-DD' format.\n    :return_fields:\n      - schedule (Dict[str, List[str]]): A dictionary with days of the week as keys and lists of activities as values.\n      - success (bool): True if the schedule was created successfully, False otherwise.\n    \"\"\"\n    pass",
+      "def check_time_availability(activities: List[str], total_hours: int) -> Dict[str, bool]:\n    \"\"\"Check if there is enough time available for the scheduled activities.\n    \n    :param activities: List of activities scheduled throughout the week.\n    :param total_hours: Total hours available in the week for studying and working.\n    :return_fields:\n      - has_time (bool): True if there is enough time for all activities, False otherwise.\n      - required_hours (int): Total hours required for the scheduled activities.\n    \"\"\"\n    pass",
+      "def prioritize_tasks(tasks: List[str], deadline: str) -> Dict[str, List[str]]:\n    \"\"\"Prioritize tasks based on their urgency and deadline.\n    \n    :param tasks: List of tasks that need to be completed.\n    :param deadline: The deadline date for the research paper in 'YYYY-MM-DD' format.\n    :return_fields:\n      - prioritized_tasks (List[str]): A list of tasks ordered by priority.\n      - urgent (List[str]): A list of tasks that are urgent and need immediate attention.\n    \"\"\"\n    pass",
+      "def allocate_study_time(existing_schedule: Dict[str, List[str]], additional_time: int) -> Dict[str, Any]:\n    \"\"\"Allocate additional study time into the existing schedule.\n    \n    :param existing_schedule: The current schedule with classes and work hours.\n    :param additional_time: Additional hours available for studying.\n    :return_fields:\n      - updated_schedule (Dict[str, List[str]]): Updated schedule with additional study time allocated.\n      - success (bool): True if additional time was successfully allocated, False otherwise.\n    \"\"\"\n    pass"
+    ],
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management"
+  },
+  {
+    "trace": [
+      {
+        "query": "Can you find an alternative time for my client call so I can make it to my son’s practice?"
+      },
+      {
+        "function_call": "schedule_client_call(original_time=\"17:00\", duration=30, conflict_time=\"17:00\")"
+      },
+      {
+        "tool": "{\"new_time\": \"17:30\", \"success\": true, \"message\": \"Client call rescheduled to 17:30.\"}"
+      },
+      {
+        "function_call": "check_availability(time_slot=\"17:30\", duration=30)"
+      },
+      {
+        "tool": "{\"is_available\": true, \"reason\": \"\"}"
+      },
+      {
+        "query": "Great! Now that the call is rescheduled, can you notify my client about the new time?"
+      },
+      {
+        "function_call": "notify_client_of_rescheduling(client_id=\"client123\", new_time=\"17:30\")"
+      },
+      {
+        "tool": "{\"notification_status\": true, \"message\": \"Client notified successfully about the new call time.\"}"
+      },
+      {
+        "function_call": "log_scheduling_event(event_description=\"Rescheduled client call to 17:30 to avoid conflict with son's soccer practice.\")"
+      },
+      {
+        "tool": "{\"log_id\": 1001, \"success\": true}"
+      },
+      {
+        "query": "Did the client receive my notification about the new call time?"
+      },
+      {
+        "function_call": "check_availability(time_slot=\"17:30\", duration=30)"
+      },
+      {
+        "tool": "{\"is_available\": true, \"reason\": \"\"}"
+      },
+      {
+        "query": "What if I need to change the call time again later?"
+      },
+      {
+        "function_call": "log_scheduling_event(event_description=\"Client call rescheduled to 17:30 due to conflict with son's soccer practice.\")"
+      },
+      {
+        "tool": "{\"log_id\": 1001, \"success\": true}"
+      },
+      {
+        "query": "Can you remind me of the new time and if my client is still available for a call then?"
+      },
+      {
+        "function_call": "check_availability(time_slot=\"17:30\", duration=30)"
+      },
+      {
+        "tool": "{\"is_available\": true, \"reason\": \"\"}"
+      },
+      {
+        "query": "Thanks! Is there anything else I should log regarding this scheduling?"
+      },
+      {
+        "function_call": "log_scheduling_event(event_description=\"Scheduled client call for 17:30 after rescheduling.\")"
+      },
+      {
+        "tool": "{\"log_id\": 1002, \"success\": true}"
+      }
+    ],
+    "function_schemas": [
+      "def schedule_client_call(original_time: str, duration: int, conflict_time: str) -> Dict[str, Any]:\n    \"\"\"Schedule a new time for the client call to avoid conflict with the soccer practice.\n    \n    :param original_time: The original scheduled time for the client call in HH:MM format.\n    :param duration: Duration of the client call in minutes.\n    :param conflict_time: The time of the conflicting event (soccer practice) in HH:MM format.\n    :return_fields:\n      - new_time (str): The newly scheduled time for the client call in HH:MM format.\n      - success (bool): True if the call was successfully rescheduled, False otherwise.\n      - message (str): An informative message regarding the scheduling result.\n    :raises ValueError: If the original time or conflict time is not in the correct format.\n    \"\"\"\n    pass",
+      "def check_availability(time_slot: str, duration: int) -> Dict[str, Any]:\n    \"\"\"Check if the proposed time slot is available for scheduling.\n    \n    :param time_slot: The proposed time slot in HH:MM format to check for availability.\n    :param duration: Duration in minutes for which the time slot is requested.\n    :return_fields:\n      - is_available (bool): True if the time slot is available, False otherwise.\n      - reason (str): Reason for unavailability if the time slot is not available.\n    :raises ValueError: If the time slot is not in the correct format.\n    \"\"\"\n    pass",
+      "def notify_client_of_rescheduling(client_id: str, new_time: str) -> Dict[str, Any]:\n    \"\"\"Notify the client about the new time for the call.\n    \n    :param client_id: The ID of the client to be notified.\n    :param new_time: The newly scheduled time for the client call in HH:MM format.\n    :return_fields:\n      - notification_status (bool): True if the notification was sent successfully, False otherwise.\n      - message (str): A message describing the result of the notification attempt.\n    \"\"\"\n    pass",
+      "def log_scheduling_event(event_description: str) -> Dict[str, Any]:\n    \"\"\"Log the scheduling event for future reference.\n    \n    :param event_description: A description of the event to be logged.\n    :return_fields:\n      - log_id (int): The ID of the logged event.\n      - success (bool): True if the event was logged successfully, False otherwise.\n    \"\"\"\n    pass"
+    ],
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management"
+  },
+  {
+    "trace": [
+      {
+        "query": "Jenna, can you help me find a new time for my project review meeting? I really can’t miss my dentist appointment."
+      },
+      {
+        "function_call": "check_conflict(original_time=\"2023-10-15T14:00:00\", appointment_time=\"2023-10-15T14:00:00\")"
+      },
+      {
+        "tool": "{\"conflict\": true}"
+      },
+      {
+        "function_call": "get_available_times(current_time=\"2023-10-15T12:00:00\", duration=60)"
+      },
+      {
+        "tool": "[\"2023-10-15T13:00:00\", \"2023-10-15T15:00:00\", \"2023-10-15T16:00:00\"]"
+      },
+      {
+        "query": "What are the available times for rescheduling my meeting?"
+      },
+      {
+        "function_call": "reschedule_meeting(original_time=\"2023-10-15T14:00:00\", duration=60, available_times=[\"2023-10-15T13:00:00\", \"2023-10-15T15:00:00\", \"2023-10-15T16:00:00\"])"
+      },
+      {
+        "tool": "{\"new_time\": \"2023-10-15T15:00:00\", \"status\": true, \"message\": \"Meeting rescheduled successfully.\"}"
+      },
+      {
+        "function_call": "notify_user_of_reschedule(user_id=\"David\", new_time=\"2023-10-15T15:00:00\")"
+      },
+      {
+        "tool": "{\"notification_status\": true, \"message\": \"User notified of the new meeting time.\"}"
+      },
+      {
+        "query": "Jenna, when is my rescheduled project review meeting now?"
+      },
+      {
+        "function_call": "notify_user_of_reschedule(user_id=\"David\", new_time=\"2023-10-15T15:00:00\")"
+      },
+      {
+        "tool": "{\"notification_status\": true, \"message\": \"User notified of the new meeting time.\"}"
+      },
+      {
+        "query": "Thank you! Can you confirm if the rescheduling has been successful?"
+      },
+      {
+        "function_call": "check_conflict(original_time=\"2023-10-15T15:00:00\", appointment_time=\"2023-10-15T14:00:00\")"
+      },
+      {
+        "tool": "{\"conflict\": false}"
+      },
+      {
+        "query": "So there’s no conflict now? That’s great!"
+      },
+      {
+        "function_call": "get_available_times(current_time=\"2023-10-15T12:00:00\", duration=60)"
+      },
+      {
+        "tool": "[\"2023-10-15T13:00:00\", \"2023-10-15T15:00:00\", \"2023-10-15T16:00:00\"]"
+      },
+      {
+        "query": "What happens if I need to change the time again?"
+      },
+      {
+        "function_call": "get_available_times(current_time=\"2023-10-15T12:00:00\", duration=60)"
+      },
+      {
+        "tool": "[\"2023-10-15T13:00:00\", \"2023-10-15T15:00:00\", \"2023-10-15T16:00:00\"]"
+      }
+    ],
+    "function_schemas": [
+      "def reschedule_meeting(original_time: str, duration: int, available_times: List[str]) -> Dict[str, Any]:\n    \"\"\"Reschedule a project review meeting to avoid conflicts with other appointments.\n    \n    :param original_time: The original time of the meeting to be rescheduled.\n    :param duration: The duration of the meeting in minutes.\n    :param available_times: A list of time slots that are available for rescheduling.\n    :return_fields:\n      - new_time (str): The new scheduled time for the project review meeting.\n      - status (bool): True if the meeting was successfully rescheduled, False otherwise.\n      - message (str): A message indicating the result of the rescheduling attempt.\n    :raises ValueError: If no available times are provided or if the original time is invalid.\n    \"\"\"\n    pass",
+      "def check_conflict(original_time: str, appointment_time: str) -> Dict[str, bool]:\n    \"\"\"Check if there is a scheduling conflict between a meeting and an appointment.\n    \n    :param original_time: The time of the project review meeting.\n    :param appointment_time: The time of the dentist appointment.\n    :return_fields:\n      - conflict (bool): True if there is a conflict between the meeting and the appointment, False otherwise.\n    \"\"\"\n    pass",
+      "def get_available_times(current_time: str, duration: int) -> List[str]:\n    \"\"\"Get a list of available time slots for rescheduling a meeting.\n    \n    :param current_time: The current time to consider when checking availability.\n    :param duration: The duration of the meeting in minutes.\n    :return_fields:\n      - available_times (List[str]): A list of time slots available for rescheduling.\n    \"\"\"\n    pass",
+      "def notify_user_of_reschedule(user_id: str, new_time: str) -> Dict[str, Any]:\n    \"\"\"Notify the user of the new time for their rescheduled meeting.\n    \n    :param user_id: The ID of the user to notify.\n    :param new_time: The new scheduled time for the meeting.\n    :return_fields:\n      - notification_status (bool): True if the user was notified successfully, False otherwise.\n      - message (str): A message indicating the result of the notification attempt.\n    \"\"\"\n    pass"
+    ],
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management"
+  },
+  {
+    "trace": [
+      {
+        "query": "Can you suggest a new time for my book club meeting so that I can attend the parent-teacher conference without any conflicts?"
+      },
+      {
+        "function_call": "suggest_new_meeting_time(current_meeting_time=\"2023-10-20T18:00:00\", parent_conference_time=\"2023-10-20T18:30:00\")"
+      },
+      {
+        "tool": "{\"new_meeting_time\": \"2023-10-21T18:00:00\"}"
+      },
+      {
+        "query": "What is the new time you've suggested for the book club meeting?"
+      },
+      {
+        "function_call": "check_schedule_conflict(meeting_time=\"2023-10-21T18:00:00\", other_commitment_time=\"2023-10-20T18:30:00\")"
+      },
+      {
+        "tool": "{\"has_conflict\": false}"
+      },
+      {
+        "query": "Great! Now, can you update the meeting time for my book club to the new time?"
+      },
+      {
+        "function_call": "update_meeting_time(meeting_id=\"book_club_001\", new_time=\"2023-10-21T18:00:00\")"
+      },
+      {
+        "tool": "{\"update_status\": \"Meeting time updated successfully\"}"
+      },
+      {
+        "function_call": "notify_participants(meeting_id=\"book_club_001\", new_time=\"2023-10-21T18:00:00\")"
+      },
+      {
+        "tool": "{\"notification_sent\": true}"
+      },
+      {
+        "query": "Can you confirm if the participants have been notified about the new book club meeting time?"
+      },
+      {
+        "function_call": "notify_participants(meeting_id=\"book_club_001\", new_time=\"2023-10-21T18:00:00\")"
+      },
+      {
+        "tool": "{\"notification_sent\": true}"
+      },
+      {
+        "query": "Thank you! Just to be sure, is there any other conflict with my schedule for the new book club time?"
+      },
+      {
+        "function_call": "check_schedule_conflict(meeting_time=\"2023-10-21T18:00:00\", other_commitment_time=\"2023-10-20T18:30:00\")"
+      },
+      {
+        "tool": "{\"has_conflict\": false}"
+      },
+      {
+        "query": "Perfect! Everything looks good now. Thanks for your help!"
+      },
+      {
+        "function_call": "check_schedule_conflict(meeting_time=\"2023-10-21T18:00:00\", other_commitment_time=\"2023-10-21T19:00:00\")"
+      },
+      {
+        "tool": "{\"has_conflict\": false}"
+      }
+    ],
+    "function_schemas": [
+      "def suggest_new_meeting_time(current_meeting_time: str, parent_conference_time: str) -> Dict[str, str]:\n    \"\"\"Suggest a new time for a meeting to avoid conflicts with a parent-teacher conference.\n    \n    :param current_meeting_time: The current scheduled time for the book club meeting.\n    :param parent_conference_time: The scheduled time for the parent-teacher conference.\n    :return_fields:\n      - new_meeting_time (str): Suggested new time for the book club meeting.\n    :raises ValueError: If the current meeting time or parent conference time is invalid.\n    \"\"\"\n    pass",
+      "def check_schedule_conflict(meeting_time: str, other_commitment_time: str) -> Dict[str, bool]:\n    \"\"\"Check if there is a scheduling conflict between two events.\n    \n    :param meeting_time: The time of the meeting to check.\n    :param other_commitment_time: The time of the other commitment to check against.\n    :return_fields:\n      - has_conflict (bool): True if there is a conflict, False otherwise.\n    \"\"\"\n    pass",
+      "def update_meeting_time(meeting_id: str, new_time: str) -> Dict[str, str]:\n    \"\"\"Update the scheduled time of a meeting.\n    \n    :param meeting_id: The unique identifier for the meeting to update.\n    :param new_time: The new time to schedule the meeting.\n    :return_fields:\n      - update_status (str): Status message indicating success or failure of the update.\n    :raises ValueError: If the meeting ID is invalid or the new time is in the past.\n    \"\"\"\n    pass",
+      "def notify_participants(meeting_id: str, new_time: str) -> Dict[str, bool]:\n    \"\"\"Notify participants about the updated meeting time.\n    \n    :param meeting_id: The unique identifier for the meeting whose participants need to be notified.\n    :param new_time: The new time of the meeting to inform the participants.\n    :return_fields:\n      - notification_sent (bool): True if notifications were sent successfully, False otherwise.\n    \"\"\"\n    pass"
+    ],
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management"
+  }
+]
