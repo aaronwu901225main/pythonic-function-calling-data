@@ -1,0 +1,32 @@
+[
+  {
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "entities": "['calender', 'mail', 'grab', 'uber', 'google_maps', 'maps']",
+    "scenario": "Alice, a busy marketing manager at Tech Innovations Inc., has a packed schedule filled with meetings, project deadlines, and team collaborations. She often finds it challenging to keep track of her appointments. One day, she realizes that she has a critical client meeting on October 15th at 2 PM, but she also has a team brainstorming session scheduled for the same day at 1 PM. Alice decides to reach out to her smart assistant, \"SmartCal,\" to help her manage her calendar more effectively. She asks, \"SmartCal, can you help me find a time to reschedule my brainstorming session so that I don't overlap with my client meeting?\""
+  },
+  {
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "entities": "['calender', 'mail', 'grab', 'uber', 'google_maps', 'maps']",
+    "scenario": "John, a freelance graphic designer, has recently taken on multiple projects with different deadlines. He struggles to manage his time effectively due to overlapping deadlines and meetings. On October 20th, he has a project review at 3 PM and a client call at 4 PM. Realizing he needs better organization, John asks his virtual assistant, \"TimeBot,\" \"Can you check my calendar and suggest a new time for my client call, so I can prepare for my project review?\""
+  },
+  {
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "entities": "['calender', 'mail', 'grab', 'uber', 'google_maps', 'maps']",
+    "scenario": "Samantha, a university student, is juggling her studies and a part-time job. As midterm exams approach, she wants to ensure she has enough study time. She has a study group meeting scheduled for October 12th at 6 PM, but she also needs to work on a group project that's due on October 15th. She consults her smart assistant, \"StudyBuddy,\" and inquires, \"StudyBuddy, can you help me reschedule my study group meeting to accommodate my project work?\""
+  },
+  {
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "entities": "['calender', 'mail', 'grab', 'uber', 'google_maps', 'maps']",
+    "scenario": "Michael, a sales executive at Global Enterprises, has a hectic travel schedule and often finds it hard to keep track of his appointments. He has an important sales presentation on October 25th at 10 AM and a follow-up meeting with his team at 12 PM. To avoid any conflicts, Michael turns to his assistant, \"MeetingMaster,\" and asks, \"MeetingMaster, can you remind me of my appointments on October 25th and help me find a suitable time for a prep session before my presentation?\""
+  },
+  {
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "entities": "['calender', 'mail', 'grab', 'uber', 'google_maps', 'maps']",
+    "scenario": "Emily, a project manager, is coordinating a large project with multiple stakeholders. On October 30th, she has a stakeholder meeting at 11 AM and a project update call at 1 PM. Concerned about time management, she asks her AI assistant, \"CalendarWise,\" \"CalendarWise, please check my schedule for October 30th and suggest a new time for my project update call so that I can focus on the stakeholder meeting without rushing.\""
+  }
+]

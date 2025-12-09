@@ -5,6 +5,11 @@ from typing import Any, Dict
 from jsonschema import validate, Draft202012Validator
 from jsonschema.exceptions import ValidationError
 
+# JSON Schema for multi_turn_eng.jsonl validation
+# 支援新舊兩種格式：
+# - 新格式：parameters.type = "dict", 包含 response 欄位
+# - 舊格式：parameters.type = "object", 無 response 欄位
+# 兩種格式都可以通過驗證，確保向後相容性
 SCHEMA: Dict[str, Any] = {
     "$schema": "https://json-schema.org/draft/2020-12/schema",
     "type": "object",
@@ -20,15 +25,24 @@ SCHEMA: Dict[str, Any] = {
                     "parameters": {
                         "type": "object",
                         "properties": {
-                            "type": {"const": "object"},
+                            "type": {"enum": ["object", "dict"]},  # 接受 object 或 dict
                             "properties": {"type": "object"},
                             "required": {"type": "array", "items": {"type": "string"}},
                         },
                         "required": ["type", "properties", "required"],
                         "additionalProperties": True,
                     },
+                    "response": {
+                        "type": "object",
+                        "properties": {
+                            "type": {"enum": ["object", "dict"]},  # 接受 object 或 dict
+                            "properties": {"type": "object"},
+                        },
+                        "required": ["type"],
+                        "additionalProperties": True,
+                    },
                 },
-                "required": ["name", "parameters"],
+                "required": ["name", "parameters"],  # response 為可選欄位
                 "additionalProperties": True,
             },
         },
@@ -81,9 +95,10 @@ SCHEMA: Dict[str, Any] = {
                 ],
             },
         },
+        # label_kind 可選：若存在需為字串；不再作為必填
         "label_kind": {"type": "string"},
     },
-    "required": ["id", "tools", "messages", "label_kind"],
+    "required": ["id", "tools", "messages"],
 }
 
 

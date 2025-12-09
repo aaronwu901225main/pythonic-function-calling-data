@@ -51,7 +51,7 @@ def load_all_lines(path: str) -> List[Dict[str, Any]]:
 
 
 def build_global_tool_pool(lines: List[Dict[str, Any]]) -> Dict[str, Dict[str, Any]]:
-    """建立全域工具池（name -> schema），保留第一個定義。"""
+    """建立全域工具池（name -> schema），保留第一個定義，包含 response 欄位。"""
 
     global_tools: Dict[str, Dict[str, Any]] = {}
     for obj in lines:
@@ -61,8 +61,11 @@ def build_global_tool_pool(lines: List[Dict[str, Any]]) -> Dict[str, Dict[str, A
                 continue
             if name in global_tools:
                 continue
+            # 確保 parameters 和 response 欄位存在 (使用 dict type 符合 trading_bot.json 格式)
             if "parameters" not in t:
-                t["parameters"] = {"type": "object", "properties": {}, "required": []}
+                t["parameters"] = {"type": "dict", "properties": {}, "required": []}
+            if "response" not in t:
+                t["response"] = {"type": "dict", "properties": {}}
             global_tools[name] = t
     return global_tools
 
@@ -91,9 +94,12 @@ def main() -> None:
                     continue
                 if name in base_tools_by_name:
                     continue
+                # 確保 parameters 和 response 欄位存在
                 if "parameters" not in t:
-                    t["parameters"] = {"type": "object", "properties": {}, "required": []}
-                # 移除 pseudo 標記，避免影響下游
+                    t["parameters"] = {"type": "dict", "properties": {}, "required": []}
+                if "response" not in t:
+                    t["response"] = {"type": "dict", "properties": {}}
+                # 保留所有欄位，包括 response，只移除 pseudo 標記
                 cleaned = dict(t)
                 cleaned.pop("x_pseudo", None)
                 cleaned.pop("x_pseudo_kind", None)

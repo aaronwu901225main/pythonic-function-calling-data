@@ -89,7 +89,16 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
     limit = int(os.getenv("API_DAILY_LIMIT_TOKENS", "2500000"))
     margin = int(os.getenv("API_ROTATE_MARGIN", "25000"))
     usage_path = os.getenv("API_USAGE_FILE", ".api_usage_daily.json")
-    today = datetime.date.today().isoformat()
+    
+    # Reset at 08:00 instead of 00:00
+    now = datetime.datetime.now()
+    if now.hour < 8:
+        # Before 08:00, use yesterday's date
+        today = (now.date() - datetime.timedelta(days=1)).isoformat()
+    else:
+        # After 08:00, use today's date
+        today = now.date().isoformat()
+    
     usage_data = _load_usage_file(usage_path)
 
     active_key = _select_api_key(usage_data, keys, limit, margin, today)

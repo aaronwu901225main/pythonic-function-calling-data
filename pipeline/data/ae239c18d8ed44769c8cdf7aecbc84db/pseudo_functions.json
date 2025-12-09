@@ -1,0 +1,367 @@
+[
+  {
+    "sample_index": 0,
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "pseudo_functions": [
+      "def validate_meeting_time(meeting_time: str) -> bool:\n    \"\"\"Validates the format of the meeting time string.\n    :param meeting_time: The time to validate in 'YYYY-MM-DD HH:MM' format.\n    :return: True if the format is correct, False otherwise.\n    :raises ValueError: If the meeting_time string is not in the expected format.\n    \"\"\"\n    pass",
+      "def summarize_upcoming_meetings(meeting_list: list) -> dict:\n    \"\"\"Generates a summary of upcoming meetings from a list.\n    :param meeting_list: List of meeting dicts with 'time' and 'details'.\n    :return: Summary dictionary with counts and next meeting details.\n    \"\"\"\n    pass",
+      "def suggest_best_time_slot(preferred_times: list, duration_minutes: int) -> str:\n    \"\"\"Suggests the best time slot based on preferred times and duration.\n    :param preferred_times: List of time slots in 'YYYY-MM-DD HH:MM' format.\n    :param duration_minutes: Required duration for the meeting in minutes.\n    :return: The best time slot available for scheduling the meeting.\n    \"\"\"\n    pass",
+      "def check_meeting_conflicts(meeting_time: str, existing_meetings: list) -> list:\n    \"\"\"Checks for conflicts with existing meetings for a specific time.\n    :param meeting_time: The proposed meeting time in 'YYYY-MM-DD HH:MM' format.\n    :param existing_meetings: List of existing meeting dicts with 'time'.\n    :return: List of meetings that conflict with the proposed time.\n    \"\"\"\n    pass",
+      "def format_meeting_details(meeting_details: str) -> str:\n    \"\"\"Formats meeting details for better readability.\n    :param meeting_details: Raw details or description of the meeting.\n    :return: Formatted string with improved readability for users.\n    \"\"\"\n    pass",
+      "def log_meeting_addition(meeting_time: str, meeting_details: str) -> None:\n    \"\"\"Logs the details of a meeting addition for tracking purposes.\n    :param meeting_time: The time of the meeting added in 'YYYY-MM-DD HH:MM' format.\n    :param meeting_details: Description or details of the meeting added.\n    :return: None. This function does not return a value.\n    \"\"\"\n    pass",
+      "def analyze_meeting_participation(meeting_id: int) -> dict:\n    \"\"\"Analyzes participation metrics for a given meeting.\n    :param meeting_id: The ID of the meeting to analyze.\n    :return: Dictionary containing participation statistics such as attendees and engagement.\n    \"\"\"\n    pass",
+      "def recommend_time_adjustments(original_time: str) -> list:\n    \"\"\"Recommends adjustments to the original meeting time based on conflicts.\n    :param original_time: The original scheduled time of the meeting.\n    :return: List of recommended alternative times for the meeting.\n    \"\"\"\n    pass",
+      "def retrieve_meeting_history(meeting_id: int) -> list:\n    \"\"\"Retrieves the history of changes made to a specific meeting.\n    :param meeting_id: The ID of the meeting whose history is to be retrieved.\n    :return: List of changes made to the meeting with timestamps.\n    \"\"\"\n    pass",
+      "def generate_meeting_reminders(meeting_time: str, participants: list) -> None:\n    \"\"\"Generates reminders for participants about an upcoming meeting.\n    :param meeting_time: The time of the upcoming meeting in 'YYYY-MM-DD HH:MM' format.\n    :param participants: List of participants to notify.\n    :return: None. This function does not return a value.\n    \"\"\"\n    pass"
+    ],
+    "style": "related",
+    "debug_info": {
+      "accepted": [
+        {
+          "phase": "filter",
+          "signature": "def validate_meeting_time(meeting_time: str) -> bool:\n    \"\"\"Validates the format of the meeting time string.\n    :param meeting_time: The time to validate in 'YYYY-MM-DD HH:MM' format.\n    :return: True if the format is correct, False otherwise.\n    :raises ValueError: If the meeting_time string is not in the expected format.\n    \"\"\"\n    pass",
+          "name": "validate_meeting_time"
+        },
+        {
+          "phase": "filter",
+          "signature": "def summarize_upcoming_meetings(meeting_list: list) -> dict:\n    \"\"\"Generates a summary of upcoming meetings from a list.\n    :param meeting_list: List of meeting dicts with 'time' and 'details'.\n    :return: Summary dictionary with counts and next meeting details.\n    \"\"\"\n    pass",
+          "name": "summarize_upcoming_meetings"
+        },
+        {
+          "phase": "filter",
+          "signature": "def suggest_best_time_slot(preferred_times: list, duration_minutes: int) -> str:\n    \"\"\"Suggests the best time slot based on preferred times and duration.\n    :param preferred_times: List of time slots in 'YYYY-MM-DD HH:MM' format.\n    :param duration_minutes: Required duration for the meeting in minutes.\n    :return: The best time slot available for scheduling the meeting.\n    \"\"\"\n    pass",
+          "name": "suggest_best_time_slot"
+        },
+        {
+          "phase": "filter",
+          "signature": "def check_meeting_conflicts(meeting_time: str, existing_meetings: list) -> list:\n    \"\"\"Checks for conflicts with existing meetings for a specific time.\n    :param meeting_time: The proposed meeting time in 'YYYY-MM-DD HH:MM' format.\n    :param existing_meetings: List of existing meeting dicts with 'time'.\n    :return: List of meetings that conflict with the proposed time.\n    \"\"\"\n    pass",
+          "name": "check_meeting_conflicts"
+        },
+        {
+          "phase": "filter",
+          "signature": "def format_meeting_details(meeting_details: str) -> str:\n    \"\"\"Formats meeting details for better readability.\n    :param meeting_details: Raw details or description of the meeting.\n    :return: Formatted string with improved readability for users.\n    \"\"\"\n    pass",
+          "name": "format_meeting_details"
+        },
+        {
+          "phase": "filter",
+          "signature": "def log_meeting_addition(meeting_time: str, meeting_details: str) -> None:\n    \"\"\"Logs the details of a meeting addition for tracking purposes.\n    :param meeting_time: The time of the meeting added in 'YYYY-MM-DD HH:MM' format.\n    :param meeting_details: Description or details of the meeting added.\n    :return: None. This function does not return a value.\n    \"\"\"\n    pass",
+          "name": "log_meeting_addition"
+        },
+        {
+          "phase": "filter",
+          "signature": "def analyze_meeting_participation(meeting_id: int) -> dict:\n    \"\"\"Analyzes participation metrics for a given meeting.\n    :param meeting_id: The ID of the meeting to analyze.\n    :return: Dictionary containing participation statistics such as attendees and engagement.\n    \"\"\"\n    pass",
+          "name": "analyze_meeting_participation"
+        },
+        {
+          "phase": "filter",
+          "signature": "def recommend_time_adjustments(original_time: str) -> list:\n    \"\"\"Recommends adjustments to the original meeting time based on conflicts.\n    :param original_time: The original scheduled time of the meeting.\n    :return: List of recommended alternative times for the meeting.\n    \"\"\"\n    pass",
+          "name": "recommend_time_adjustments"
+        },
+        {
+          "phase": "filter",
+          "signature": "def retrieve_meeting_history(meeting_id: int) -> list:\n    \"\"\"Retrieves the history of changes made to a specific meeting.\n    :param meeting_id: The ID of the meeting whose history is to be retrieved.\n    :return: List of changes made to the meeting with timestamps.\n    \"\"\"\n    pass",
+          "name": "retrieve_meeting_history"
+        },
+        {
+          "phase": "filter",
+          "signature": "def generate_meeting_reminders(meeting_time: str, participants: list) -> None:\n    \"\"\"Generates reminders for participants about an upcoming meeting.\n    :param meeting_time: The time of the upcoming meeting in 'YYYY-MM-DD HH:MM' format.\n    :param participants: List of participants to notify.\n    :return: None. This function does not return a value.\n    \"\"\"\n    pass",
+          "name": "generate_meeting_reminders"
+        }
+      ],
+      "rejected": []
+    }
+  },
+  {
+    "sample_index": 1,
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "pseudo_functions": [
+      "def validate_event_time_format(event_time: str) -> bool:\n    \"\"\"Validates the format of the event time provided.\n    :param event_time: The event time in 'HH:MM' format to validate.\n    :return: True if the format is valid, False otherwise.\n    :raises ValueError: If the format does not match the expected pattern.\n    \"\"\"\n    pass",
+      "def summarize_daily_events(events: list[dict]) -> dict:\n    \"\"\"Summarizes events scheduled for the day.\n    :param events: List of event dicts containing details of the day's events.\n    :return: A summary containing total events, earliest event time, and latest event time.\n    \"\"\"\n    pass",
+      "def suggest_event_duration(event_type: str) -> int:\n    \"\"\"Suggests an appropriate duration for an event based on its type.\n    :param event_type: The type of the event (e.g., 'meeting', 'call', 'presentation').\n    :return: Suggested duration in minutes for the specified event type.\n    \"\"\"\n    pass",
+      "def extract_event_titles(events: list[dict]) -> list:\n    \"\"\"Extracts and returns a list of titles from a list of events.\n    :param events: List of event dicts from which to extract titles.\n    :return: A list of event titles.\n    \"\"\"\n    pass",
+      "def calculate_time_until_event(event_time: str) -> int:\n    \"\"\"Calculates the time in minutes until the next scheduled event.\n    :param event_time: The scheduled time of the event in 'HH:MM' format.\n    :return: Time in minutes until the event occurs.\n    :raises ValueError: If the event time format is invalid.\n    \"\"\"\n    pass",
+      "def format_event_details(event: dict) -> str:\n    \"\"\"Formats and returns a string representation of event details.\n    :param event: Dictionary containing details of the event to format.\n    :return: A formatted string summarizing the event's title, time, and duration.\n    \"\"\"\n    pass",
+      "def compare_event_times(event_time_1: str, event_time_2: str) -> str:\n    \"\"\"Compares two event times and indicates which is earlier or if they are the same.\n    :param event_time_1: The first event time in 'HH:MM' format.\n    :param event_time_2: The second event time in 'HH:MM' format.\n    :return: A string indicating 'earlier', 'later', or 'same time'.\n    :raises ValueError: If any of the event times are not in the correct format.\n    \"\"\"\n    pass",
+      "def log_event_update(event_id: str, update_details: dict) -> bool:\n    \"\"\"Logs details of an update made to an event for auditing purposes.\n    :param event_id: The unique identifier of the event that was updated.\n    :param update_details: A dictionary containing the details of the update.\n    :return: True if logging was successful, False otherwise.\n    \"\"\"\n    pass",
+      "def retrieve_upcoming_events(user_id: str, timeframe: int) -> list:\n    \"\"\"Retrieves a list of upcoming events for a user within a specified timeframe.\n    :param user_id: The unique identifier of the user whose events to retrieve.\n    :param timeframe: The number of minutes into the future to consider for upcoming events.\n    :return: A list of upcoming event dicts for the user.\n    \"\"\"\n    pass",
+      "def notify_event_clash(event_id: str, conflicting_event: dict) -> bool:\n    \"\"\"Notifies the user about a clash between two scheduled events.\n    :param event_id: The ID of the event that is in conflict.\n    :param conflicting_event: A dictionary containing details of the conflicting event.\n    :return: True if the notification was processed successfully, False otherwise.\n    \"\"\"\n    pass"
+    ],
+    "style": "related",
+    "debug_info": {
+      "accepted": [
+        {
+          "phase": "filter",
+          "signature": "def validate_event_time_format(event_time: str) -> bool:\n    \"\"\"Validates the format of the event time provided.\n    :param event_time: The event time in 'HH:MM' format to validate.\n    :return: True if the format is valid, False otherwise.\n    :raises ValueError: If the format does not match the expected pattern.\n    \"\"\"\n    pass",
+          "name": "validate_event_time_format"
+        },
+        {
+          "phase": "filter",
+          "signature": "def summarize_daily_events(events: list[dict]) -> dict:\n    \"\"\"Summarizes events scheduled for the day.\n    :param events: List of event dicts containing details of the day's events.\n    :return: A summary containing total events, earliest event time, and latest event time.\n    \"\"\"\n    pass",
+          "name": "summarize_daily_events"
+        },
+        {
+          "phase": "filter",
+          "signature": "def suggest_event_duration(event_type: str) -> int:\n    \"\"\"Suggests an appropriate duration for an event based on its type.\n    :param event_type: The type of the event (e.g., 'meeting', 'call', 'presentation').\n    :return: Suggested duration in minutes for the specified event type.\n    \"\"\"\n    pass",
+          "name": "suggest_event_duration"
+        },
+        {
+          "phase": "filter",
+          "signature": "def extract_event_titles(events: list[dict]) -> list:\n    \"\"\"Extracts and returns a list of titles from a list of events.\n    :param events: List of event dicts from which to extract titles.\n    :return: A list of event titles.\n    \"\"\"\n    pass",
+          "name": "extract_event_titles"
+        },
+        {
+          "phase": "filter",
+          "signature": "def calculate_time_until_event(event_time: str) -> int:\n    \"\"\"Calculates the time in minutes until the next scheduled event.\n    :param event_time: The scheduled time of the event in 'HH:MM' format.\n    :return: Time in minutes until the event occurs.\n    :raises ValueError: If the event time format is invalid.\n    \"\"\"\n    pass",
+          "name": "calculate_time_until_event"
+        },
+        {
+          "phase": "filter",
+          "signature": "def format_event_details(event: dict) -> str:\n    \"\"\"Formats and returns a string representation of event details.\n    :param event: Dictionary containing details of the event to format.\n    :return: A formatted string summarizing the event's title, time, and duration.\n    \"\"\"\n    pass",
+          "name": "format_event_details"
+        },
+        {
+          "phase": "filter",
+          "signature": "def compare_event_times(event_time_1: str, event_time_2: str) -> str:\n    \"\"\"Compares two event times and indicates which is earlier or if they are the same.\n    :param event_time_1: The first event time in 'HH:MM' format.\n    :param event_time_2: The second event time in 'HH:MM' format.\n    :return: A string indicating 'earlier', 'later', or 'same time'.\n    :raises ValueError: If any of the event times are not in the correct format.\n    \"\"\"\n    pass",
+          "name": "compare_event_times"
+        },
+        {
+          "phase": "filter",
+          "signature": "def log_event_update(event_id: str, update_details: dict) -> bool:\n    \"\"\"Logs details of an update made to an event for auditing purposes.\n    :param event_id: The unique identifier of the event that was updated.\n    :param update_details: A dictionary containing the details of the update.\n    :return: True if logging was successful, False otherwise.\n    \"\"\"\n    pass",
+          "name": "log_event_update"
+        },
+        {
+          "phase": "filter",
+          "signature": "def retrieve_upcoming_events(user_id: str, timeframe: int) -> list:\n    \"\"\"Retrieves a list of upcoming events for a user within a specified timeframe.\n    :param user_id: The unique identifier of the user whose events to retrieve.\n    :param timeframe: The number of minutes into the future to consider for upcoming events.\n    :return: A list of upcoming event dicts for the user.\n    \"\"\"\n    pass",
+          "name": "retrieve_upcoming_events"
+        },
+        {
+          "phase": "filter",
+          "signature": "def notify_event_clash(event_id: str, conflicting_event: dict) -> bool:\n    \"\"\"Notifies the user about a clash between two scheduled events.\n    :param event_id: The ID of the event that is in conflict.\n    :param conflicting_event: A dictionary containing details of the conflicting event.\n    :return: True if the notification was processed successfully, False otherwise.\n    \"\"\"\n    pass",
+          "name": "notify_event_clash"
+        }
+      ],
+      "rejected": []
+    }
+  },
+  {
+    "sample_index": 2,
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "pseudo_functions": [
+      "def validate_meeting_time(date: str, time: str) -> Dict[str, Any]:\n    \"\"\"Validates the meeting date and time to ensure they are not in the past.\n    :param date: The date of the meeting in YYYY-MM-DD format.\n    :param time: The time of the meeting in HH:MM format.\n    :return: {'is_valid': bool, 'reason': str} indicating if the time is valid and an explanation if not.\n    :raises ValueError: If the date or time is in the past.\n    \"\"\"\n    pass",
+      "def summarize_study_group_progress(meeting_date: str, completed_tasks: List[str]) -> Dict[str, Any]:\n    \"\"\"Summarizes the progress made by the study group since the last meeting.\n    :param meeting_date: The date of the last meeting in YYYY-MM-DD format.\n    :param completed_tasks: List of tasks completed since the last meeting.\n    :return: {'summary': str, 'total_tasks_completed': int} providing a brief overview and count of tasks.\n    \"\"\"\n    pass",
+      "def retrieve_upcoming_deadlines(projects: List[str]) -> Dict[str, Any]:\n    \"\"\"Retrieves upcoming deadlines for the provided list of projects.\n    :param projects: A list of project names to check for deadlines.\n    :return: {'deadlines': List[Dict[str, str]]} including project names and their corresponding deadlines.\n    \"\"\"\n    pass",
+      "def format_meeting_notification(meeting_date: str, meeting_time: str, members: List[str]) -> str:\n    \"\"\"Formats a notification message for the study group meeting.\n    :param meeting_date: The date of the meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the meeting in HH:MM format.\n    :param members: List of study group members to be notified.\n    :return: A formatted string message containing the meeting details for notification.\n    \"\"\"\n    pass",
+      "def analyze_study_time_allocation(study_hours: int, project_hours: int) -> Dict[str, Any]:\n    \"\"\"Analyzes the allocation of study hours against project hours for efficiency.\n    :param study_hours: The number of hours allocated for studying.\n    :param project_hours: The number of hours allocated for project work.\n    :return: {'study_efficiency': float, 'project_efficiency': float} indicating how effectively time is spent.\n    \"\"\"\n    pass",
+      "def remind_study_session(date: str, time: str) -> Dict[str, Any]:\n    \"\"\"Creates a reminder for a study session on a specified date and time.\n    :param date: The date of the study session in YYYY-MM-DD format.\n    :param time: The time of the study session in HH:MM format.\n    :return: {'reminder_status': bool, 'message': str} indicating success or failure of the reminder setup.\n    \"\"\"\n    pass",
+      "def cross_check_availability_for_group(meeting_date: str, meeting_time: str, group_members: List[str]) -> Dict[str, Any]:\n    \"\"\"Cross-checks availability of all group members for the specified meeting time.\n    :param meeting_date: The date of the proposed meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the proposed meeting in HH:MM format.\n    :param group_members: List of group members to check availability.\n    :return: {'available_members': List[str], 'unavailable_members': List[str]} detailing member availability.\n    \"\"\"\n    pass",
+      "def log_meeting_minutes(meeting_date: str, meeting_time: str, notes: str) -> Dict[str, Any]:\n    \"\"\"Logs the minutes of the meeting for future reference.\n    :param meeting_date: The date of the meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the meeting in HH:MM format.\n    :param notes: The notes taken during the meeting.\n    :return: {'log_status': bool, 'message': str} indicating the success of the logging action.\n    \"\"\"\n    pass",
+      "def evaluate_project_progress(project_name: str, metrics: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"Evaluates the progress of a project based on defined metrics.\n    :param project_name: The name of the project being evaluated.\n    :param metrics: A dictionary of metrics used for evaluation, such as task completion rates.\n    :return: {'progress_score': float, 'evaluation_comments': str} providing a score and feedback.\n    \"\"\"\n    pass",
+      "def generate_study_plan(start_date: str, end_date: str, total_hours: int) -> List[Dict[str, Any]]:\n    \"\"\"Generates a study plan outlining hours to be allocated each day within a specified range.\n    :param start_date: The start date of the study plan in YYYY-MM-DD format.\n    :param end_date: The end date of the study plan in YYYY-MM-DD format.\n    :param total_hours: The total number of study hours to allocate.\n    :return: A list of dictionaries detailing daily study hours and topics.\n    \"\"\"\n    pass"
+    ],
+    "style": "related",
+    "debug_info": {
+      "accepted": [
+        {
+          "phase": "filter",
+          "signature": "def validate_meeting_time(date: str, time: str) -> Dict[str, Any]:\n    \"\"\"Validates the meeting date and time to ensure they are not in the past.\n    :param date: The date of the meeting in YYYY-MM-DD format.\n    :param time: The time of the meeting in HH:MM format.\n    :return: {'is_valid': bool, 'reason': str} indicating if the time is valid and an explanation if not.\n    :raises ValueError: If the date or time is in the past.\n    \"\"\"\n    pass",
+          "name": "validate_meeting_time"
+        },
+        {
+          "phase": "filter",
+          "signature": "def summarize_study_group_progress(meeting_date: str, completed_tasks: List[str]) -> Dict[str, Any]:\n    \"\"\"Summarizes the progress made by the study group since the last meeting.\n    :param meeting_date: The date of the last meeting in YYYY-MM-DD format.\n    :param completed_tasks: List of tasks completed since the last meeting.\n    :return: {'summary': str, 'total_tasks_completed': int} providing a brief overview and count of tasks.\n    \"\"\"\n    pass",
+          "name": "summarize_study_group_progress"
+        },
+        {
+          "phase": "filter",
+          "signature": "def retrieve_upcoming_deadlines(projects: List[str]) -> Dict[str, Any]:\n    \"\"\"Retrieves upcoming deadlines for the provided list of projects.\n    :param projects: A list of project names to check for deadlines.\n    :return: {'deadlines': List[Dict[str, str]]} including project names and their corresponding deadlines.\n    \"\"\"\n    pass",
+          "name": "retrieve_upcoming_deadlines"
+        },
+        {
+          "phase": "filter",
+          "signature": "def format_meeting_notification(meeting_date: str, meeting_time: str, members: List[str]) -> str:\n    \"\"\"Formats a notification message for the study group meeting.\n    :param meeting_date: The date of the meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the meeting in HH:MM format.\n    :param members: List of study group members to be notified.\n    :return: A formatted string message containing the meeting details for notification.\n    \"\"\"\n    pass",
+          "name": "format_meeting_notification"
+        },
+        {
+          "phase": "filter",
+          "signature": "def analyze_study_time_allocation(study_hours: int, project_hours: int) -> Dict[str, Any]:\n    \"\"\"Analyzes the allocation of study hours against project hours for efficiency.\n    :param study_hours: The number of hours allocated for studying.\n    :param project_hours: The number of hours allocated for project work.\n    :return: {'study_efficiency': float, 'project_efficiency': float} indicating how effectively time is spent.\n    \"\"\"\n    pass",
+          "name": "analyze_study_time_allocation"
+        },
+        {
+          "phase": "filter",
+          "signature": "def remind_study_session(date: str, time: str) -> Dict[str, Any]:\n    \"\"\"Creates a reminder for a study session on a specified date and time.\n    :param date: The date of the study session in YYYY-MM-DD format.\n    :param time: The time of the study session in HH:MM format.\n    :return: {'reminder_status': bool, 'message': str} indicating success or failure of the reminder setup.\n    \"\"\"\n    pass",
+          "name": "remind_study_session"
+        },
+        {
+          "phase": "filter",
+          "signature": "def cross_check_availability_for_group(meeting_date: str, meeting_time: str, group_members: List[str]) -> Dict[str, Any]:\n    \"\"\"Cross-checks availability of all group members for the specified meeting time.\n    :param meeting_date: The date of the proposed meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the proposed meeting in HH:MM format.\n    :param group_members: List of group members to check availability.\n    :return: {'available_members': List[str], 'unavailable_members': List[str]} detailing member availability.\n    \"\"\"\n    pass",
+          "name": "cross_check_availability_for_group"
+        },
+        {
+          "phase": "filter",
+          "signature": "def log_meeting_minutes(meeting_date: str, meeting_time: str, notes: str) -> Dict[str, Any]:\n    \"\"\"Logs the minutes of the meeting for future reference.\n    :param meeting_date: The date of the meeting in YYYY-MM-DD format.\n    :param meeting_time: The time of the meeting in HH:MM format.\n    :param notes: The notes taken during the meeting.\n    :return: {'log_status': bool, 'message': str} indicating the success of the logging action.\n    \"\"\"\n    pass",
+          "name": "log_meeting_minutes"
+        },
+        {
+          "phase": "filter",
+          "signature": "def evaluate_project_progress(project_name: str, metrics: Dict[str, Any]) -> Dict[str, Any]:\n    \"\"\"Evaluates the progress of a project based on defined metrics.\n    :param project_name: The name of the project being evaluated.\n    :param metrics: A dictionary of metrics used for evaluation, such as task completion rates.\n    :return: {'progress_score': float, 'evaluation_comments': str} providing a score and feedback.\n    \"\"\"\n    pass",
+          "name": "evaluate_project_progress"
+        },
+        {
+          "phase": "filter",
+          "signature": "def generate_study_plan(start_date: str, end_date: str, total_hours: int) -> List[Dict[str, Any]]:\n    \"\"\"Generates a study plan outlining hours to be allocated each day within a specified range.\n    :param start_date: The start date of the study plan in YYYY-MM-DD format.\n    :param end_date: The end date of the study plan in YYYY-MM-DD format.\n    :param total_hours: The total number of study hours to allocate.\n    :return: A list of dictionaries detailing daily study hours and topics.\n    \"\"\"\n    pass",
+          "name": "generate_study_plan"
+        }
+      ],
+      "rejected": []
+    }
+  },
+  {
+    "sample_index": 3,
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "pseudo_functions": [
+      "def summarize_appointments(date: str) -> dict:\n    \"\"\"Summarizes the key details of appointments on a specified date.\n    :param date: The date for which to summarize appointments, formatted as 'YYYY-MM-DD'.\n    :return: A summary dictionary containing the count of appointments and their descriptions.\n    \"\"\"\n    pass",
+      "def validate_appointment_time(date: str, time: str) -> bool:\n    \"\"\"Validates if the given time is within acceptable working hours for a specified date.\n    :param date: The date to validate, formatted as 'YYYY-MM-DD'.\n    :param time: The time to validate, formatted as 'HH:MM'.\n    :return: True if the time is valid; otherwise, False.\n    \"\"\"\n    pass",
+      "def suggest_alternate_time(date: str, time: str, duration: int) -> dict:\n    \"\"\"Suggests an alternate time slot if the given time is unavailable.\n    :param date: The date for which the alternative time is suggested, formatted as 'YYYY-MM-DD'.\n    :param time: The proposed time to check for availability, formatted as 'HH:MM'.\n    :param duration: Duration of the event in minutes to consider for an alternative slot.\n    :return: A dictionary with 'suggested_time' and 'available' status.\n    \"\"\"\n    pass",
+      "def track_appointment_changes(appointment_id: str) -> dict:\n    \"\"\"Tracks changes made to a specific appointment over time.\n    :param appointment_id: Unique identifier for the appointment to track changes.\n    :return: A list of changes with timestamps and descriptions.\n    \"\"\"\n    pass",
+      "def generate_weekly_schedule_summary(start_date: str) -> dict:\n    \"\"\"Generates a summary of appointments for the week starting from a given date.\n    :param start_date: The starting date of the week, formatted as 'YYYY-MM-DD'.\n    :return: A summary dictionary with total appointments and their types for the week.\n    \"\"\"\n    pass",
+      "def check_for_overlapping_appointments(date: str, time: str, duration: int) -> bool:\n    \"\"\"Checks if the proposed appointment overlaps with existing appointments.\n    :param date: The date of the proposed appointment, formatted as 'YYYY-MM-DD'.\n    :param time: The start time of the proposed appointment, formatted as 'HH:MM'.\n    :param duration: The duration of the proposed appointment in minutes.\n    :return: True if there is an overlap; otherwise, False.\n    \"\"\"\n    pass",
+      "def categorize_appointments(date: str) -> dict:\n    \"\"\"Categorizes appointments for a specified date into types (e.g., meetings, prep sessions).\n    :param date: The date for which to categorize appointments, formatted as 'YYYY-MM-DD'.\n    :return: A dictionary with categories as keys and lists of appointment details as values.\n    \"\"\"\n    pass",
+      "def provide_reminders_for_appointments(date: str) -> dict:\n    \"\"\"Provides reminders for upcoming appointments on a specific date.\n    :param date: The date for which to provide reminders, formatted as 'YYYY-MM-DD'.\n    :return: A list of reminders including times and descriptions for each appointment.\n    \"\"\"\n    pass",
+      "def analyze_appointment_duration(appointment_id: str) -> dict:\n    \"\"\"Analyzes the duration of a specific appointment and provides insights.\n    :param appointment_id: Unique identifier for the appointment to analyze.\n    :return: A dictionary with the duration and insights on time management.\n    \"\"\"\n    pass",
+      "def verify_appointment_participants(appointment_id: str) -> dict:\n    \"\"\"Verifies the list of participants for a specific appointment.\n    :param appointment_id: Unique identifier for the appointment to verify participants.\n    :return: A dictionary with participant status and any missing attendees.\n    \"\"\"\n    pass"
+    ],
+    "style": "related",
+    "debug_info": {
+      "accepted": [
+        {
+          "phase": "filter",
+          "signature": "def summarize_appointments(date: str) -> dict:\n    \"\"\"Summarizes the key details of appointments on a specified date.\n    :param date: The date for which to summarize appointments, formatted as 'YYYY-MM-DD'.\n    :return: A summary dictionary containing the count of appointments and their descriptions.\n    \"\"\"\n    pass",
+          "name": "summarize_appointments"
+        },
+        {
+          "phase": "filter",
+          "signature": "def validate_appointment_time(date: str, time: str) -> bool:\n    \"\"\"Validates if the given time is within acceptable working hours for a specified date.\n    :param date: The date to validate, formatted as 'YYYY-MM-DD'.\n    :param time: The time to validate, formatted as 'HH:MM'.\n    :return: True if the time is valid; otherwise, False.\n    \"\"\"\n    pass",
+          "name": "validate_appointment_time"
+        },
+        {
+          "phase": "filter",
+          "signature": "def suggest_alternate_time(date: str, time: str, duration: int) -> dict:\n    \"\"\"Suggests an alternate time slot if the given time is unavailable.\n    :param date: The date for which the alternative time is suggested, formatted as 'YYYY-MM-DD'.\n    :param time: The proposed time to check for availability, formatted as 'HH:MM'.\n    :param duration: Duration of the event in minutes to consider for an alternative slot.\n    :return: A dictionary with 'suggested_time' and 'available' status.\n    \"\"\"\n    pass",
+          "name": "suggest_alternate_time"
+        },
+        {
+          "phase": "filter",
+          "signature": "def track_appointment_changes(appointment_id: str) -> dict:\n    \"\"\"Tracks changes made to a specific appointment over time.\n    :param appointment_id: Unique identifier for the appointment to track changes.\n    :return: A list of changes with timestamps and descriptions.\n    \"\"\"\n    pass",
+          "name": "track_appointment_changes"
+        },
+        {
+          "phase": "filter",
+          "signature": "def generate_weekly_schedule_summary(start_date: str) -> dict:\n    \"\"\"Generates a summary of appointments for the week starting from a given date.\n    :param start_date: The starting date of the week, formatted as 'YYYY-MM-DD'.\n    :return: A summary dictionary with total appointments and their types for the week.\n    \"\"\"\n    pass",
+          "name": "generate_weekly_schedule_summary"
+        },
+        {
+          "phase": "filter",
+          "signature": "def check_for_overlapping_appointments(date: str, time: str, duration: int) -> bool:\n    \"\"\"Checks if the proposed appointment overlaps with existing appointments.\n    :param date: The date of the proposed appointment, formatted as 'YYYY-MM-DD'.\n    :param time: The start time of the proposed appointment, formatted as 'HH:MM'.\n    :param duration: The duration of the proposed appointment in minutes.\n    :return: True if there is an overlap; otherwise, False.\n    \"\"\"\n    pass",
+          "name": "check_for_overlapping_appointments"
+        },
+        {
+          "phase": "filter",
+          "signature": "def categorize_appointments(date: str) -> dict:\n    \"\"\"Categorizes appointments for a specified date into types (e.g., meetings, prep sessions).\n    :param date: The date for which to categorize appointments, formatted as 'YYYY-MM-DD'.\n    :return: A dictionary with categories as keys and lists of appointment details as values.\n    \"\"\"\n    pass",
+          "name": "categorize_appointments"
+        },
+        {
+          "phase": "filter",
+          "signature": "def provide_reminders_for_appointments(date: str) -> dict:\n    \"\"\"Provides reminders for upcoming appointments on a specific date.\n    :param date: The date for which to provide reminders, formatted as 'YYYY-MM-DD'.\n    :return: A list of reminders including times and descriptions for each appointment.\n    \"\"\"\n    pass",
+          "name": "provide_reminders_for_appointments"
+        },
+        {
+          "phase": "filter",
+          "signature": "def analyze_appointment_duration(appointment_id: str) -> dict:\n    \"\"\"Analyzes the duration of a specific appointment and provides insights.\n    :param appointment_id: Unique identifier for the appointment to analyze.\n    :return: A dictionary with the duration and insights on time management.\n    \"\"\"\n    pass",
+          "name": "analyze_appointment_duration"
+        },
+        {
+          "phase": "filter",
+          "signature": "def verify_appointment_participants(appointment_id: str) -> dict:\n    \"\"\"Verifies the list of participants for a specific appointment.\n    :param appointment_id: Unique identifier for the appointment to verify participants.\n    :return: A dictionary with participant status and any missing attendees.\n    \"\"\"\n    pass",
+          "name": "verify_appointment_participants"
+        }
+      ],
+      "rejected": []
+    }
+  },
+  {
+    "sample_index": 4,
+    "domain": "Personal Assistant",
+    "subdomain": "Calendar_Management",
+    "pseudo_functions": [
+      "def validate_meeting_time_format(meeting_time: str) -> bool:\n    \"\"\"Validates the format of a meeting time string.\n    :param meeting_time: The meeting time to validate in 'HH:MM AM/PM' format.\n    :return: True if the format is valid, False otherwise.\n    :raises ValueError: If the time string cannot be parsed.\n    \"\"\"\n    pass",
+      "def summarize_daily_schedule(date: str) -> dict:\n    \"\"\"Summarizes the daily schedule for a given date.\n    :param date: The date to summarize in 'YYYY-MM-DD' format.\n    :return: A summary including total meetings, earliest meeting time, and latest meeting time.\n    \"\"\"\n    pass",
+      "def recommend_preparation_steps(meeting_id: str) -> dict:\n    \"\"\"Recommends preparation steps for a specified meeting.\n    :param meeting_id: The ID of the meeting for which to recommend preparation.\n    :return: A list of suggested preparation steps tailored to the meeting's purpose.\n    \"\"\"\n    pass",
+      "def track_meeting_changes(meeting_id: str) -> dict:\n    \"\"\"Tracks changes made to a specified meeting over time.\n    :param meeting_id: The ID of the meeting to track changes for.\n    :return: A history of changes including timestamps, old values, and new values.\n    \"\"\"\n    pass",
+      "def compare_schedules(date1: str, date2: str) -> dict:\n    \"\"\"Compares the schedules of two different dates.\n    :param date1: The first date to compare in 'YYYY-MM-DD' format.\n    :param date2: The second date to compare in 'YYYY-MM-DD' format.\n    :return: A comparison report detailing differences in meetings scheduled.\n    \"\"\"\n    pass",
+      "def assess_meeting_duration(meeting_id: str) -> dict:\n    \"\"\"Assesses the duration of a specified meeting.\n    :param meeting_id: The ID of the meeting to assess.\n    :return: The duration of the meeting in minutes along with start and end times.\n    \"\"\"\n    pass",
+      "def log_meeting_feedback(meeting_id: str, feedback: str) -> dict:\n    \"\"\"Logs feedback provided for a specified meeting.\n    :param meeting_id: The ID of the meeting to log feedback for.\n    :param feedback: The feedback text to be logged.\n    :return: A confirmation that the feedback has been recorded successfully.\n    \"\"\"\n    pass",
+      "def generate_meeting_agenda(meeting_id: str) -> dict:\n    \"\"\"Generates a structured agenda for a specified meeting.\n    :param meeting_id: The ID of the meeting for which to generate an agenda.\n    :return: A structured agenda including topics, responsible individuals, and time allocations.\n    \"\"\"\n    pass",
+      "def evaluate_participant_engagement(meeting_id: str) -> dict:\n    \"\"\"Evaluates participant engagement during a specified meeting.\n    :param meeting_id: The ID of the meeting to evaluate.\n    :return: A report on participant engagement including attendance and interaction metrics.\n    \"\"\"\n    pass",
+      "def notify_meeting_reminders(meeting_id: str, reminder_time: str) -> dict:\n    \"\"\"Sends reminders for a specified meeting at a designated time.\n    :param meeting_id: The ID of the meeting for which to send reminders.\n    :param reminder_time: The time to send reminders in 'HH:MM AM/PM' format.\n    :return: Confirmation of reminder notifications sent successfully.\n    \"\"\"\n    pass"
+    ],
+    "style": "related",
+    "debug_info": {
+      "accepted": [
+        {
+          "phase": "filter",
+          "signature": "def validate_meeting_time_format(meeting_time: str) -> bool:\n    \"\"\"Validates the format of a meeting time string.\n    :param meeting_time: The meeting time to validate in 'HH:MM AM/PM' format.\n    :return: True if the format is valid, False otherwise.\n    :raises ValueError: If the time string cannot be parsed.\n    \"\"\"\n    pass",
+          "name": "validate_meeting_time_format"
+        },
+        {
+          "phase": "filter",
+          "signature": "def summarize_daily_schedule(date: str) -> dict:\n    \"\"\"Summarizes the daily schedule for a given date.\n    :param date: The date to summarize in 'YYYY-MM-DD' format.\n    :return: A summary including total meetings, earliest meeting time, and latest meeting time.\n    \"\"\"\n    pass",
+          "name": "summarize_daily_schedule"
+        },
+        {
+          "phase": "filter",
+          "signature": "def recommend_preparation_steps(meeting_id: str) -> dict:\n    \"\"\"Recommends preparation steps for a specified meeting.\n    :param meeting_id: The ID of the meeting for which to recommend preparation.\n    :return: A list of suggested preparation steps tailored to the meeting's purpose.\n    \"\"\"\n    pass",
+          "name": "recommend_preparation_steps"
+        },
+        {
+          "phase": "filter",
+          "signature": "def track_meeting_changes(meeting_id: str) -> dict:\n    \"\"\"Tracks changes made to a specified meeting over time.\n    :param meeting_id: The ID of the meeting to track changes for.\n    :return: A history of changes including timestamps, old values, and new values.\n    \"\"\"\n    pass",
+          "name": "track_meeting_changes"
+        },
+        {
+          "phase": "filter",
+          "signature": "def compare_schedules(date1: str, date2: str) -> dict:\n    \"\"\"Compares the schedules of two different dates.\n    :param date1: The first date to compare in 'YYYY-MM-DD' format.\n    :param date2: The second date to compare in 'YYYY-MM-DD' format.\n    :return: A comparison report detailing differences in meetings scheduled.\n    \"\"\"\n    pass",
+          "name": "compare_schedules"
+        },
+        {
+          "phase": "filter",
+          "signature": "def assess_meeting_duration(meeting_id: str) -> dict:\n    \"\"\"Assesses the duration of a specified meeting.\n    :param meeting_id: The ID of the meeting to assess.\n    :return: The duration of the meeting in minutes along with start and end times.\n    \"\"\"\n    pass",
+          "name": "assess_meeting_duration"
+        },
+        {
+          "phase": "filter",
+          "signature": "def log_meeting_feedback(meeting_id: str, feedback: str) -> dict:\n    \"\"\"Logs feedback provided for a specified meeting.\n    :param meeting_id: The ID of the meeting to log feedback for.\n    :param feedback: The feedback text to be logged.\n    :return: A confirmation that the feedback has been recorded successfully.\n    \"\"\"\n    pass",
+          "name": "log_meeting_feedback"
+        },
+        {
+          "phase": "filter",
+          "signature": "def generate_meeting_agenda(meeting_id: str) -> dict:\n    \"\"\"Generates a structured agenda for a specified meeting.\n    :param meeting_id: The ID of the meeting for which to generate an agenda.\n    :return: A structured agenda including topics, responsible individuals, and time allocations.\n    \"\"\"\n    pass",
+          "name": "generate_meeting_agenda"
+        },
+        {
+          "phase": "filter",
+          "signature": "def evaluate_participant_engagement(meeting_id: str) -> dict:\n    \"\"\"Evaluates participant engagement during a specified meeting.\n    :param meeting_id: The ID of the meeting to evaluate.\n    :return: A report on participant engagement including attendance and interaction metrics.\n    \"\"\"\n    pass",
+          "name": "evaluate_participant_engagement"
+        },
+        {
+          "phase": "filter",
+          "signature": "def notify_meeting_reminders(meeting_id: str, reminder_time: str) -> dict:\n    \"\"\"Sends reminders for a specified meeting at a designated time.\n    :param meeting_id: The ID of the meeting for which to send reminders.\n    :param reminder_time: The time to send reminders in 'HH:MM AM/PM' format.\n    :return: Confirmation of reminder notifications sent successfully.\n    \"\"\"\n    pass",
+          "name": "notify_meeting_reminders"
+        }
+      ],
+      "rejected": []
+    }
+  }
+]

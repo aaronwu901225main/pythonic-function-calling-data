@@ -8,27 +8,55 @@ from typing import Any, Dict, List, Tuple
 from pipeline.s2_functions.parser import parse_signature
 
 
-def _python_type_to_jsonschema(t: str) -> Dict[str, Any]:
+def _python_type_to_jsonschema(t: str, use_dict_type: bool = True) -> Dict[str, Any]:
+    """Convert Python type annotation to JSON Schema.
+    
+    Args:
+        t: Python type string (e.g., 'str', 'List[int]', 'Dict[str, Any]')
+        use_dict_type: If True, use "dict" instead of "object" for dict types (trading_bot.json format)
+    """
     t = t.strip()
-    # Basic mapping
-    if t.lower() in {"str", "string"}:
-        return {"type": "string"}
-    if t.lower() in {"int", "integer"}:
-        return {"type": "integer"}
-    if t.lower() in {"float", "double", "number"}:
-        return {"type": "number"}
-    if t.lower() in {"bool", "boolean"}:
-        return {"type": "boolean"}
-    if t.lower().startswith("list[") or t.lower() == "list":
-        # extract inner type if any
-        inner = "string"
-        m = re.match(r"list\[([^\]]+)\]", t, flags=re.IGNORECASE)
-        if m:
-            inner = m.group(1)
-        return {"type": "array", "items": _python_type_to_jsonschema(inner)}
-    if t.lower().startswith("dict[") or t.lower() == "dict":
-        # Generic object
-        return {"type": "object"}
+    
+    # Handle List[type] patterns
+    list_match = re.match(r"List\[(.+)\]", t, re.IGNORECASE)
+    if list_match:
+        inner_type = list_match.group(1)
+        return {"type": "array", "items": _python_type_to_jsonschema(inner_type, use_dict_type)}
+    
+    # Handle Dict[key, value] patterns
+    dict_match = re.match(r"Dict\[(.+?),\s*(.+)\]", t, re.IGNORECASE)
+    if dict_match:
+        # For Dict types, we return dict type with empty properties
+        # Actual properties should be defined in :return_fields:
+        return {"type": "dict" if use_dict_type else "object", "properties": {}}
+    
+    # Basic type mapping
+    type_map = {
+        "str": "string",
+        "string": "string",
+        "int": "integer",
+        "integer": "integer",
+        "float": "number",
+        "number": "number",
+        "double": "number",
+        "bool": "boolean",
+        "boolean": "boolean",
+        "list": "array",
+        "dict": "dict" if use_dict_type else "object",
+        "object": "dict" if use_dict_type else "object",
+        "any": "string",  # fallback
+    }
+    
+    normalized = t.lower()
+    if normalized in type_map:
+        result_type = type_map[normalized]
+        if result_type == "array":
+            return {"type": "array", "items": {"type": "string"}}  # default item type
+        elif result_type in ("dict", "object"):
+            return {"type": result_type}
+        else:
+            return {"type": result_type}
+    
     # Fallback
     return {"type": "string"}
 
@@ -40,15 +68,19 @@ def build_tool_from_signature(signature: str) -> Dict[str, Any]:
     - Extract full docstring (summary + details) as tool description.
     - Extract per-parameter descriptions from :param lines and attach to JSON Schema properties.
     - Preserve return / raises info appended to description if present.
+    - Generate response schema from return type annotation.
+    - Use "dict" instead of "object" for compatibility with trading_bot.json format.
     """
     parsed = parse_signature(signature)
     name = parsed.get("function_name", "unknown")
     params = parsed.get("parameters", [])
+    return_type = parsed.get("return_type", "")
 
     # --- Docstring extraction ---
     docstring_summary_lines: List[str] = []
     param_descriptions: Dict[str, str] = {}
     return_description: str | None = None
+    return_fields: Dict[str, tuple[str, str]] = {}  # field_name -> (type, description)
     raises_descriptions: List[str] = []
 
     # Match triple quotes (""" ... """ or ''' ... ''')
@@ -66,10 +98,33 @@ def build_tool_from_signature(signature: str) -> Dict[str, Any]:
             if inner:
                 raw_doc = inner.group(1)
         lines = [l.rstrip() for l in raw_doc.splitlines()]
+        
+        in_return_fields = False
         for ln in lines:
             stripped = ln.strip()
             if not stripped:
                 continue
+            
+            # Check for :return_fields: section
+            if stripped.startswith(':return_fields:'):
+                in_return_fields = True
+                continue
+            
+            # Parse return field lines (format: "- field_name (type): description")
+            if in_return_fields:
+                # Stop if we hit another section
+                if stripped.startswith(':'):
+                    in_return_fields = False
+                else:
+                    # Match pattern: - field_name (type): description
+                    field_match = re.match(r'-\s+(\w+)\s*\(([^)]+)\)\s*:\s*(.+)', stripped)
+                    if field_match:
+                        field_name = field_match.group(1)
+                        field_type = field_match.group(2).strip()
+                        field_desc = field_match.group(3).strip()
+                        return_fields[field_name] = (field_type, field_desc)
+                        continue
+            
             param_m = re.match(r':param\s+(\w+)\s*:\s*(.+)', stripped)
             if param_m:
                 p_name = param_m.group(1)
@@ -84,8 +139,9 @@ def build_tool_from_signature(signature: str) -> Dict[str, Any]:
             if raises_m:
                 raises_descriptions.append(f"{raises_m.group(1)}: {raises_m.group(2).strip()}")
                 continue
-            # Normal descriptive line
-            docstring_summary_lines.append(stripped)
+            # Normal descriptive line (only if not in return_fields section)
+            if not in_return_fields:
+                docstring_summary_lines.append(stripped)
 
     # Build combined description
     description_parts: List[str] = []
@@ -101,7 +157,7 @@ def build_tool_from_signature(signature: str) -> Dict[str, Any]:
     properties: Dict[str, Any] = {}
     required: List[str] = []
     for p_name, p_type, p_default in params:
-        prop_schema = _python_type_to_jsonschema(p_type)
+        prop_schema = _python_type_to_jsonschema(p_type, use_dict_type=True)
         p_desc = param_descriptions.get(p_name)
         if p_desc:
             prop_schema["description"] = p_desc
@@ -109,14 +165,56 @@ def build_tool_from_signature(signature: str) -> Dict[str, Any]:
         if p_default is None:
             required.append(p_name)
 
+    # --- Build response schema from return type and return_fields ---
+    response_schema: Dict[str, Any] = {"type": "dict", "properties": {}}
+    
+    if return_type and return_type.lower() not in {"none", ""}:
+        # If we have detailed return_fields documentation, use it
+        if return_fields:
+            response_properties: Dict[str, Any] = {}
+            for field_name, (field_type_str, field_desc) in return_fields.items():
+                # Convert Python type string to JSON Schema
+                field_schema = _python_type_to_jsonschema(field_type_str, use_dict_type=True)
+                field_schema["description"] = field_desc
+                response_properties[field_name] = field_schema
+            
+            response_schema = {
+                "type": "dict",
+                "properties": response_properties
+            }
+        else:
+            # Fallback to old behavior if no return_fields documented
+            return_type_schema = _python_type_to_jsonschema(return_type, use_dict_type=True)
+            # If return type is dict, ensure it has properties structure
+            if return_type_schema.get("type") == "dict":
+                # Ensure properties field exists for dict type
+                if "properties" not in return_type_schema:
+                    return_type_schema["properties"] = {}
+                response_schema = return_type_schema
+            else:
+                # Wrap non-dict return types in a result property
+                response_schema = {
+                    "type": "dict",
+                    "properties": {
+                        "result": return_type_schema
+                    }
+                }
+            # Add return description if available (and no detailed fields)
+            if return_description:
+                if "properties" in response_schema and "result" in response_schema["properties"]:
+                    response_schema["properties"]["result"]["description"] = return_description
+                elif "description" not in response_schema:
+                    response_schema["description"] = return_description
+
     schema = {
         "name": name,
         "description": full_description,
         "parameters": {
-            "type": "object",
+            "type": "dict",
             "properties": properties,
             "required": required,
         },
+        "response": response_schema,
     }
     return schema
 
@@ -362,7 +460,6 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                 "id": f"ex_{run_id}_{idx:06d}_{uuid.uuid4().hex[:8]}",
                 "tools": tools,
                 "messages": messages,
-                "label_kind": "full",
             }
             safe_item = json_sanitize(item)
             out.write(json.dumps(safe_item, ensure_ascii=False) + "\n")
