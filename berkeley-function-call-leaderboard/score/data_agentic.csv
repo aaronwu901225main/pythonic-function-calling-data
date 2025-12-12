@@ -12,15 +12,7 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 11,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,2.47%,0.00%,0.00%,0.00%,4.95%,0.65%,5.16%,9.03%
 12,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,2.37%,0.00%,0.00%,0.00%,4.73%,1.29%,5.16%,7.74%
 13,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
-14,xLAM-2-8b-fc-r LoRA ckpt111-3epoch-simple-miss-para,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-15,xLAM-2-8b-fc-r LoRA ckpt235-3epoch-funreason-clean,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-16,xLAM-2-8b-fc-r LoRA ckpt12-3epoch-simple-miss-func,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,xLAM-2-8b-fc-r LoRA ckpt111-3epoch-simple-miss-func,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,xLAM-2-8b-fc-r LoRA ckpt420-3epoch-funreason-clean,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt94-3epoch-funreason-clean,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,xLAM-2-8b-fc-r LoRA ckpt12-3epoch-simple-miss-para,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,xLAM-2-8b-fc-r LoRA ckpt141-3epoch-funreason-clean,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,xLAM-2-8b-fc-r LoRA ckpt47-3epoch-funreason-clean,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-23,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-simple-miss-para,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-24,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-simple-miss-func,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-25,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+14,xLAM-2-8b-fc-r LoRA ckpt1377-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+15,xLAM-2-8b-fc-r LoRA ckpt860-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+16,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
