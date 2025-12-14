@@ -642,3 +642,15 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1032-merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1204-merged-1epoch-apigenmt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1376-merged-1epoch-apigenmt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1377-merged-1epoch-apigenmt")
+# 1epoch_apigenmt_loss_3e6
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-19-merged-1epoch-apigenmt-loss-3e6")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-1epoch-apigenmt-loss-3e6")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-156-merged-1epoch-apigenmt-loss-3e6")
+# 1epoch_bfcl_turn2e6_fix_length_fix_t_split
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-8-merged-1epoch-bfcl-turn2e6-fix-length-fix-t-split")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-104-merged-1epoch-bfcl-turn2e6-fix-length-fix-t-split")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-200-merged-1epoch-bfcl-turn2e6-fix-length-fix-t-split")
+# 3epoch_bfcl5e7_fix_length_fixt
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3-merged-3epoch-bfcl5e7-fix-length-fixt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-27-merged-3epoch-bfcl5e7-fix-length-fixt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3epoch-bfcl5e7-fix-length-fixt")
