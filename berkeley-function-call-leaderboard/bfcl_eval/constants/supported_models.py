@@ -674,3 +674,11 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-156-merged-1
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-19-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-156-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
+# 1epoch-pythonic-bfcl-like-v1-prototype
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4-merged-1epoch-pythonic-bfcl-like-v1-prototype")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-28-merged-1epoch-pythonic-bfcl-like-v1-prototype")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-1epoch-pythonic-bfcl-like-v1-prototype")
+# 1epoch-pythonic-v2-production
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-42-merged-1epoch-pythonic-v2-production")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-210-merged-1epoch-pythonic-v2-production")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-338-merged-1epoch-pythonic-v2-production")
