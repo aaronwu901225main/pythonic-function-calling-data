@@ -654,3 +654,23 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-200-merged-1
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3-merged-3epoch-bfcl5e7-fix-length-fixt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-27-merged-3epoch-bfcl5e7-fix-length-fixt")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3epoch-bfcl5e7-fix-length-fixt")
+# 3epoch-2bfcl80-fix-length-fixt5e-7-setweight03
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-27-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03")
+# 3epoch-2bfcl80-fix-length-fixt5e-7-setweight07
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight07")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-27-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight07")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3epoch-2bfcl80-fix-length-fixt5e-7-setweight07")
+# 1epoch-pythonic-non-split
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-7-merged-1epoch-pythonic-non-split")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-35-merged-1epoch-pythonic-non-split")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-60-merged-1epoch-pythonic-non-split")
+# 1epoch-apigenmt-label-all-assistant5e-6-setweight07-fix-tool
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-19-merged-1epoch-apigenmt-label-all-assistant5e-6-setweight07-fix-tool")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-1epoch-apigenmt-label-all-assistant5e-6-setweight07-fix-tool")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-156-merged-1epoch-apigenmt-label-all-assistant5e-6-setweight07-fix-tool")
+# 1epoch-apigenmt-label-all-assistant5e-6-fixtool
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-19-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-156-merged-1epoch-apigenmt-label-all-assistant5e-6-fixtool")
