@@ -4,15 +4,12 @@
 1. 完整的 conversation history (multi-turn)
 2. Tool schemas (從 multi_turn_func_doc/)
 3. Ground truth answers
-4. Tool execution responses
 """
 
 import json
 import os
-import re
 from pathlib import Path
 from typing import List, Dict, Any
-from execute_tools_helper import execute_ground_truth_calls
 
 # xLAM system prompt (參考 salesforce_llama.py)
 XLAM_SYSTEM_PROMPT = "You are a helpful assistant that can use tools. You are developed by Salesforce xLAM team."
@@ -112,8 +109,7 @@ def add_long_context_extensions(functions: List[Dict]) -> List[Dict]:
 def format_xlam_conversation(
     test_entry: Dict,
     functions: List[Dict],
-    ground_truths: List[List[str]],
-    dataset_name: str
+    ground_truths: List[List[str]]
 ) -> List[Dict]:
     """
     將 BFCL multi-turn 資料轉換成 xLAM training format
@@ -129,40 +125,23 @@ def format_xlam_conversation(
     conversations = []
     questions = test_entry['question']
     
-    # miss_func: 取得哪些 turn 需要移除哪些函數
-    missed_function = test_entry.get('missed_function', {})
-    
     # 累積所有歷史訊息
     all_messages = []
     
+    # System message (只需加一次)
+    system_content = XLAM_SYSTEM_PROMPT + "\n" + XLAM_TOOL_INSTRUCTION
+    
+    # 添加 function schemas 到 system message
+    system_content += "The available tools are:\n\n"
+    for func in functions:
+        system_content += json.dumps(func, indent=4, ensure_ascii=False) + "\n\n"
+    
+    all_messages.append({
+        "role": "system",
+        "content": system_content
+    })
+    
     for turn_idx, (question_turn, gt_turn) in enumerate(zip(questions, ground_truths)):
-        # 根據 missed_function 決定這個 turn 的函數列表
-        turn_functions = functions.copy()
-        
-        # miss_func: 移除這個 turn 中被標記為 missed 的函數
-        if str(turn_idx) in missed_function:
-            missed_func_names = missed_function[str(turn_idx)]
-            turn_functions = [f for f in turn_functions if f['name'] not in missed_func_names]
-        
-        # 為這個 turn 產生 system message
-        system_content = XLAM_SYSTEM_PROMPT + "\n" + XLAM_TOOL_INSTRUCTION
-        system_content += "The available tools are:\n\n"
-        for func in turn_functions:
-            system_content += json.dumps(func, indent=4, ensure_ascii=False) + "\n\n"
-        
-        # 如果這是第一個 turn,加入 system message
-        if turn_idx == 0:
-            all_messages.append({
-                "role": "system",
-                "content": system_content
-            })
-        elif str(turn_idx) in missed_function:
-            # 函數列表有變化,更新 system message
-            all_messages[0] = {
-                "role": "system",
-                "content": system_content
-            }
-        
         # 添加當前 turn 的 user message(s)
         for msg in question_turn:
             all_messages.append(msg)
@@ -198,8 +177,7 @@ def format_xlam_conversation(
             "messages": all_messages.copy(),  # 複製當前所有訊息(tools 已在 system message 中)
             "ground_truth": ground_truth_json,  # JSON array format
             "turn_index": turn_idx,
-            "total_turns": len(questions),
-            "dataset": dataset_name  # 記錄來源資料集
+            "total_turns": len(questions)
         })
         
         # 添加 assistant 的回覆到歷史(用於下一個 turn)
@@ -251,21 +229,18 @@ def main():
         # 處理每個測試案例
         dataset_conversations = []
         
-        # 判斷是否為 long_context
-        is_long_context = 'long_context' in dataset_name
-        
         for entry in test_data:
             entry_id = entry['id']
             involved_classes = entry.get('involved_classes', [])
             
-            # 載入相關的 function schemas,若是 long_context 加入擴充資料
-            functions = load_function_docs(str(func_doc_dir), involved_classes, long_context=is_long_context)
+            # 載入相關的 function schemas
+            functions = load_function_docs(str(func_doc_dir), involved_classes)
             
             # 獲取 ground truth
             ground_truths = answers.get(entry_id, [])
             
-            # 轉換成 xLAM 格式,傳入 dataset_name
-            conversations = format_xlam_conversation(entry, functions, ground_truths, dataset_name)
+            # 轉換成 xLAM 格式
+            conversations = format_xlam_conversation(entry, functions, ground_truths)
             dataset_conversations.extend(conversations)
         
         all_conversations.extend(dataset_conversations)

@@ -413,57 +413,92 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                     except Exception:
                         continue
 
-            # build messages from trace allowing multiple function calls per user turn
-            messages: List[Dict[str, Any]] = []
+            # Parse trace into turns (每個 user query 是一個 turn)
+            turns: List[Dict[str, Any]] = []
             i = 0
             n = len(trace)
+            
             while i < n:
                 item = trace[i]
                 if "query" in item:
-                    # Start a new user turn
-                    messages.append({"role": "user", "content": item["query"]})
+                    turn_data = {
+                        "query": item["query"],
+                        "tool_calls": [],
+                        "tool_responses": []
+                    }
                     i += 1
-                    # Collect one or more (function_call, tool) pairs that follow
-                    tool_calls: List[Dict[str, Any]] = []
-                    tool_messages: List[Dict[str, Any]] = []
+                    
+                    # Collect function calls and tool responses for this turn
                     while i < n and "function_call" in trace[i]:
                         fc_text = trace[i]["function_call"]
                         tool_text = None
                         if i + 1 < n and "tool" in trace[i + 1]:
                             tool_text = trace[i + 1]["tool"]
+                        
                         # Parse function call
                         m = CALL_RE.match(fc_text)
                         func_name = None
                         args_obj: Dict[str, Any] = {}
                         if m:
                             func_name, args_obj = parse_function_call(fc_text, name_to_param_names.get(m.group(1), []))
+                        
                         if func_name:
-                            tool_calls.append({
+                            turn_data["tool_calls"].append({
                                 "type": "function",
                                 "function": {
                                     "name": func_name,
                                     "arguments": args_obj,
                                 }
                             })
+                        
                         if tool_text is not None:
-                            tool_messages.append({"role": "tool", "content": str(tool_text)})
+                            turn_data["tool_responses"].append(str(tool_text))
+                        
                         # advance past function_call and optional tool
                         i += 2 if (i + 1 < n and "tool" in trace[i + 1]) else 1
-                    if tool_calls:
-                        messages.append({"role": "assistant", "tool_calls": tool_calls})
-                        messages.extend(tool_messages)
+                    
+                    turns.append(turn_data)
                 else:
-                    # If the structure is unexpected, advance safely
                     i += 1
-
+            
+            # 生成完整的多輪對話記錄 (不切分成獨立 turns)
+            all_messages: List[Dict[str, Any]] = []
+            total_turns = len(turns)
+            
+            for turn in turns:
+                # 添加 user message
+                all_messages.append({"role": "user", "content": turn["query"]})
+                
+                # 添加 assistant message (如果有 tool calls)
+                if turn["tool_calls"]:
+                    all_messages.append({
+                        "role": "assistant",
+                        "tool_calls": turn["tool_calls"],
+                        "content": ""
+                    })
+                    
+                    # 添加 tool responses
+                    for tool_call, tool_response in zip(turn["tool_calls"], turn["tool_responses"]):
+                        all_messages.append({
+                            "role": "tool",
+                            "name": tool_call["function"]["name"],
+                            "content": tool_response
+                        })
+            
+            # 生成單一完整對話記錄
             item = {
-                "id": f"ex_{run_id}_{idx:06d}_{uuid.uuid4().hex[:8]}",
+                "id": f"{run_id}_{idx:06d}",
+                "sample_index": idx,
                 "tools": tools,
-                "messages": messages,
+                "messages": all_messages,
+                "dataset": None,
+                "total_turns": total_turns,
             }
+            
             safe_item = json_sanitize(item)
             out.write(json.dumps(safe_item, ensure_ascii=False) + "\n")
             written += 1
+    
     return out_path
 
 

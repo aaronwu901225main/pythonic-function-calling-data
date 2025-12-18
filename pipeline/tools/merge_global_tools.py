@@ -81,6 +81,7 @@ def main() -> None:
 
     print(f"[INFO] total samples={len(lines)} global unique tools={len(global_tools)}")
 
+    # 現在每條記錄就是一個完整的 sample，直接逐條處理
     written = 0
     with open(args.output, "w", encoding="utf-8") as out_f:
         for idx, obj in enumerate(lines):
@@ -153,6 +154,8 @@ def main() -> None:
 
             # 最終打亂整體順序，避免固定把本題工具排在前面
             random.shuffle(merged_tools)
+            
+            # 更新當前對話的 tools
             obj["tools"] = merged_tools
             out_f.write(json.dumps(obj, ensure_ascii=False) + "\n")
             written += 1

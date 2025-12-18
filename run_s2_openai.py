@@ -11,6 +11,17 @@ from pipeline.s2_functions.parser import parse_signature
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
+def _write_debug(debug_enabled: bool, debug_out_path: str, record: Dict[str, Any]):
+    if not debug_enabled:
+        return
+    try:
+        os.makedirs(os.path.dirname(debug_out_path), exist_ok=True)
+        with open(debug_out_path, "a", encoding="utf-8") as df:
+            df.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 def _coerce_expected(expected_text: str, return_type: str) -> Any:
     text = (expected_text or "").strip()
     rt = (return_type or "").lower()
@@ -56,34 +67,138 @@ async def generate_functions_openai(run_id: str):
             pass
 
     template_path = "pipeline/s2_functions/prompt.md"
+    max_retries = int(os.getenv("MAX_RETRIES", "2"))    
+    debug_enabled = os.getenv("S2_DEBUG", "0") == "1"
+    debug_path = f"pipeline/data/{run_id}/s2_functions_debug.jsonl"
     out: List[Dict[str, Any]] = []
 
-    for inp in tqdm(scenario_inputs):
+    for idx, inp in enumerate(tqdm(scenario_inputs)):
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "scenario": inp["scenario"][:100] + "..." if len(inp["scenario"]) > 100 else inp["scenario"],
+                "phase": "start",
+                "event": "processing_scenario"
+            })
+            
         prompt = render_template(template_path, {"scenario": inp["scenario"]})
         system = (
             "You are a careful data generator. Follow the format strictly, include multiple <function> blocks each with a <signature> code fence and an <expected> value."
         )
-        content = chat_complete(prompt=prompt, system=system)
-        func_blocks = extract_tags(content, "function")
-
+        
         functions: List[Dict[str, Any]] = []
-        for fb in func_blocks:
-            sig_blocks = extract_tags(fb, "signature")
-            if not sig_blocks:
-                continue
-            # extract code fence labelled python from signature tag content
-            code_blocks = extract_code_fence(sig_blocks[0], lang="python")
-            if not code_blocks:
-                continue
-            schema = code_blocks[0]
-            parsed = parse_signature(schema)
-            return_type = parsed.get("return_type", "")
+        for attempt in range(max_retries + 1):
+            content = chat_complete(prompt=prompt, system=system)
+            
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "chat_complete",
+                    "event": "response_received",
+                    "content_length": len(content)
+                })
+            
+            func_blocks = extract_tags(content, "function")
+            
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "extract",
+                    "event": "function_blocks_extracted",
+                    "count": len(func_blocks)
+                })
+            
+            temp_functions: List[Dict[str, Any]] = []
+            for fb_idx, fb in enumerate(func_blocks):
+                sig_blocks = extract_tags(fb, "signature")
+                if not sig_blocks:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempt,
+                            "phase": "parse",
+                            "event": "no_signature_blocks",
+                            "function_block_index": fb_idx
+                        })
+                    continue
+                    
+                # extract code fence labelled python from signature tag content
+                code_blocks = extract_code_fence(sig_blocks[0], lang="python")
+                if not code_blocks:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempt,
+                            "phase": "parse",
+                            "event": "no_code_blocks",
+                            "function_block_index": fb_idx
+                        })
+                    continue
+                    
+                schema = code_blocks[0]
+                parsed = parse_signature(schema)
+                if not parsed.get("function_name"):  # 解析失敗
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempt,
+                            "phase": "parse",
+                            "event": "parse_signature_failed",
+                            "function_block_index": fb_idx,
+                            "schema": schema[:200] + "..." if len(schema) > 200 else schema
+                        })
+                    continue
+                    
+                return_type = parsed.get("return_type", "")
 
-            exp_blocks = extract_tags(fb, "expected")
-            expected_raw = exp_blocks[0] if exp_blocks else ""
-            expected = _coerce_expected(expected_raw, return_type)
+                exp_blocks = extract_tags(fb, "expected")
+                expected_raw = exp_blocks[0] if exp_blocks else ""
+                expected = _coerce_expected(expected_raw, return_type)
+                
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "parse",
+                        "event": "function_parsed_success",
+                        "function_block_index": fb_idx,
+                        "function_name": parsed.get("function_name"),
+                        "return_type": return_type
+                    })
 
-            functions.append({"function": schema, "expected": expected})
+                temp_functions.append({"function": schema, "expected": expected})
+            
+            if temp_functions:  # 成功解析到函數
+                functions = temp_functions
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "success",
+                        "event": "functions_accepted",
+                        "count": len(functions)
+                    })
+                break
+            elif attempt < max_retries:
+                print(f"Warning: S2 attempt {attempt + 1} failed to parse functions for scenario, retrying...")
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "retry",
+                        "event": "functions_parsing_failed_retrying"
+                    })
+            else:
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "failure",
+                        "event": "all_attempts_failed",
+                        "max_retries": max_retries
+                    })
 
         out.append(
             {

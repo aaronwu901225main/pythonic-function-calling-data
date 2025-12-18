@@ -6,6 +6,7 @@
 import json
 import os
 import re
+import ast
 from pathlib import Path
 from typing import List, Dict, Any
 import sys
@@ -14,6 +15,7 @@ import sys
 sys.path.insert(0, '/home/at0842/aaronwu901225master.ai13/gorilla/berkeley-function-call-leaderboard')
 
 from bfcl_eval.eval_checker.multi_turn_eval.multi_turn_utils import execute_multi_turn_func_call
+from bfcl_eval.constants.executable_backend_config import MULTI_TURN_FUNC_DOC_FILE_MAPPING
 
 # xLAM system prompt (參考 salesforce_llama.py)
 XLAM_SYSTEM_PROMPT = "You are a helpful assistant that can use tools. You are developed by Salesforce xLAM team."
@@ -55,10 +57,11 @@ def load_function_docs(func_doc_dir: str, involved_classes: List[str], long_cont
     functions = []
     
     for class_name in involved_classes:
-        # 根據 BFCL 的命名規則
-        file_name = class_name.replace('API', '_api')
-        # 將駝峰命名轉成底線命名
-        func_doc_file = ''.join(['_' + c.lower() if c.isupper() else c for c in file_name]).lstrip('_') + '.json'
+        # 使用 BFCL 的官方映射表
+        func_doc_file = MULTI_TURN_FUNC_DOC_FILE_MAPPING.get(class_name)
+        if not func_doc_file:
+            print(f"Warning: No mapping found for class {class_name}")
+            continue
         func_doc_path = os.path.join(func_doc_dir, func_doc_file)
         
         if os.path.exists(func_doc_path):
@@ -152,12 +155,39 @@ def format_xlam_conversation_with_responses(
 ) -> List[Dict]:
     """
     將 BFCL multi-turn 資料轉換成 xLAM training format (包含 tool responses)
+    
+    miss_func 邏輯:
+    - missed_function 是 string -> list 的映射
+    - 在資料載入時,這些函數就已經被移除了
+    - 但在指定的 turn,這些函數會被**加回來**
+    - 原本的 question 在那個 turn 是空的 []
     """
     conversations = []
     questions = test_entry['question']
     
-    # miss_func: 取得哪些 turn 需要移除哪些函數
+    # miss_func: 取得哪些 turn 需要加回哪些函數
+    # 注意: 在原始資料中,這些函數名稱列表已經在 utils.py 中被轉換成函數 schema 列表
+    # 但我們這裡直接從原始資料讀取,所以還是字串列表
     missed_function = test_entry.get('missed_function', {})
+    
+    # 從 functions 中移除所有 missed functions (模擬 BFCL 的預處理)
+    # 並建立 holdout_functions 字典
+    holdout_functions: Dict[str, List[Dict]] = {}
+    current_functions = functions.copy()
+    
+    if missed_function:
+        for turn_str, func_names in missed_function.items():
+            holdout_functions[turn_str] = []
+            # 從 current_functions 中移除這些函數
+            for func_name in func_names:
+                for i, func in enumerate(current_functions):
+                    if func['name'] == func_name:
+                        holdout_functions[turn_str].append(func)
+                        current_functions.pop(i)
+                        break
+    
+    # 現在 current_functions 是移除 missed functions 後的列表
+    # 這是大部分 turns 看到的函數列表
     
     # 累積所有歷史訊息
     all_messages = []
@@ -165,56 +195,89 @@ def format_xlam_conversation_with_responses(
     # 累積的 class instances (用於多輪對話的狀態保持)
     accumulated_instances = {}
     
+    # 追蹤當前可用的函數 (會在 holdout turn 改變)
+    active_functions = current_functions.copy()
+    
     for turn_idx, (question_turn, gt_turn) in enumerate(zip(questions, ground_truths)):
-        # 根據 missed_function 決定這個 turn 的函數列表
-        turn_functions = functions.copy()
+        turn_str = str(turn_idx)
         
-        # miss_func: 移除這個 turn 中被標記為 missed 的函數
-        if str(turn_idx) in missed_function:
-            missed_func_names = missed_function[str(turn_idx)]
-            turn_functions = [f for f in turn_functions if f['name'] not in missed_func_names]
-        
-        # 為這個 turn 產生 system message
-        system_content = XLAM_SYSTEM_PROMPT + "\n" + XLAM_TOOL_INSTRUCTION
-        system_content += "The available tools are:\n\n"
-        for func in turn_functions:
-            system_content += json.dumps(func, indent=4, ensure_ascii=False) + "\n\n"
-        
-        # 如果這是第一個 turn,加入 system message
+        # 第一個 turn 需要設定 system message (不會再改變)
         if turn_idx == 0:
+            system_content = XLAM_SYSTEM_PROMPT + "\n" + XLAM_TOOL_INSTRUCTION
+            system_content += "The available tools are:\n\n"
+            for func in current_functions:
+                system_content += json.dumps(func, indent=4, ensure_ascii=False) + "\n\n"
+            
             all_messages.append({
                 "role": "system",
                 "content": system_content
             })
-        elif str(turn_idx) in missed_function:
-            # 函數列表有變化,更新 system message
-            all_messages[0] = {
-                "role": "system",
-                "content": system_content
-            }
         
         # 添加當前 turn 的 user message(s)
-        for msg in question_turn:
-            all_messages.append(msg)
+        if turn_str in holdout_functions:
+            # Holdout turn: 將新函數加回來
+            active_functions.extend(holdout_functions[turn_str])
+            
+            # 在 user message 中包含新函數的 schema (模仿 BFCL 的做法)
+            holdout_message = str(holdout_functions[turn_str])  # Python dict 的字串表示
+            holdout_message += "\nI have updated some more functions you can choose from. What about now?"
+            
+            all_messages.append({
+                "role": "user",
+                "content": holdout_message
+            })
+        else:
+            # 正常 turn: 添加原本的 user message(s)
+            for msg in question_turn:
+                all_messages.append(msg)
         
         # 將 ground truth 轉換為 JSON array format
         ground_truth_json = []
         for call_str in gt_turn:
             # 解析 function_name(arg1=val1, arg2=val2) 格式
-            match = re.match(r'(\w+)\((.*)\)', call_str)
+            # 使用 ast 模組來正確處理複雜參數值(如列表、布林值等)
+            match = re.match(r'(\w+)\((.*)\)', call_str, re.DOTALL)
             if match:
                 func_name = match.group(1)
                 args_str = match.group(2)
                 
-                # 解析參數
+                # 使用 ast 解析參數
                 args = {}
-                if args_str:
-                    for arg in args_str.split(','):
-                        if '=' in arg:
-                            k, v = arg.split('=', 1)
-                            k = k.strip()
-                            v = v.strip().strip("'\"")
-                            args[k] = v
+                if args_str.strip():
+                    try:
+                        # 構造一個假的函數呼叫來解析
+                        fake_call = f"func({args_str})"
+                        tree = ast.parse(fake_call, mode='eval')
+                        call_node = tree.body
+                        
+                        # 提取 keyword arguments
+                        for keyword in call_node.keywords:
+                            key = keyword.arg
+                            # 使用 ast.literal_eval 來評估值
+                            try:
+                                value = ast.literal_eval(keyword.value)
+                            except:
+                                # 如果無法評估,使用原始字串
+                                value = ast.unparse(keyword.value) if hasattr(ast, 'unparse') else str(keyword.value)
+                            args[key] = value
+                        
+                        # 提取 positional arguments (如果有的話)
+                        # 這種情況較少見,但為了完整性還是處理
+                        for i, arg_node in enumerate(call_node.args):
+                            try:
+                                value = ast.literal_eval(arg_node)
+                            except:
+                                value = ast.unparse(arg_node) if hasattr(ast, 'unparse') else str(arg_node)
+                            args[f"arg_{i}"] = value
+                            
+                    except Exception as e:
+                        # 如果 ast 解析失敗,回退到簡單解析
+                        print(f"Warning: ast parsing failed for '{call_str}': {e}")
+                        # 簡單的 fallback 邏輯
+                        for part in args_str.split(','):
+                            if '=' in part:
+                                k, v = part.split('=', 1)
+                                args[k.strip()] = v.strip()
                 
                 ground_truth_json.append({
                     "name": func_name,
@@ -235,6 +298,7 @@ def format_xlam_conversation_with_responses(
         conversations.append({
             "id": f"{test_entry['id']}_turn_{turn_idx}",
             "messages": all_messages.copy(),
+            "tools": active_functions.copy(),  # 新增: 當前可用的 tools
             "ground_truth": ground_truth_json,
             "tool_responses": tool_responses,  # 新增: tool execution 結果
             "turn_index": turn_idx,

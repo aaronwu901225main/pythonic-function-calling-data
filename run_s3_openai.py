@@ -10,6 +10,17 @@ from openai_utils import render_template, extract_tags, chat_complete
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
 
+def _write_debug(debug_enabled: bool, debug_out_path: str, record: Dict[str, Any]):
+    if not debug_enabled:
+        return
+    try:
+        os.makedirs(os.path.dirname(debug_out_path), exist_ok=True)
+        with open(debug_out_path, "a", encoding="utf-8") as df:
+            df.write(json.dumps(record, ensure_ascii=False) + "\n")
+    except Exception:
+        pass
+
+
 async def generate_simple_queries_openai(run_id: str):
     dataset: List[Dict[str, Any]] = []
 
@@ -158,9 +169,24 @@ async def generate_multi_turn_queries_openai(run_id: str):
         function_inputs: List[Dict[str, Any]] = json.load(f)
 
     template_path = "pipeline/s3_queries/multiturn/prompt.md"
+    max_retries = int(os.getenv("MAX_RETRIES", "2"))
+    debug_enabled = os.getenv("S3_DEBUG", "0") == "1"
+    debug_path = f"pipeline/data/{run_id}/s3_queries_debug.jsonl"
+    debug_enabled = os.getenv("S3_DEBUG", "0") == "1"
+    debug_path = f"pipeline/data/{run_id}/s3_queries_debug.jsonl"
 
-    for inp in function_inputs:
+    for idx, inp in enumerate(function_inputs):
         function_schemas_obj = inp.get("functions", [])
+        
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "scenario": inp["scenario"][:100] + "..." if len(inp["scenario"]) > 100 else inp["scenario"],
+                "function_count": len(function_schemas_obj),
+                "phase": "start",
+                "event": "processing_sample"
+            })
+            
         prompt = render_template(
             template_path,
             {
@@ -171,38 +197,150 @@ async def generate_multi_turn_queries_openai(run_id: str):
         system = (
             "You are a careful data generator. Produce a <dialogue> containing repeated <query>, <function_call>, and <tool> tags as per instructions."
         )
-        content = chat_complete(prompt=prompt, system=system)
-
-        dialogue_blocks = extract_tags(content, "dialogue")
-        if not dialogue_blocks:
-            continue
-        dlg = dialogue_blocks[0]
-
-        # Prefer new <turn> format allowing multiple function calls per user turn
-        turn_blocks = extract_tags(dlg, "turn")
+        
         traces: List[Dict[str, str]] = []
-        if turn_blocks:
-            for tb in turn_blocks:
-                q_blocks = extract_tags(tb, "query")
-                if not q_blocks:
+        for attempt in range(max_retries + 1):
+            content = chat_complete(prompt=prompt, system=system)
+            
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "chat_complete",
+                    "event": "response_received",
+                    "content_length": len(content)
+                })
+            
+            dialogue_blocks = extract_tags(content, "dialogue")
+            if not dialogue_blocks:
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "extract",
+                        "event": "no_dialogue_blocks"
+                    })
+                if attempt < max_retries:
+                    print(f"Warning: S3 attempt {attempt + 1} failed to extract dialogue, retrying...")
                     continue
-                q = q_blocks[0]
-                traces.append({"query": q})
-                # Multiple function_call/tool pairs per turn
-                fcs = extract_tags(tb, "function_call")
-                tls = extract_tags(tb, "tool")
-                for c, t in zip(fcs, tls):
-                    traces.append({"function_call": c})
-                    traces.append({"tool": t})
-        else:
-            # Backward compatibility: flat sequence of <query>, <function_call>, <tool>
-            queries = extract_tags(dlg, "query")
-            calls = extract_tags(dlg, "function_call")
-            tools = extract_tags(dlg, "tool")
-            for q, c, t in zip(queries, calls, tools):
-                traces.append({"query": q})
-                traces.append({"function_call": c})
-                traces.append({"tool": t})
+                else:
+                    break
+            
+            dlg = dialogue_blocks[0]
+            
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "extract",
+                    "event": "dialogue_extracted",
+                    "dialogue_length": len(dlg)
+                })
+            
+            # Prefer new <turn> format allowing multiple function calls per user turn
+            turn_blocks = extract_tags(dlg, "turn")
+            temp_traces: List[Dict[str, str]] = []
+            if turn_blocks:
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "parse",
+                        "event": "using_turn_format",
+                        "turn_count": len(turn_blocks)
+                    })
+                    
+                for turn_idx, tb in enumerate(turn_blocks):
+                    q_blocks = extract_tags(tb, "query")
+                    if not q_blocks:
+                        if debug_enabled:
+                            _write_debug(debug_enabled, debug_path, {
+                                "sample_index": idx,
+                                "attempt": attempt,
+                                "phase": "parse",
+                                "event": "no_query_in_turn",
+                                "turn_index": turn_idx
+                            })
+                        continue
+                    q = q_blocks[0]
+                    temp_traces.append({"query": q})
+                    # Multiple function_call/tool pairs per turn
+                    fcs = extract_tags(tb, "function_call")
+                    tls = extract_tags(tb, "tool")
+                    
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempt,
+                            "phase": "parse",
+                            "event": "turn_parsed",
+                            "turn_index": turn_idx,
+                            "function_calls": len(fcs),
+                            "tool_responses": len(tls)
+                        })
+                    
+                    for c, t in zip(fcs, tls):
+                        temp_traces.append({"function_call": c})
+                        temp_traces.append({"tool": t})
+            else:
+                # Backward compatibility: flat sequence of <query>, <function_call>, <tool>
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "parse",
+                        "event": "using_flat_format"
+                    })
+                    
+                queries = extract_tags(dlg, "query")
+                calls = extract_tags(dlg, "function_call")
+                tools = extract_tags(dlg, "tool")
+                
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "parse",
+                        "event": "flat_format_extracted",
+                        "queries": len(queries),
+                        "function_calls": len(calls),
+                        "tool_responses": len(tools)
+                    })
+                
+                for q, c, t in zip(queries, calls, tools):
+                    temp_traces.append({"query": q})
+                    temp_traces.append({"function_call": c})
+                    temp_traces.append({"tool": t})
+            
+            if temp_traces:  # 成功解析到對話
+                traces = temp_traces
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "success",
+                        "event": "dialogue_parsed_success",
+                        "trace_count": len(traces)
+                    })
+                break
+            elif attempt < max_retries:
+                print(f"Warning: S3 attempt {attempt + 1} failed to parse dialogue structure, retrying...")
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "retry",
+                        "event": "dialogue_parsing_failed_retrying"
+                    })
+            else:
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "failure",
+                        "event": "all_attempts_failed",
+                        "max_retries": max_retries
+                    })
 
         dataset.append(
             {

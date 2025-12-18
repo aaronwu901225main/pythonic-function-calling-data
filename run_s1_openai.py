@@ -31,7 +31,10 @@ async def generate_scenarios_openai(run_id: str):
     template_path = "pipeline/s1_scenario/prompt.md"
     data: List[Dict] = []
 
-    rows = read_curriculum("pipeline/data/curriculum.csv")
+    # Use CURRICULUM_CSV environment variable or default to curriculum.csv
+    csv_path = os.getenv("CURRICULUM_CSV", "pipeline/data/curriculum.csv")
+    logging.info(f"Using curriculum file: {csv_path}")
+    rows = read_curriculum(csv_path)
     # Optional: limit number of curriculum rows (to reduce API calls)
     s1_limit_rows = os.getenv("S1_LIMIT_ROWS")
     if s1_limit_rows:

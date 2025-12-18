@@ -184,7 +184,7 @@ async def generate_pseudo_functions_openai(run_id: str):
         else "pipeline/s4_pseudo_functions/prompt.md"
     )
     num_pseudo = int(os.getenv("S4_PSEUDO_PER_SAMPLE", "6"))
-    max_retries = int(os.getenv("S4_MAX_RETRIES", "2"))
+    max_retries = int(os.getenv("MAX_RETRIES", "2"))
     topup_extra = int(os.getenv("S4_TOPUP_EXTRA", "2"))  # ask a bit more on retries
 
     output_samples: List[Dict[str, Any]] = []
