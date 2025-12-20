@@ -26,7 +26,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import transforms
 
-font_path = "/home/at0842/aaronwu901225master.ai13/fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
+font_path = "../../fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
 if os.path.exists(font_path):
     from matplotlib import font_manager
     # 將字型檔加入 Matplotlib 字型管理器，避免 findfont 找不到

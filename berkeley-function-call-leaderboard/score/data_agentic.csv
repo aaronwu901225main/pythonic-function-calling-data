@@ -15,31 +15,7 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 14,xLAM-2-8b-fc-r LoRA ckpt6-5epoch-toollossonly-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 15,xLAM-2-8b-fc-r LoRA ckpt54-5epoch-toollossonly-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 16,xLAM-2-8b-fc-r LoRA ckpt95-5epoch-toollossonly-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,xLAM-2-8b-fc-r LoRA ckpt7-1epoch-pythonic-non-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,xLAM-2-8b-fc-r LoRA ckpt104-1epoch-bfcl-turn2e6-fix-length-fix-t-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt28-1epoch-pythonic-bfcl-like-v1-prototype,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,xLAM-2-8b-fc-r LoRA ckpt4-1epoch-pythonic-bfcl-like-v1-prototype,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,xLAM-2-8b-fc-r LoRA ckpt27-3epoch-bfcl5e7-fix-length-fixt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-23,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-bfcl5e7-fix-length-fixt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-24,xLAM-2-8b-fc-r LoRA ckpt60-1epoch-pythonic-bfcl-like-v1-prototype,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-25,xLAM-2-8b-fc-r LoRA ckpt8-1epoch-bfcl-turn2e6-fix-length-fix-t-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-26,xLAM-2-8b-fc-r LoRA ckpt95-1epoch-apigenmt-label-all-assistant5e-6-fixtool,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-27,xLAM-2-8b-fc-r LoRA ckpt19-1epoch-apigenmt-label-all-assistant5e-6-fixtool,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-28,xLAM-2-8b-fc-r LoRA ckpt35-1epoch-pythonic-non-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-29,xLAM-2-8b-fc-r LoRA ckpt860-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-30,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-31,xLAM-2-8b-fc-r LoRA ckpt210-1epoch-pythonic-v2-production,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-32,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-33,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-34,xLAM-2-8b-fc-r LoRA ckpt1377-1epoch-apigenmt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-35,xLAM-2-8b-fc-r LoRA ckpt27-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-36,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-37,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-2bfcl80-fix-length-fixt5e-7-setweight03,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-38,xLAM-2-8b-fc-r LoRA ckpt42-1epoch-pythonic-v2-production,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-39,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-40,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-bfcl5e7-fix-length-fixt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-41,xLAM-2-8b-fc-r LoRA ckpt60-1epoch-pythonic-non-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-42,xLAM-2-8b-fc-r LoRA ckpt156-1epoch-apigenmt-label-all-assistant5e-6-fixtool,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-43,xLAM-2-8b-fc-r LoRA ckpt200-1epoch-bfcl-turn2e6-fix-length-fix-t-split,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-44,xLAM-2-8b-fc-r LoRA ckpt338-1epoch-pythonic-v2-production,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
