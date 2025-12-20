@@ -46,3 +46,5 @@ merge_lora_model/
 **/wandb/
 **.slurm
 **.out
+berkeley-function-call-leaderboard/eval.sh
+berkeley-function-call-leaderboard/eval.txt
