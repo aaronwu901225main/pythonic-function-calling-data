@@ -690,3 +690,7 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3e
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6-merged-5epoch-toollossonly-lr1e-5")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-5epoch-toollossonly-lr1e-5")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-5epoch-toollossonly-lr1e-5")
+# 3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-208-merged-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1040-merged-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1875-merged-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5")
