@@ -7,15 +7,18 @@ Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Mu
 6,ToolACE-2-8B (FC),92.12%,96.50%,92.00%,88.50%,91.50%,75.00%
 7,watt-tool-8B (FC),89.56%,92.25%,91.50%,88.00%,86.50%,80.42%
 8,BitAgent-8B,89.50%,93.00%,91.50%,87.00%,86.50%,79.58%
-9,xLAM-2-8b-fc-r LoRA ckpt54-5epoch-toollossonly-lr1e-5,88.25%,92.50%,89.00%,86.00%,85.50%,49.58%
-10,xLAM-2-8b-fc-r LoRA ckpt95-5epoch-toollossonly-lr1e-5,88.19%,92.25%,89.50%,85.50%,85.50%,49.58%
-11,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,88.19%,92.25%,89.00%,85.00%,86.50%,50.00%
-12,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
-13,xLAM-2-8b-fc-r LoRA ckpt6-5epoch-toollossonly-lr1e-5,88.00%,92.00%,88.50%,85.50%,86.00%,51.25%
-14,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
-15,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,87.62%,92.00%,88.00%,85.00%,85.50%,50.00%
-16,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,87.44%,92.25%,88.00%,85.00%,84.50%,50.83%
-17,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
-18,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-19,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-20,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+9,xLAM-2-8b-fc-r LoRA ckpt1040-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5,88.94%,92.25%,90.00%,89.00%,84.50%,20.83%
+10,xLAM-2-8b-fc-r LoRA ckpt1875-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5,88.62%,92.00%,89.00%,89.00%,84.50%,20.83%
+11,xLAM-2-8b-fc-r LoRA ckpt208-3epoch-apigen-mt-messages-remove-think-fixtool-lr1e-5,88.38%,92.00%,89.50%,87.00%,85.00%,35.83%
+12,xLAM-2-8b-fc-r LoRA ckpt54-5epoch-toollossonly-lr1e-5,88.25%,92.50%,89.00%,86.00%,85.50%,49.58%
+13,xLAM-2-8b-fc-r LoRA ckpt95-5epoch-toollossonly-lr1e-5,88.19%,92.25%,89.50%,85.50%,85.50%,49.58%
+14,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,88.19%,92.25%,89.00%,85.00%,86.50%,50.00%
+15,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
+16,xLAM-2-8b-fc-r LoRA ckpt6-5epoch-toollossonly-lr1e-5,88.00%,92.00%,88.50%,85.50%,86.00%,51.25%
+17,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
+18,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,87.62%,92.00%,88.00%,85.00%,85.50%,50.00%
+19,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,87.44%,92.25%,88.00%,85.00%,84.50%,50.83%
+20,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
+21,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+22,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+23,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
