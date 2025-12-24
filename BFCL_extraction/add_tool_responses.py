@@ -262,13 +262,48 @@ def format_xlam_conversation_with_responses(
                             args[key] = value
                         
                         # 提取 positional arguments (如果有的話)
-                        # 這種情況較少見,但為了完整性還是處理
-                        for i, arg_node in enumerate(call_node.args):
-                            try:
-                                value = ast.literal_eval(arg_node)
-                            except:
-                                value = ast.unparse(arg_node) if hasattr(ast, 'unparse') else str(arg_node)
-                            args[f"arg_{i}"] = value
+                        # 需要從 function schema 中找出正確的參數名稱
+                        if call_node.args:
+                            # 找到對應的函數 schema
+                            func_schema = None
+                            for func in active_functions:
+                                if func.get('name') == func_name:
+                                    func_schema = func
+                                    break
+                            
+                            if func_schema:
+                                # 從 schema 中取得參數順序
+                                param_names = []
+                                if 'parameters' in func_schema:
+                                    # OpenAI format
+                                    required = func_schema['parameters'].get('required', [])
+                                    properties = func_schema['parameters'].get('properties', {})
+                                    # 優先使用 required 的順序，然後是其他參數
+                                    param_names = required + [k for k in properties.keys() if k not in required]
+                                
+                                # 將 positional arguments 對應到參數名稱
+                                for i, arg_node in enumerate(call_node.args):
+                                    if i < len(param_names):
+                                        param_name = param_names[i]
+                                    else:
+                                        # fallback: 如果沒有足夠的參數名稱，使用 arg_i
+                                        param_name = f"arg_{i}"
+                                        print(f"Warning: No parameter name found for positional arg {i} in {func_name}")
+                                    
+                                    try:
+                                        value = ast.literal_eval(arg_node)
+                                    except:
+                                        value = ast.unparse(arg_node) if hasattr(ast, 'unparse') else str(arg_node)
+                                    args[param_name] = value
+                            else:
+                                # 找不到 schema，使用原本的 arg_i 格式並警告
+                                print(f"Warning: Function schema not found for '{func_name}' with positional args")
+                                for i, arg_node in enumerate(call_node.args):
+                                    try:
+                                        value = ast.literal_eval(arg_node)
+                                    except:
+                                        value = ast.unparse(arg_node) if hasattr(ast, 'unparse') else str(arg_node)
+                                    args[f"arg_{i}"] = value
                             
                     except Exception as e:
                         # 如果 ast 解析失敗,回退到簡單解析
