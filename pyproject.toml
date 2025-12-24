@@ -15,4 +15,18 @@ dependencies = [
   "numpy>=1.26,<2",
   "transformers>=4.37.0",
   "python-dateutil>=2.8.2",
+  "tqdm>=4.64.0",
+  "python-dotenv>=1.0.0",
+  "pydantic>=2.0.0",
+  "pathlib2>=2.3.0",
 ]
+
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["pipeline*", "BFCL_extraction*"]
+
+[tool.setuptools]
+py-modules = ["openai_utils", "run_s1_openai", "run_s2_openai", "run_s3_openai", "run_s4_openai"]

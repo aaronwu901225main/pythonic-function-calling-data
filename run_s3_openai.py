@@ -137,11 +137,11 @@ async def generate_multiple_queries_openai(run_id: str):
                 except ValueError:
                     pass
                 if r:
-                    outer = random.choice(function_inputs[random.choice(r)])
+                    outer = function_inputs[random.choice(r)]
                     try:
                         # pick any function from the outer entry
                         if outer.get("functions"):
-                            distractors.append(random.choice(outer["functions"]) ["function"])  # type: ignore
+                            distractors.append(random.choice(outer["functions"])["function"])  # type: ignore
                     except Exception:
                         pass
 

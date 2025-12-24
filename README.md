@@ -341,6 +341,90 @@ The pipeline generates data in the following format:
     "type": string
 }
 ```
+## Multi-Row Combination Mode (Diversity Enhancement)
+
+To avoid generating similar questions when using the same curriculum multiple times, this repository includes a **multi-row combination mode** that randomly combines multiple curriculum rows to generate each sample.
+
+### Quick Start
+
+```bash
+# Set configuration: "2*500,3*250,4*250" means:
+#   - Combine 2 rows to generate 500 samples
+#   - Combine 3 rows to generate 250 samples  
+#   - Combine 4 rows to generate 250 samples
+export S1_MULTIROW_CONFIG="2*500,3*250,4*250"
+export OPENAI_API_KEY="your-api-key"
+
+# Run complete pipeline
+chmod +x run_multirow.sh
+./run_multirow.sh
+
+# Or run step 1 only
+python run_s1_openai_multirow.py
+```
+
+### Output Files
+
+The multi-row mode generates additional tracking files:
+
+- `scenarios.json` - Generated scenarios with metadata
+- `scenarios_stats.json` - Statistics report
+- `curriculum_usage.csv` - **Detailed record of which curriculum rows were used**
+
+### CSV Format
+
+The `curriculum_usage.csv` tracks which curriculum rows were combined for each sample:
+
+- **2-row combination (2\*500)**: 7 columns
+  - Column 1: Sample number
+  - Columns 2-4: domain1, subdomain1, entities1
+  - Columns 5-7: domain2, subdomain2, entities2
+
+- **3-row combination (3\*250)**: 10 columns
+  - Column 1: Sample number
+  - Columns 2-4: domain1, subdomain1, entities1
+  - Columns 5-7: domain2, subdomain2, entities2
+  - Columns 8-10: domain3, subdomain3, entities3
+
+Example CSV content:
+```csv
+題號,domain1,subdomain1,entities1,domain2,subdomain2,entities2
+1,Personal Assistant,Calendar_Management,"['calendar','mail']",Devops,CI/CD,"['docker','jenkins']"
+2,Finance,Budget_Tracking,"['excel']",Healthcare,Patient_Records,"['database']"
+```
+
+### Features
+
+- **Guaranteed Uniqueness**: Each row combination is used only once
+- **High Diversity**: From 389 curriculum rows, you can generate:
+  - 2-row combinations: 75,466 unique combinations
+  - 3-row combinations: 9,738,114 unique combinations
+  - 4-row combinations: 944,252,961 unique combinations
+- **Backward Compatible**: Falls back to single-row mode if `S1_MULTIROW_CONFIG` is not set
+- **Full Tracking**: CSV file records exact curriculum rows used for each sample
+
+### Testing
+
+Run the test suite to verify functionality:
+```bash
+python test_multirow.py
+```
+
+Run a small example (8 samples):
+```bash
+./example_multirow.sh
+```
+
+### Scripts
+
+- `run_s1_openai_multirow.py` - Multi-row generation (Step 1 replacement)
+- `run_multirow.sh` - Complete pipeline with multi-row mode
+- `example_multirow.sh` - Small-scale test example
+- `test_multirow.py` - Unit tests
+- `compare_modes.py` - Compare single-row vs multi-row diversity
+
+---
+
 ## License
 
 Apache 2.0

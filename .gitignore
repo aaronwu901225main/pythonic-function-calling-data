@@ -7,3 +7,8 @@ uv.lock
 sbatch_pythonic-func-call.slurm
 *.global.jsonl
 .api_usage_daily.json
+output.log
+pythonic.sh
+run.txt
+run_id
+pythonic_output.log
