@@ -7,9 +7,9 @@ from peft import PeftModel
 # 基礎模型路徑
 BASE_MODEL = "Llama-xLAM-2-8b-fc-r"
 # LoRA checkpoints 總資料夾
-LORA_DIR = "xlam_toolonlytag_3ep_lr5e-6_r16a32"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
+LORA_DIR = "xlam_toolonlytag_3ep_lr5e-6_r8a16"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
 # 輸出完整模型的路徑e
-OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-tootagonly-lr5e-6"
+OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-tooltagonly-lr5e-6-r8a16"
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # 載入 tokenizer（只要載一次）

@@ -710,3 +710,15 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-57-merged-3e
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6-merged-5epoch-tootagonly-lr5e-6")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-48-merged-5epoch-tootagonly-lr5e-6")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-95-merged-5epoch-tootagonly-lr5e-6")
+# 1epoch-pythonic-production-v2-normal-10K-multirow-4K
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-53-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-265-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-428-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K")
+# 3epoch-tooltagonly-lr1e-5-r8a16
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6-merged-3epoch-tooltagonly-lr1e-5-r8a16")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-30-merged-3epoch-tooltagonly-lr1e-5-r8a16")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-3epoch-tooltagonly-lr1e-5-r8a16")
+# 3epoch-tooltagonly-lr5e-6-r8a16
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6-merged-3epoch-tooltagonly-lr5e-6-r8a16")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-30-merged-3epoch-tooltagonly-lr5e-6-r8a16")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-3epoch-tooltagonly-lr5e-6-r8a16")

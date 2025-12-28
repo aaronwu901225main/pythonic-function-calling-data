@@ -1,0 +1,3 @@
+chmod +x bfcl-all.sh
+nohup ./bfcl-all.sh > bfcl_output.log 2>&1 &
+disown
