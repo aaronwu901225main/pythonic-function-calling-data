@@ -6562,9 +6562,9 @@ local_inference_model_map = {
             url="self",
         ),
         # 1epoch-pythonic-production-v2-normal-10K-multirow-4K
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-53-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-53-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt53-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-43-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-43-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -6574,9 +6574,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-265-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-265-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt265-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-172-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-172-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
@@ -6586,9 +6586,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-428-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
-            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-428-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
-            display_name="xLAM-2-8b-fc-r LoRA ckpt428-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-339-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-339-merged-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K",
             org="Salesforce",
             license="cc-by-nc-4.0",
             model_handler=SalesforceLlamaHandler,
