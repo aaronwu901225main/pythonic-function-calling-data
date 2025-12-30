@@ -20,11 +20,15 @@ Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Mu
 19,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,87.44%,92.25%,88.00%,85.00%,84.50%,50.83%
 20,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
 21,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-tootagonly-lr5e-6,78.69%,87.25%,83.00%,78.50%,66.00%,50.42%
-22,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr5e-6,78.50%,87.00%,82.50%,79.00%,65.50%,51.25%
-23,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr5e-6,78.06%,87.25%,83.00%,78.00%,64.00%,50.83%
-24,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tooltagonly-lr5e-6-r8a16,78.06%,87.25%,83.00%,78.00%,64.00%,51.25%
-25,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tooltagonly-lr5e-6-r8a16,77.88%,87.00%,82.50%,78.00%,64.00%,50.42%
-26,xLAM-2-8b-fc-r LoRA ckpt54-3epoch-tooltagonly-lr5e-6-r8a16,77.75%,87.50%,82.50%,78.00%,63.00%,50.83%
-27,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-28,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-29,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+22,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,78.56%,86.75%,83.50%,77.50%,66.50%,48.33%
+23,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr5e-6,78.50%,87.00%,82.50%,79.00%,65.50%,51.25%
+24,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,78.25%,86.50%,84.00%,77.00%,65.50%,45.83%
+25,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr5e-6,78.06%,87.25%,83.00%,78.00%,64.00%,50.83%
+26,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tooltagonly-lr5e-6-r8a16,78.06%,87.25%,83.00%,78.00%,64.00%,51.25%
+27,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tooltagonly-lr5e-6-r8a16,77.88%,87.00%,82.50%,78.00%,64.00%,50.42%
+28,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,77.81%,87.25%,82.50%,78.00%,63.50%,50.42%
+29,xLAM-2-8b-fc-r LoRA ckpt54-3epoch-tooltagonly-lr5e-6-r8a16,77.75%,87.50%,82.50%,78.00%,63.00%,50.83%
+30,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+31,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+32,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+33,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,N/A,N/A,N/A,N/A,N/A,N/A

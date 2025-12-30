@@ -10,21 +10,25 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 9,Ministral-8B-Instruct-2410 (FC),72.32%,72.32%,75.97%,71.60%,62.50%,70.83%,53.17%,81.25%
 10,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,76.74%,70.18%,62.50%,58.33%,54.86%,100.00%
 11,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
-12,xLAM-2-8b-fc-r LoRA ckpt246-6epoch-bfcl-turn5e-6-fix-length-new,68.47%,68.47%,75.58%,67.24%,50.00%,58.33%,62.67%,81.25%
-13,xLAM-2-8b-fc-r LoRA ckpt126-6epoch-bfcl-turn5e-6-fix-length-new,68.39%,68.39%,75.19%,67.33%,50.00%,54.17%,63.24%,87.50%
-14,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tooltagonly-lr5e-6-r8a16,68.39%,68.39%,75.97%,67.05%,56.25%,54.17%,64.59%,87.50%
-15,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr1e-5,68.32%,68.32%,75.19%,67.14%,56.25%,54.17%,63.91%,87.50%
-16,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr1e-5,68.10%,68.10%,75.58%,66.67%,62.50%,54.17%,64.37%,87.50%
-17,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr5e-6,68.02%,68.02%,74.81%,66.86%,56.25%,54.17%,64.14%,87.50%
-18,xLAM-2-8b-fc-r LoRA ckpt9-6epoch-bfcl-turn5e-6-fix-length-new,68.02%,68.02%,75.58%,66.67%,56.25%,54.17%,64.48%,87.50%
-19,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.58%,66.67%,56.25%,54.17%,64.14%,87.50%
-20,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.58%,66.57%,62.50%,54.17%,64.14%,87.50%
-21,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.25%,87.50%
-22,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-tootagonly-lr5e-6,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.03%,87.50%
-23,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-tootagonly-lr1e-5,67.95%,67.95%,75.19%,66.67%,56.25%,54.17%,63.80%,87.50%
-24,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tooltagonly-lr5e-6-r8a16,67.95%,67.95%,75.58%,66.57%,56.25%,54.17%,64.03%,87.50%
-25,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
-26,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr5e-6,67.73%,67.73%,75.58%,66.29%,56.25%,54.17%,64.59%,87.50%
-27,xLAM-2-8b-fc-r LoRA ckpt54-3epoch-tooltagonly-lr5e-6-r8a16,67.73%,67.73%,75.58%,66.19%,62.50%,54.17%,64.82%,87.50%
-28,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
-29,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
+12,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.97%,67.24%,68.75%,58.33%,56.00%,93.75%
+13,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.58%,67.33%,68.75%,58.33%,59.28%,87.50%
+14,xLAM-2-8b-fc-r LoRA ckpt246-6epoch-bfcl-turn5e-6-fix-length-new,68.47%,68.47%,75.58%,67.24%,50.00%,58.33%,62.67%,81.25%
+15,xLAM-2-8b-fc-r LoRA ckpt126-6epoch-bfcl-turn5e-6-fix-length-new,68.39%,68.39%,75.19%,67.33%,50.00%,54.17%,63.24%,87.50%
+16,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tooltagonly-lr5e-6-r8a16,68.39%,68.39%,75.97%,67.05%,56.25%,54.17%,64.59%,87.50%
+17,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr1e-5,68.32%,68.32%,75.19%,67.14%,56.25%,54.17%,63.91%,87.50%
+18,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr1e-5,68.10%,68.10%,75.58%,66.67%,62.50%,54.17%,64.37%,87.50%
+19,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.14%,87.50%
+20,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tootagonly-lr5e-6,68.02%,68.02%,74.81%,66.86%,56.25%,54.17%,64.14%,87.50%
+21,xLAM-2-8b-fc-r LoRA ckpt9-6epoch-bfcl-turn5e-6-fix-length-new,68.02%,68.02%,75.58%,66.67%,56.25%,54.17%,64.48%,87.50%
+22,xLAM-2-8b-fc-r LoRA ckpt3-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.58%,66.67%,56.25%,54.17%,64.14%,87.50%
+23,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.58%,66.57%,62.50%,54.17%,64.14%,87.50%
+24,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-toollossonly-lr5e-6,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.25%,87.50%
+25,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-tootagonly-lr5e-6,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.03%,87.50%
+26,xLAM-2-8b-fc-r LoRA ckpt57-3epoch-tootagonly-lr1e-5,67.95%,67.95%,75.19%,66.67%,56.25%,54.17%,63.80%,87.50%
+27,xLAM-2-8b-fc-r LoRA ckpt30-3epoch-tooltagonly-lr5e-6-r8a16,67.95%,67.95%,75.58%,66.57%,56.25%,54.17%,64.03%,87.50%
+28,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
+29,xLAM-2-8b-fc-r LoRA ckpt6-3epoch-tootagonly-lr5e-6,67.73%,67.73%,75.58%,66.29%,56.25%,54.17%,64.59%,87.50%
+30,xLAM-2-8b-fc-r LoRA ckpt54-3epoch-tooltagonly-lr5e-6-r8a16,67.73%,67.73%,75.58%,66.19%,62.50%,54.17%,64.82%,87.50%
+31,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
+32,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
+33,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,31.16%,31.16%,42.64%,27.64%,56.25%,45.83%,67.53%,87.50%
