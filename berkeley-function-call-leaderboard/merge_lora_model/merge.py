@@ -3,13 +3,24 @@ import shutil
 import torch
 from transformers import AutoModelForCausalLM, AutoTokenizer
 from peft import PeftModel
+import argparse
 
-# 基礎模型路徑
-BASE_MODEL = "Llama-xLAM-2-8b-fc-r"
-# LoRA checkpoints 總資料夾
-LORA_DIR = "xlam_toolonlytag_3ep_lr5e-6_r8a16"   # 裡面應該有 checkpoint-1000, checkpoint-2000, ...
-# 輸出完整模型的路徑e
-OUTPUT_DIR = "Llama-xLAM-2-8b-fc-r_lora_finetune_merged_models-3epoch-tooltagonly-lr5e-6-r8a16"
+
+# 基礎模型路徑可由參數指定
+DEFAULT_BASE_MODEL = "Llama-xLAM-2-8b-fc-r"
+
+# 解析命令列參數
+
+parser = argparse.ArgumentParser(description="Merge LoRA checkpoints into full models.")
+parser.add_argument('--BASE_MODEL', type=str, default=DEFAULT_BASE_MODEL, help='基礎模型路徑')
+parser.add_argument('--LORA_DIR', type=str, required=True, help='LoRA checkpoints 資料夾')
+parser.add_argument('--OUTPUT_DIR', type=str, required=True, help='輸出完整模型的資料夾')
+args = parser.parse_args()
+
+
+BASE_MODEL = args.BASE_MODEL
+LORA_DIR = args.LORA_DIR
+OUTPUT_DIR = args.OUTPUT_DIR
 os.makedirs(OUTPUT_DIR, exist_ok=True)
 
 # 載入 tokenizer（只要載一次）

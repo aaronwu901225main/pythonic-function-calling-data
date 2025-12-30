@@ -722,3 +722,26 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-3e
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6-merged-3epoch-tooltagonly-lr5e-6-r8a16")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-30-merged-3epoch-tooltagonly-lr5e-6-r8a16")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-3epoch-tooltagonly-lr5e-6-r8a16")
+# 6epoch-bfcl-turn5e-6-fix-length-new
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-9-merged-6epoch-bfcl-turn5e-6-fix-length-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-126-merged-6epoch-bfcl-turn5e-6-fix-length-new")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new")
+
+
+# Qwen/Qwen3-8B-FC LoRA finetune checkpoints
+# 2epoch-pythonic-production-v2-normal-10K-multirow-4K
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-85-merged-2epoch-pythonic-production-v2-normal-10K-multirow-4K")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-510-merged-2epoch-pythonic-production-v2-normal-10K-multirow-4K")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-858-merged-2epoch-pythonic-production-v2-normal-10K-multirow-4K")
+# 5epoch-bfcl-lr5e-6-r8a16-turn
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-5-merged-5epoch-bfcl-lr5e-6-r8a16-turn")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-55-merged-5epoch-bfcl-lr5e-6-r8a16-turn")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-110-merged-5epoch-bfcl-lr5e-6-r8a16-turn")
+# 10epoch-bfcl-delete-long-lr2e-6-r8a16
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-3-merged-10epoch-bfcl-delete-long-lr2e-6-r8a16")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-51-merged-10epoch-bfcl-delete-long-lr2e-6-r8a16")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-100-merged-10epoch-bfcl-delete-long-lr2e-6-r8a16")
+# 10epoch-bfcl-lr2e-6-r8a16
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-3-merged-10epoch-bfcl-lr2e-6-r8a16")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-51-merged-10epoch-bfcl-lr2e-6-r8a16")
+SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-100-merged-10epoch-bfcl-lr2e-6-r8a16")
