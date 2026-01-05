@@ -7,13 +7,14 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 6,watt-tool-8B (FC),76.09%,76.09%,78.29%,75.69%,87.50%,62.50%,76.13%,75.00%
 7,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,74.61%,74.61%,80.62%,73.31%,68.75%,70.83%,58.48%,100.00%
 8,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,73.58%,73.58%,79.07%,72.55%,62.50%,66.67%,68.44%,100.00%
-9,Ministral-8B-Instruct-2410 (FC),72.32%,72.32%,75.97%,71.60%,62.50%,70.83%,53.17%,81.25%
-10,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,76.74%,70.18%,62.50%,58.33%,54.86%,100.00%
-11,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
-12,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.58%,67.33%,68.75%,58.33%,59.28%,87.50%
-13,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.97%,67.24%,68.75%,58.33%,56.00%,93.75%
-14,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.14%,87.50%
-15,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
-16,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
-17,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
-18,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,31.16%,31.16%,42.64%,27.64%,56.25%,45.83%,67.53%,87.50%
+9,Qwen/Qwen2.5-7B-Instruct,72.39%,72.39%,70.16%,73.50%,56.25%,58.33%,71.83%,81.25%
+10,Ministral-8B-Instruct-2410 (FC),72.32%,72.32%,75.97%,71.60%,62.50%,70.83%,53.17%,81.25%
+11,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,71.13%,71.13%,76.74%,70.18%,62.50%,58.33%,54.86%,100.00%
+12,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
+13,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.58%,67.33%,68.75%,58.33%,59.28%,87.50%
+14,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.76%,68.76%,75.97%,67.24%,68.75%,58.33%,56.00%,93.75%
+15,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,68.02%,68.02%,75.19%,66.76%,56.25%,54.17%,64.14%,87.50%
+16,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
+17,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
+18,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
+19,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,31.16%,31.16%,42.64%,27.64%,56.25%,45.83%,67.53%,87.50%

@@ -6709,6 +6709,21 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
+        
+        # Qwen/Qwen2.5-7B-Instruct Base
+        "Qwen/Qwen2.5-7B-Instruct": ModelConfig(
+            model_name="Qwen/Qwen2.5-7B-Instruct",
+            display_name="Qwen/Qwen2.5-7B-Instruct",
+            org="Qwen",
+            license="apache-2.0",
+            model_handler=QwenFCHandler,
+            input_price=None,
+            output_price=None,
+            is_fc_model=True,
+            underscore_to_dot=False,
+            url="https://huggingface.co/Qwen/Qwen2.5-7B-Instruct",
+        ),
+
         # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
         # 2epoch-pythonic-production-v2-normal-10K-multirow-4K
         "Qwen/Qwen3-8B-FC-checkpoint-85-merged-2epoch-pythonic-production-v2-normal-10K-multirow-4K": ModelConfig(

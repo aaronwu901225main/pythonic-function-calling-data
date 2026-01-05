@@ -727,6 +727,8 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-9-merged-6ep
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-126-merged-6epoch-bfcl-turn5e-6-fix-length-new")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new")
 
+# Qwen/Qwen2.5-7B-Instruct Base
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct")
 
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
 # 2epoch-pythonic-production-v2-normal-10K-multirow-4K

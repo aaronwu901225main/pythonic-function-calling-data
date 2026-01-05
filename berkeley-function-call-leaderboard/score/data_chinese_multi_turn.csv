@@ -12,8 +12,9 @@ Rank,Model,Multi Turn (ZH) Overall Acc,ZH: Multi Turn Base,ZH: Multi Turn Miss F
 11,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
 12,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
 13,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
-14,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
-15,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
-16,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
-17,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
-18,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A
+14,Qwen/Qwen2.5-7B-Instruct,5.88%,8.50%,4.50%,7.00%,3.50%
+15,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
+16,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
+17,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
+18,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
+19,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A

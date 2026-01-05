@@ -1376,3 +1376,11 @@ Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-l
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new,zh_multiple,11,23,0.4782608695652174
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new,zh_parallel,14,64,0.21875
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new,zh_simple_python,20,37,0.5405405405405406
+Qwen_Qwen2.5-7B-Instruct,zh_simple_python,39,58,0.6724137931034483
+Qwen_Qwen2.5-7B-Instruct,zh_multiple,19,35,0.5428571428571428
+Qwen_Qwen2.5-7B-Instruct,zh_parallel_multiple,54,88,0.6136363636363636
+Qwen_Qwen2.5-7B-Instruct,zh_parallel,26,83,0.3132530120481928
+Qwen_Qwen2.5-7B-Instruct,zh_multi_turn_long_context,2,195,0.010256410256410256
+Qwen_Qwen2.5-7B-Instruct,zh_multi_turn_miss_param,1,187,0.0053475935828877
+Qwen_Qwen2.5-7B-Instruct,zh_multi_turn_miss_func,0,191,0.0
+Qwen_Qwen2.5-7B-Instruct,zh_multi_turn_base,1,184,0.005434782608695652
