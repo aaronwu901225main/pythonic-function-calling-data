@@ -13,8 +13,4 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 12,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,2.37%,0.00%,0.00%,0.00%,4.73%,1.29%,5.16%,7.74%
 13,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
 14,Qwen/Qwen2.5-7B-Instruct,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-15,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-16,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+15,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A

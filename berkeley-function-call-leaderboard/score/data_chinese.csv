@@ -11,10 +11,6 @@ Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Mu
 10,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
 11,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
 12,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
-13,xLAM-2-8b-fc-r LoRA ckpt172-1epoch-pythonic-production-v2-normal-10K-multirow-4K,78.56%,86.75%,83.50%,77.50%,66.50%,48.33%
-14,xLAM-2-8b-fc-r LoRA ckpt339-1epoch-pythonic-production-v2-normal-10K-multirow-4K,78.25%,86.50%,84.00%,77.00%,65.50%,45.83%
-15,xLAM-2-8b-fc-r LoRA ckpt43-1epoch-pythonic-production-v2-normal-10K-multirow-4K,77.81%,87.25%,82.50%,78.00%,63.50%,50.42%
-16,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-17,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-18,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
-19,Qwen/Qwen3-8B-FC LoRA ckpt85-2epoch-pythonic-production-v2-normal-10K-multirow-4K,N/A,N/A,N/A,N/A,N/A,N/A
+13,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+14,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+15,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
