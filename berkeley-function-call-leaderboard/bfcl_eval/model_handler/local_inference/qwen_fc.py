@@ -19,6 +19,10 @@ class QwenFCHandler(OSSHandler):
     ) -> None:
         super().__init__(model_name, temperature, registry_name, is_fc_model, **kwargs)
         self.model_name_huggingface = model_name
+        #####################################################################
+        # 設定 chat_template_kwargs 來關閉 thinking 功能
+        self.chat_template_kwargs = {"enable_thinking": False}
+        #####################################################################
 
     @override
     def decode_ast(self, result, language, has_tool_call_tag):

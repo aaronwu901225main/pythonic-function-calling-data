@@ -15,6 +15,10 @@ class QwenHandler(OSSHandler):
         **kwargs,
     ) -> None:
         super().__init__(model_name, temperature, registry_name, is_fc_model, **kwargs)
+        #####################################################################
+        # 設定 chat_template_kwargs 來關閉 thinking 功能
+        self.chat_template_kwargs = {"enable_thinking": False}
+        #####################################################################
 
     @override
     def _format_prompt(self, messages, function):

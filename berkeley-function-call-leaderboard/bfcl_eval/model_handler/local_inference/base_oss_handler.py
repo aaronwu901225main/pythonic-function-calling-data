@@ -304,7 +304,10 @@ class OSSHandler(BaseHandler, EnforceOverrides):
             extra_body["stop_token_ids"] = self.stop_token_ids
         if hasattr(self, "skip_special_tokens"):
             extra_body["skip_special_tokens"] = self.skip_special_tokens
-
+        #####################################################################
+        if hasattr(self, "chat_template_kwargs"):
+            extra_body["chat_template_kwargs"] = self.chat_template_kwargs
+        #####################################################################
         start_time = time.time()
         if len(extra_body) > 0:
             api_response = self.client.completions.create(
