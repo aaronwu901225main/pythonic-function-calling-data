@@ -1,16 +1,22 @@
 Rank,Model,AST (ZH) Summary,ZH: Simple,ZH: Multiple,ZH: Parallel,ZH: Parallel Multiple,ZH: Relevance
 1,Qwen3-8B (Prompt),93.56%,94.25%,93.00%,93.00%,94.00%,78.75%
 2,Qwen3-8B (FC),93.19%,91.75%,93.50%,93.00%,94.50%,76.25%
-3,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,93.13%,93.00%,92.00%,92.50%,95.00%,79.17%
-4,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,92.31%,94.25%,93.00%,87.50%,94.50%,76.67%
-5,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,92.19%,93.75%,89.50%,92.50%,93.00%,78.75%
-6,ToolACE-2-8B (FC),92.12%,96.50%,92.00%,88.50%,91.50%,75.00%
-7,Qwen/Qwen2.5-7B-Instruct,90.12%,93.50%,88.50%,88.50%,90.00%,61.67%
-8,watt-tool-8B (FC),89.56%,92.25%,91.50%,88.00%,86.50%,80.42%
-9,BitAgent-8B,89.50%,93.00%,91.50%,87.00%,86.50%,79.58%
-10,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
-11,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
+3,ToolACE-2-8B (FC),92.12%,96.50%,92.00%,88.50%,91.50%,75.00%
+4,Qwen/Qwen2.5-7B-Instruct,90.12%,93.50%,88.50%,88.50%,90.00%,61.67%
+5,watt-tool-8B (FC),89.56%,92.25%,91.50%,88.00%,86.50%,80.42%
+6,BitAgent-8B,89.50%,93.00%,91.50%,87.00%,86.50%,79.58%
+7,Llama-3.1-8B-Instruct (Prompt),88.12%,93.00%,90.00%,83.50%,86.00%,49.58%
+8,xLAM-2-8b-fc-r (FC),87.69%,92.25%,88.00%,85.50%,85.00%,50.83%
+9,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,87.50%,92.50%,88.00%,85.00%,84.50%,62.50%
+10,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,87.19%,91.75%,88.00%,85.00%,84.00%,59.17%
+11,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,87.06%,91.75%,88.50%,84.00%,84.00%,63.75%
 12,BitAgent-Bounty-8B,84.19%,79.75%,83.50%,85.50%,88.00%,94.58%
-13,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
-14,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
-15,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%
+13,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,76.44%,81.25%,80.50%,77.50%,66.50%,32.08%
+14,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,75.62%,79.50%,81.00%,75.00%,67.00%,38.75%
+15,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,74.88%,83.00%,82.50%,70.50%,63.50%,58.75%
+16,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,74.75%,78.00%,80.50%,74.00%,66.50%,38.75%
+17,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,72.94%,81.25%,82.50%,63.50%,64.50%,65.42%
+18,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,72.00%,81.00%,81.00%,61.50%,64.50%,64.17%
+19,CoALM-8B,69.62%,65.50%,66.00%,70.50%,76.50%,80.83%
+20,Llama-3.1-8B-Instruct (FC),50.62%,52.50%,45.50%,57.50%,47.00%,2.08%
+21,Ministral-8B-Instruct-2410 (FC),17.75%,20.00%,27.00%,7.00%,17.00%,100.00%

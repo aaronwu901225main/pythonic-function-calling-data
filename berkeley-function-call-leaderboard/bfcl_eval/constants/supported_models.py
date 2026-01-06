@@ -735,9 +735,27 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-54-merged-3e
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-9-merged-6epoch-bfcl-turn5e-6-fix-length-new")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-126-merged-6epoch-bfcl-turn5e-6-fix-length-new")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-246-merged-6epoch-bfcl-turn5e-6-fix-length-new")
+# 3epoch-llama-factory-apigen-mt
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-400-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2000-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3651-merged-3epoch-llama-factory-apigen-mt")
 
-# Qwen/Qwen2.5-7B-Instruct Base
+
+# Qwen/Qwen2.5-7B-Instruct 
+# Base
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct")
+# 3epoch-llama-factory-apigen-mt
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-416-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-2080-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-3651-merged-3epoch-llama-factory-apigen-mt")
+
+
+# Meta Llama 3.1-8B-Instruct (Prompt)
+# 3epoch-llama-factory-apigen-mt
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-400-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-2000-merged-3epoch-llama-factory-apigen-mt")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-3651-merged-3epoch-llama-factory-apigen-mt")
+
 
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
 # 2epoch-pythonic-production-v2-normal-10K-multirow-4K

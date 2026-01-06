@@ -352,21 +352,60 @@ def get_directory_structure_by_category(test_category: str) -> str:
 #### Helper functions to load/write the dataset files ####
 
 
-def load_file(file_path, sort_by_id: bool = False, use_lock: bool = True) -> list[dict]:
+def load_file(file_path, sort_by_id: bool = False, use_lock: bool = True, allow_concatenated_json: bool = False) -> list[dict]:
+    """
+    Load a JSON results file.
+
+    Default behavior expects JSONL (one JSON object per line).
+    When `allow_concatenated_json=True`, we support a generic stream of JSON
+    values (objects/arrays) concatenated with arbitrary whitespace and newlines.
+    This robustly handles:
+      - JSONL
+      - Multiple JSON objects concatenated on a single line
+      - Pretty-printed multi-line JSON objects stacked back-to-back
+    """
+    if not allow_concatenated_json:
+        # Fast path for standard JSONL files
+        result = []
+
+        def _load_entries(input_path: str) -> None:
+            with open(input_path, encoding="utf-8") as f:
+                file = f.readlines()
+                for line in file:
+                    content = json.loads(line)
+                    result.append(content)
+
+        if use_lock:
+            with _get_file_lock(file_path):
+                _load_entries(file_path)
+        else:
+            _load_entries(file_path)
+
+        if sort_by_id:
+            result.sort(key=sort_key)
+        return result
+
+    # Robust path: parse the entire file as a stream of concatenated JSON values.
+    # This supports pretty-printed multi-line JSON objects and JSONL alike.
+    with open(file_path, encoding="utf-8") as f:
+        content = f.read()
+
+    decoder = json.JSONDecoder()
+    idx = 0
+    n = len(content)
     result = []
 
-    def _load_entries(input_path: str) -> None:
-        with open(input_path) as f:
-            file = f.readlines()
-            for line in file:
-                content = json.loads(line)
-                result.append(content)
+    while True:
+        # Skip any whitespace between JSON values
+        while idx < n and content[idx].isspace():
+            idx += 1
+        if idx >= n:
+            break
 
-    if use_lock:
-        with _get_file_lock(file_path):
-            _load_entries(file_path)
-    else:
-        _load_entries(file_path)
+        # Decode the next JSON value starting at idx
+        obj, next_idx = decoder.raw_decode(content, idx)
+        result.append(obj)
+        idx = next_idx
 
     if sort_by_id:
         result.sort(key=sort_key)
@@ -381,7 +420,8 @@ def sort_file_content_by_id(file_path: Path) -> None:
     # Acquire the lock for the entire critical section
     with _get_file_lock(file_path):
         # Load the current content preserving original order (and potential duplicates)
-        original_entries = load_file(file_path, use_lock=False)
+        # Use allow_concatenated_json=True to handle both JSONL and pretty-printed JSON files
+        original_entries = load_file(file_path, use_lock=False, allow_concatenated_json=True)
 
         # Desired final ordering (sorted, unique)
         sorted_entries = sorted(original_entries, key=sort_key)

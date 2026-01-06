@@ -4,13 +4,19 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 3,Qwen3-8B (Prompt),7.99%,2.00%,1.00%,3.00%,13.98%,6.45%,11.61%,23.87%
 4,xLAM-2-8b-fc-r (FC),7.96%,0.00%,0.00%,0.00%,15.91%,5.16%,16.13%,26.45%
 5,ToolACE-2-8B (FC),6.67%,0.00%,0.00%,0.00%,13.33%,4.52%,7.10%,28.39%
-6,xLAM-2-8b-fc-r LoRA ckpt568-1batch-2560seq-3epoch-apigen-nomlp,6.45%,0.00%,0.00%,0.00%,12.90%,5.81%,14.19%,18.71%
-7,Llama-3.1-8B-Instruct (Prompt),6.02%,0.00%,0.00%,0.00%,12.04%,9.68%,7.10%,19.35%
-8,BitAgent-8B,5.48%,0.00%,0.00%,0.00%,10.97%,1.94%,18.71%,12.26%
-9,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
-10,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
-11,xLAM-2-8b-fc-r LoRA ckpt2840-1batch-2560seq-3epoch-apigen-nomlp,2.47%,0.00%,0.00%,0.00%,4.95%,0.65%,5.16%,9.03%
-12,xLAM-2-8b-fc-r LoRA ckpt5115-1batch-2560seq-3epoch-apigen-nomlp,2.37%,0.00%,0.00%,0.00%,4.73%,1.29%,5.16%,7.74%
-13,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
+6,Llama-3.1-8B-Instruct (Prompt),6.02%,0.00%,0.00%,0.00%,12.04%,9.68%,7.10%,19.35%
+7,BitAgent-8B,5.48%,0.00%,0.00%,0.00%,10.97%,1.94%,18.71%,12.26%
+8,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
+9,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
+10,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
+11,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+12,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+13,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 14,Qwen/Qwen2.5-7B-Instruct,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-15,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+15,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+16,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
