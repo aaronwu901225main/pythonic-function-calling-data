@@ -161,7 +161,7 @@ For the `web_search` test category, we use the [SerpAPI](https://serpapi.com/) s
 You can provide multiple models or test categories by separating them with commas. For example:
 
 ```bash
-bfcl generate --model claude-3-5-sonnet-20241022-FC,gpt-4o-2024-11-20-FC --test-category simple,parallel,multiple,multi_turn
+bfcl generate --model claude-3-5-sonnet-20241022-FC,gpt-4o-2024-11-20-FC --test-category simple_python,parallel,live_multiple,multi_turn
 ```
 
 #### Selecting Specific Test Cases with `--run-ids`
@@ -230,7 +230,7 @@ bfcl generate \
   --local-model-path /path/to/local/model   # ← optional
 ```
 
-- Choose your backend using `--backend sglang` or `--backend vllm`. The default backend is `sglang`.
+- Choose your backend using `--backend sglang` or `--backend vllm`. The default backend is `vllm`.
 - Control GPU usage by adjusting `--num-gpus` (default `1`, relevant for multi-GPU tensor parallelism) and `--gpu-memory-utilization` (default `0.9`), which can help avoid out-of-memory errors.
 - `--local-model-path` (optional): Point this flag at a directory that already contains the model's files (`config.json`, tokenizer, weights, etc.). Use it only when you've pre‑downloaded the model and the weights live somewhere other than the default `$HF_HOME` cache.
 
