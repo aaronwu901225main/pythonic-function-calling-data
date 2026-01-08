@@ -9,14 +9,20 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 8,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
 9,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
 10,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
-11,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-12,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-13,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+11,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+12,Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+13,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 14,Qwen/Qwen2.5-7B-Instruct,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 15,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-16,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+16,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+22,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+23,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+24,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+26,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+27,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A

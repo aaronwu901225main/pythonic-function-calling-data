@@ -6848,10 +6848,10 @@ local_inference_model_map = {
             is_fc_model=False,
             underscore_to_dot=False,
         ),
-        # 3epoch-llama-factory-glaive-toolcall-zhtw_1k
-        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        # 3epoch-llama-factory-glaive-toolcall-zhtw-1k
+        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             url="self",
             org="Meta",
             license="Meta Llama 3 Community",
@@ -6861,9 +6861,9 @@ local_inference_model_map = {
             is_fc_model=False,
             underscore_to_dot=False,
         ),
-        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             url="self",
             org="Meta",
             license="Meta Llama 3 Community",
@@ -6873,9 +6873,9 @@ local_inference_model_map = {
             is_fc_model=False,
             underscore_to_dot=False,
         ),
-        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        "meta-llama/Llama-3.1-8B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="meta-llama/Llama-3.1-8B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             url="self",
             org="Meta",
             license="Meta Llama 3 Community",
@@ -6938,10 +6938,10 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        # 3epoch-llama-factory-glaive-toolcall-zhtw_1k
-        "Qwen/Qwen2.5-7B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        # 3epoch-llama-factory-glaive-toolcall-zhtw-1k
+        "Qwen/Qwen2.5-7B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             org="Qwen",
             license="apache-2.0",
             model_handler=QwenFCHandler,
@@ -6951,9 +6951,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        "Qwen/Qwen2.5-7B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        "Qwen/Qwen2.5-7B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             org="Qwen",
             license="apache-2.0",
             model_handler=QwenFCHandler,
@@ -6963,9 +6963,9 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
-        "Qwen/Qwen2.5-7B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k": ModelConfig(
-            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
-            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw_1k",
+        "Qwen/Qwen2.5-7B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k": ModelConfig(
+            model_name="Qwen/Qwen2.5-7B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
+            display_name="Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k",
             org="Qwen",
             license="apache-2.0",
             model_handler=QwenFCHandler,
