@@ -748,13 +748,20 @@ SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-416-merged-3epoch-llama-factory-apigen-mt")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-2080-merged-3epoch-llama-factory-apigen-mt")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-3651-merged-3epoch-llama-factory-apigen-mt")
-
+# 3epoch-llama-factory-apigen-mt
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
 
 # Meta Llama 3.1-8B-Instruct (Prompt)
 # 3epoch-llama-factory-apigen-mt
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-400-merged-3epoch-llama-factory-apigen-mt")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-2000-merged-3epoch-llama-factory-apigen-mt")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-3651-merged-3epoch-llama-factory-apigen-mt")
+# 3epoch-llama-factory-glaive-toolcall-zhtw_1k
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-75-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-375-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-720-merged-3epoch-llama-factory-glaive-toolcall-zhtw_1k")
 
 
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
