@@ -26,7 +26,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import transforms
 
-font_path = "../../fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
+font_path = "/home/at0842/aaronwu901225master.ai13/fonts/Microsoft JhengHei Regular/Microsoft JhengHei Regular.ttf"
 if os.path.exists(font_path):
     from matplotlib import font_manager
     # 將字型檔加入 Matplotlib 字型管理器，避免 findfont 找不到
@@ -79,6 +79,15 @@ ACC_COL_CANDIDATES = [
 # 解析 ckpt 的正則：抓出 ckpt 數字與後綴超參數字串
 CKPT_RE = re.compile(r"^(?P<prefix>.*?\bLoRA\s+)?ckpt(?P<ckpt>\d+)-(?P<rest>.+)$", re.IGNORECASE)
 
+# 支援的 base model 列表（每個元素為 (pattern, folder_name) tuple）
+# pattern 用於匹配，folder_name 用於建立資料夾
+BASE_MODELS = [
+    (r"xLAM-2-8b-fc-r", "xLAM-2-8b-fc-r"),
+    (r"Qwen[/_-]Qwen2\.5-7B-Instruct", "Qwen_Qwen2.5-7B-Instruct"),
+    (r"(meta[/_-]llama[/_-]|Meta\s+Llama\s+)3\.1-8B-Instruct", "meta-llama_Llama-3.1-8B-Instruct"),
+    (r"Qwen[/_-]Qwen3-8B-FC", "Qwen_Qwen3-8B-FC"),
+]
+
 def pick_acc_col(df: pd.DataFrame) -> str:
     """挑選各 CSV 的整體準確度欄位。"""
     for c in ACC_COL_CANDIDATES:
@@ -104,6 +113,21 @@ def parse_percent(x):
     except Exception:
         return None
 
+def identify_base_model(model_name: str):
+    """
+    識別模型名稱中的 base model。
+    回傳 base model 名稱，若無法識別則回傳 'unknown'。
+    """
+    if not isinstance(model_name, str):
+        return "unknown"
+    
+    # 檢查每個支援的 base model
+    for pattern, folder_name in BASE_MODELS:
+        if re.search(pattern, model_name, re.IGNORECASE):
+            return folder_name
+    
+    return "unknown"
+
 def extract_ckpt_info(model_name: str):
     """
     從 Model 名稱抽出 (prefix, ckpt_int, rest)；失敗回 None。
@@ -122,10 +146,10 @@ def extract_ckpt_info(model_name: str):
     rest = m.group("rest").strip()
     return prefix, ckpt, rest
 
-def find_baseline(df: pd.DataFrame, acc_col: str):
+def find_baseline(df: pd.DataFrame, acc_col: str, base_model: str = None):
     """
-    嘗試找 `xLAM-2-8b-fc-r (FC)(原版)` 的 baseline；找不到就找
-    不含 'LoRA'/'ckpt' 的 xLAM-2-8b-fc-r。
+    嘗試找對應 base model 的 baseline。
+    若指定 base_model，會尋找該 base model 不含 LoRA/ckpt 的版本。
     回傳 (model_name, baseline_acc) 或 (None, None)
     """
     mcol = "Model"
@@ -134,12 +158,37 @@ def find_baseline(df: pd.DataFrame, acc_col: str):
 
     s = df[mcol].astype(str)
 
-    # 優先 (FC)(原版)
-    base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r\s*\(FC\).*原版", case=False, regex=True)]
-    if base_rows.empty:
-        # 次選：不含 LoRA 或 ckpt 的 xLAM-2-8b-fc-r
-        base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r", case=False, regex=True) &
-                       ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+    if base_model and base_model != "unknown":
+        # 根據不同的 base model 使用對應的搜尋 pattern
+        if base_model == "xLAM-2-8b-fc-r":
+            # 優先 (FC)(原版)
+            base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r\s*\(FC\).*原版", case=False, regex=True)]
+            if base_rows.empty:
+                base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r", case=False, regex=True) &
+                               ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+        elif base_model == "Qwen_Qwen2.5-7B-Instruct":
+            base_rows = df[s.str.contains(r"Qwen[/_-]Qwen2\.5-7B-Instruct", case=False, regex=True) &
+                           ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+        elif base_model == "meta-llama_Llama-3.1-8B-Instruct":
+            # 匹配 "Llama-3.1-8B-Instruct" 或 "Meta Llama 3.1-8B-Instruct"
+            base_rows = df[s.str.contains(r"Llama[/_\s-]*3\.1-8B-Instruct", case=False, regex=True) &
+                           ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+        elif base_model == "Qwen_Qwen3-8B-FC":
+            base_rows = df[s.str.contains(r"Qwen[/_-]Qwen3-8B-FC", case=False, regex=True) &
+                           ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+        else:
+            # 通用方法：將資料夾名稱轉回 model 名稱格式
+            model_pattern = base_model.replace("_", "[/_-]")
+            base_rows = df[s.str.contains(model_pattern, case=False, regex=True) &
+                           ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
+    else:
+        # 預設行為：找 xLAM-2-8b-fc-r
+        # 優先 (FC)(原版)
+        base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r\s*\(FC\).*原版", case=False, regex=True)]
+        if base_rows.empty:
+            # 次選：不含 LoRA 或 ckpt 的 xLAM-2-8b-fc-r
+            base_rows = df[s.str.contains(r"xLAM-2-8b-fc-r", case=False, regex=True) &
+                           ~s.str.contains(r"LoRA|ckpt", case=False, regex=True)]
 
     if base_rows.empty:
         return None, None
@@ -148,7 +197,7 @@ def find_baseline(df: pd.DataFrame, acc_col: str):
     return row["Model"], parse_percent(row[acc_col])
 
 def plot_one_csv(csv_path: str, out_dir: str = "."):
-    """讀取單一 CSV 並輸出折線圖 PNG。"""
+    """讀取單一 CSV 並輸出折線圖 PNG，依 base model 分開輸出。"""
     if not os.path.exists(csv_path):
         print(f"[略過] 找不到檔案：{csv_path}")
         return None
@@ -161,12 +210,12 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
     # 自動挑整體準確度欄位
     acc_col = pick_acc_col(df)
 
-    # baseline
-    baseline_name, baseline_acc = find_baseline(df, acc_col)
-
-    # 僅保留包含 ckpt 的 LoRA 模型
+    # 為所有模型識別 base model
     df = df[~df["Model"].isna()].copy()
+    df["base_model"] = df["Model"].apply(identify_base_model)
     df["ckpt_info"] = df["Model"].apply(extract_ckpt_info)
+    
+    # 僅保留包含 ckpt 的 LoRA 模型
     ckpt_df = df[df["ckpt_info"].notna()].copy()
     if ckpt_df.empty:
         print(f"[略過] 沒有包含 checkpoint 的模型：{csv_path}")
@@ -182,8 +231,29 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
 
     # 群組鍵：僅用 rest（ckpt 後面的超參數字串）→ 確保同一 LoRA、僅 ckpt 不同
     ckpt_df["group_key"] = ckpt_df["lora_rest"]
+    
+    # 依 base model 分組處理
+    output_files = []
+    for base_model, base_group in ckpt_df.groupby("base_model"):
+        output_file = plot_base_model_group(
+            base_group, df, base_model, acc_col, csv_path, out_dir
+        )
+        if output_file:
+            output_files.append(output_file)
+    
+    return output_files if output_files else None
 
-    # 固定圖高度，移除先前的動態高度調整
+def plot_base_model_group(ckpt_df: pd.DataFrame, full_df: pd.DataFrame, 
+                          base_model: str, acc_col: str, 
+                          csv_path: str, out_dir: str):
+    """為特定 base model 繪製折線圖。"""
+    if ckpt_df.empty:
+        return None
+    
+    # 為此 base model 尋找 baseline
+    baseline_name, baseline_acc = find_baseline(full_df, acc_col, base_model)
+
+    # 固定圖高度
     plt.figure(figsize=(10, 6))
     ax = plt.gca()
 
@@ -191,8 +261,9 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
         gg = g.sort_values("ckpt")
         ax.plot(gg["ckpt"].values, gg["acc_pct"].values, marker="o", label=gkey)
 
-    # ---- 新增：為所有非 checkpoint 模型加水平線 ----
-    non_ckpt_df = df[df["ckpt_info"].isna()].copy()
+    # ---- 為此 base model 的非 checkpoint 模型加水平線 ----
+    non_ckpt_df = full_df[full_df["ckpt_info"].isna()].copy()
+    non_ckpt_df = non_ckpt_df[non_ckpt_df["base_model"] == base_model].copy()
     if not non_ckpt_df.empty:
         non_ckpt_df["acc_pct"] = non_ckpt_df[acc_col].apply(parse_percent)
         non_ckpt_df = non_ckpt_df[non_ckpt_df["acc_pct"].notna()]
@@ -227,16 +298,57 @@ def plot_one_csv(csv_path: str, out_dir: str = "."):
         ax.axhline(baseline_acc, linestyle="--", linewidth=1.5,
                    label=f"Baseline: {baseline_name}")
 
-    ax.set_xlabel("Checkpoint 編號")
-    ax.set_ylabel("準確度(%)")
-    title = os.path.basename(csv_path) + "：LORA 不同 ckpt 模型的準確度折線圖"
-    ax.set_title(title)
-    ax.legend(loc="best", fontsize=8)
+    ax.set_xlabel("Checkpoint 編號", fontsize=16)
+    ax.set_ylabel("準確度(%)", fontsize=16)
+    ax.tick_params(axis='both', labelsize=14)
+    stem, _ = os.path.splitext(os.path.basename(csv_path))
+    
+    # 設置標題，模型名稱用紅色 - 計算位置使整體置中
+    title_y = 1.12
+    title_fontsize = 20
+    # 建立完整標題文字以計算總寬度
+    title_part1 = f"{stem} - "
+    title_part2 = base_model
+    
+    # 使用虛擬 text 來測量文字寬度
+    temp_text1 = ax.text(0, 0, title_part1, fontsize=title_fontsize, alpha=0)
+    temp_text2 = ax.text(0, 0, title_part2, fontsize=title_fontsize, weight='bold', alpha=0)
+    
+    # 強制渲染以獲取邊界框
+    plt.gcf().canvas.draw()
+    bbox1 = temp_text1.get_window_extent(renderer=plt.gcf().canvas.get_renderer())
+    bbox2 = temp_text2.get_window_extent(renderer=plt.gcf().canvas.get_renderer())
+    
+    # 移除臨時文字
+    temp_text1.remove()
+    temp_text2.remove()
+    
+    # 轉換為軸坐標
+    bbox1_ax = bbox1.transformed(ax.transAxes.inverted())
+    bbox2_ax = bbox2.transformed(ax.transAxes.inverted())
+    total_width = bbox1_ax.width + bbox2_ax.width
+    
+    # 計算起始位置使整體置中
+    start_x = 0.5 - total_width / 2
+    
+    # 第一行 - 分段顯示並置中
+    ax.text(start_x, title_y, title_part1, transform=ax.transAxes, 
+            fontsize=title_fontsize, ha='left', va='bottom')
+    ax.text(start_x + bbox1_ax.width, title_y, title_part2, transform=ax.transAxes, 
+            fontsize=title_fontsize, ha='left', va='bottom', color='red', weight='bold')
+    
+    # 第二行
+    ax.text(0.5, title_y - 0.06, "：LORA 不同 ckpt 模型的準確度折線圖", 
+            transform=ax.transAxes, fontsize=20, ha='center', va='top')
+    
+    ax.legend(loc="best", fontsize=16)
     ax.grid(True, which="both", axis="both", linewidth=0.5)
 
-    os.makedirs(out_dir, exist_ok=True)
-    stem, _ = os.path.splitext(os.path.basename(csv_path))
-    out_png = os.path.join(out_dir, f"{stem}_ckpt_lora_lines.png")
+    # 建立 base model 專屬資料夾
+    base_model_dir = os.path.join(out_dir, base_model)
+    os.makedirs(base_model_dir, exist_ok=True)
+    
+    out_png = os.path.join(base_model_dir, f"{stem}_ckpt_lora_lines.png")
 
     plt.tight_layout()
     plt.savefig(out_png, dpi=200, bbox_inches="tight")
