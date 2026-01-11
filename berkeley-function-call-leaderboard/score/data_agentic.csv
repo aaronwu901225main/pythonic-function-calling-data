@@ -9,35 +9,44 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 8,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
 9,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
 10,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
-11,Meta Llama 3.1-8B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-12,Meta Llama 3.1-8B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-13,Meta Llama 3.1-8B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+11,Meta Llama 3.1-8B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+12,Meta Llama 3.1-8B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+13,Meta Llama 3.1-8B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 14,Qwen/Qwen2.5-7B-Instruct,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 15,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-16,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,xLAM-2-8b-fc-r LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-23,Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-24,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-26,Qwen/Qwen2.5-7B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-27,Meta Llama 3.1-8B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-28,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-29,xLAM-2-8b-fc-r LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-30,xLAM-2-8b-fc-r LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-31,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-32,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-33,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-34,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-35,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-36,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-37,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-38,Qwen/Qwen2.5-7B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-39,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-40,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-41,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-42,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+16,Meta Llama 3.1-8B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+22,xLAM-2-8b-fc-r LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+23,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+24,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+26,Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+27,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+28,Meta Llama 3.1-8B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+29,Qwen/Qwen2.5-7B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+30,Qwen/Qwen2.5-7B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+31,Meta Llama 3.1-8B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+32,Meta Llama 3.1-8B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+33,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+34,xLAM-2-8b-fc-r LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+35,xLAM-2-8b-fc-r LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+36,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+37,xLAM-2-8b-fc-r LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+38,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+39,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+40,BitAgent-Bounty-8B,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+41,Qwen/Qwen2.5-7B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+42,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+43,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+44,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+45,Qwen/Qwen2.5-7B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+46,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+47,Qwen/Qwen2.5-7B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+48,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+49,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+50,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+51,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
