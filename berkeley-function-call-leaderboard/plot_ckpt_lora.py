@@ -303,45 +303,19 @@ def plot_base_model_group(ckpt_df: pd.DataFrame, full_df: pd.DataFrame,
     ax.tick_params(axis='both', labelsize=14)
     stem, _ = os.path.splitext(os.path.basename(csv_path))
     
-    # 設置標題，模型名稱用紅色 - 計算位置使整體置中
-    title_y = 1.12
-    title_fontsize = 20
-    # 建立完整標題文字以計算總寬度
-    title_part1 = f"{stem} - "
-    title_part2 = base_model
+    fig = plt.gcf()
+
+    # suptitle 使用 LaTeX 上色/粗體：底線需要 escape
+    base_model_tex = base_model.replace("_", r"\_")
+    fig = plt.gcf()
+    fig.suptitle(
+        f"{stem} - {base_model}\nLORA 不同 ckpt 模型的準確度折線圖",
+        fontsize=20,
+        y=0.9,
+    )
+
     
-    # 使用虛擬 text 來測量文字寬度
-    temp_text1 = ax.text(0, 0, title_part1, fontsize=title_fontsize, alpha=0)
-    temp_text2 = ax.text(0, 0, title_part2, fontsize=title_fontsize, weight='bold', alpha=0)
-    
-    # 強制渲染以獲取邊界框
-    plt.gcf().canvas.draw()
-    bbox1 = temp_text1.get_window_extent(renderer=plt.gcf().canvas.get_renderer())
-    bbox2 = temp_text2.get_window_extent(renderer=plt.gcf().canvas.get_renderer())
-    
-    # 移除臨時文字
-    temp_text1.remove()
-    temp_text2.remove()
-    
-    # 轉換為軸坐標
-    bbox1_ax = bbox1.transformed(ax.transAxes.inverted())
-    bbox2_ax = bbox2.transformed(ax.transAxes.inverted())
-    total_width = bbox1_ax.width + bbox2_ax.width
-    
-    # 計算起始位置使整體置中
-    start_x = 0.5 - total_width / 2
-    
-    # 第一行 - 分段顯示並置中
-    ax.text(start_x, title_y, title_part1, transform=ax.transAxes, 
-            fontsize=title_fontsize, ha='left', va='bottom')
-    ax.text(start_x + bbox1_ax.width, title_y, title_part2, transform=ax.transAxes, 
-            fontsize=title_fontsize, ha='left', va='bottom', color='red', weight='bold')
-    
-    # 第二行
-    ax.text(0.5, title_y - 0.06, "：LORA 不同 ckpt 模型的準確度折線圖", 
-            transform=ax.transAxes, fontsize=20, ha='center', va='top')
-    
-    ax.legend(loc="best", fontsize=16)
+    ax.legend(loc="best", fontsize=12)
     ax.grid(True, which="both", axis="both", linewidth=0.5)
 
     # 建立 base model 專屬資料夾
@@ -350,7 +324,7 @@ def plot_base_model_group(ckpt_df: pd.DataFrame, full_df: pd.DataFrame,
     
     out_png = os.path.join(base_model_dir, f"{stem}_ckpt_lora_lines.png")
 
-    plt.tight_layout()
+    plt.tight_layout(rect=[0, 0, 1, 0.92])
     plt.savefig(out_png, dpi=200, bbox_inches="tight")
     plt.close()
 

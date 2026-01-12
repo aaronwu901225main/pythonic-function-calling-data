@@ -1,2 +1,0 @@
-bash: /cm/shared/apps/anaconda/2024.02/lib/libtinfo.so.6: no version information available (required by bash)
-slurmstepd: error: *** JOB 39298 ON DGX-H200-CN04 CANCELLED AT 2026-01-11T03:35:48 ***
