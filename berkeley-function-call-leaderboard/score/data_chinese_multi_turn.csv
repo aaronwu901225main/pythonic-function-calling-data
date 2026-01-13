@@ -1,52 +1,37 @@
 Rank,Model,Multi Turn (ZH) Overall Acc,ZH: Multi Turn Base,ZH: Multi Turn Miss Func,ZH: Multi Turn Miss Param,ZH: Multi Turn Long Context
 1,xLAM-2-8b-fc-r (FC),29.38%,34.00%,29.50%,24.00%,30.00%
 2,BitAgent-Bounty-8B,21.75%,23.00%,25.50%,19.50%,19.00%
-3,xLAM-2-8b-fc-r LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,18.87%,21.50%,20.50%,15.50%,18.00%
-4,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
-5,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
-6,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,16.75%,18.00%,19.50%,13.50%,16.00%
-7,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
-8,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,15.38%,19.00%,16.00%,11.00%,15.50%
-9,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,14.00%,16.00%,16.50%,10.00%,13.50%
-10,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,13.50%,13.00%,14.50%,11.00%,15.50%
-11,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,13.50%,15.00%,17.50%,8.50%,13.00%
-12,xLAM-2-8b-fc-r LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,13.38%,14.00%,14.00%,11.50%,14.00%
-13,xLAM-2-8b-fc-r LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,13.25%,14.50%,12.00%,11.50%,15.00%
-14,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
-15,xLAM-2-8b-fc-r LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,11.25%,12.50%,9.50%,9.00%,14.00%
-16,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
-17,Qwen/Qwen2.5-7B-Instruct,5.88%,8.50%,4.50%,7.00%,3.50%
-18,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,5.38%,6.50%,6.50%,5.50%,3.00%
-19,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,5.38%,8.50%,5.00%,5.50%,2.50%
-20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,5.12%,7.50%,3.50%,6.00%,3.50%
-21,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.87%,6.00%,5.00%,6.00%,2.50%
-22,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,4.87%,7.00%,4.50%,6.00%,2.00%
-23,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,4.87%,7.50%,5.00%,4.50%,2.50%
-24,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.75%,6.50%,4.50%,5.00%,3.00%
-25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.75%,5.00%,4.00%,6.50%,3.50%
-26,Qwen/Qwen2.5-7B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,4.62%,7.50%,3.00%,5.50%,2.50%
-27,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
-28,Qwen/Qwen2.5-7B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,4.38%,4.50%,5.00%,5.50%,2.50%
-29,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-1k,4.25%,5.00%,4.00%,4.00%,4.00%
-30,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.25%,5.00%,5.00%,3.00%,4.00%
-31,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
-32,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-1k,4.00%,4.00%,4.00%,3.00%,5.00%
-33,Meta Llama 3.1-8B-Instruct LoRA ckpt20-15epoch-llama-factory-bfcl-lr1-5e5,3.88%,5.00%,4.50%,3.00%,3.00%
-34,Meta Llama 3.1-8B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,3.88%,5.00%,3.00%,3.50%,4.00%
-35,Meta Llama 3.1-8B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,3.75%,6.00%,2.00%,2.50%,4.50%
-36,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,3.75%,5.00%,3.00%,3.00%,4.00%
-37,Qwen/Qwen2.5-7B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,3.62%,6.00%,2.00%,4.00%,2.50%
-38,Meta Llama 3.1-8B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,3.38%,5.50%,1.00%,2.50%,4.50%
-39,Meta Llama 3.1-8B-Instruct LoRA ckpt720-3epoch-llama-factory-glaive-toolcall-zhtw-1k,3.38%,4.00%,2.50%,3.00%,4.00%
-40,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,3.25%,4.50%,2.50%,2.00%,4.00%
-41,Meta Llama 3.1-8B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,3.12%,4.50%,2.50%,3.50%,2.00%
-42,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
-43,Qwen/Qwen2.5-7B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,3.00%,5.50%,1.50%,3.50%,1.50%
-44,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,2.88%,3.50%,2.00%,2.50%,3.50%
-45,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,2.50%,3.50%,1.00%,4.00%,1.50%
-46,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,2.38%,3.50%,1.00%,3.50%,1.50%
-47,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,2.25%,3.00%,1.00%,2.00%,3.00%
-48,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,2.00%,3.00%,1.00%,2.50%,1.50%
-49,Meta Llama 3.1-8B-Instruct LoRA ckpt300-15epoch-llama-factory-bfcl-lr1-5e5,1.38%,2.00%,2.00%,0.50%,1.00%
-50,Meta Llama 3.1-8B-Instruct LoRA ckpt160-15epoch-llama-factory-bfcl-lr1-5e5,0.75%,1.00%,1.50%,0.00%,0.50%
-51,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
+3,watt-tool-8B (FC),17.75%,21.50%,15.50%,12.50%,21.50%
+4,BitAgent-8B,17.50%,21.00%,15.50%,12.50%,21.00%
+5,xLAM-2-8b-fc-r LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,16.75%,18.00%,19.50%,13.50%,16.00%
+6,Qwen3-8B (Prompt),16.25%,21.00%,21.00%,13.50%,9.50%
+7,xLAM-2-8b-fc-r LoRA ckpt400-3epoch-llama-factory-apigen-mt,15.38%,19.00%,16.00%,11.00%,15.50%
+8,xLAM-2-8b-fc-r LoRA ckpt2000-3epoch-llama-factory-apigen-mt,14.00%,16.00%,16.50%,10.00%,13.50%
+9,xLAM-2-8b-fc-r LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,13.50%,13.00%,14.50%,11.00%,15.50%
+10,xLAM-2-8b-fc-r LoRA ckpt3651-3epoch-llama-factory-apigen-mt,13.50%,15.00%,17.50%,8.50%,13.00%
+11,xLAM-2-8b-fc-r LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,13.38%,14.00%,14.00%,11.50%,14.00%
+12,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
+13,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
+14,Qwen/Qwen2.5-7B-Instruct,5.88%,8.50%,4.50%,7.00%,3.50%
+15,Qwen/Qwen2.5-7B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,5.38%,8.50%,5.00%,5.50%,2.50%
+16,Qwen/Qwen2.5-7B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,5.12%,7.50%,3.50%,6.00%,3.50%
+17,Qwen/Qwen2.5-7B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.87%,6.00%,5.00%,6.00%,2.50%
+18,Qwen/Qwen2.5-7B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.75%,6.50%,4.50%,5.00%,3.00%
+19,Qwen/Qwen2.5-7B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.75%,5.00%,4.00%,6.50%,3.50%
+20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,4.62%,7.50%,3.00%,5.50%,2.50%
+21,Llama-3.1-8B-Instruct (FC),4.50%,5.00%,6.00%,3.50%,3.50%
+22,Meta Llama 3.1-8B-Instruct LoRA ckpt75-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,4.25%,5.00%,5.00%,3.00%,4.00%
+23,Llama-3.1-8B-Instruct (Prompt),4.12%,4.50%,2.50%,4.50%,5.00%
+24,Meta Llama 3.1-8B-Instruct LoRA ckpt750-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,3.88%,5.00%,3.00%,3.50%,4.00%
+25,Meta Llama 3.1-8B-Instruct LoRA ckpt40-3epoch-llama-factory-bfcl-lr8e6-cl,3.75%,6.00%,2.00%,2.50%,4.50%
+26,Meta Llama 3.1-8B-Instruct LoRA ckpt375-3epoch-llama-factory-glaive-toolcall-zhtw-new-1k,3.75%,5.00%,3.00%,3.00%,4.00%
+27,Meta Llama 3.1-8B-Instruct LoRA ckpt60-3epoch-llama-factory-bfcl-lr8e6-cl,3.38%,5.50%,1.00%,2.50%,4.50%
+28,Meta Llama 3.1-8B-Instruct LoRA ckpt400-3epoch-llama-factory-apigen-mt,3.25%,4.50%,2.50%,2.00%,4.00%
+29,Meta Llama 3.1-8B-Instruct LoRA ckpt20-3epoch-llama-factory-bfcl-lr8e6-cl,3.12%,4.50%,2.50%,3.50%,2.00%
+30,CoALM-8B,3.12%,5.00%,3.00%,3.00%,1.50%
+31,Meta Llama 3.1-8B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,2.88%,3.50%,2.00%,2.50%,3.50%
+32,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3651-3epoch-llama-factory-apigen-mt,2.50%,3.50%,1.00%,4.00%,1.50%
+33,Qwen/Qwen2.5-7B-Instruct LoRA ckpt2080-3epoch-llama-factory-apigen-mt,2.38%,3.50%,1.00%,3.50%,1.50%
+34,Meta Llama 3.1-8B-Instruct LoRA ckpt2000-3epoch-llama-factory-apigen-mt,2.25%,3.00%,1.00%,2.00%,3.00%
+35,Qwen/Qwen2.5-7B-Instruct LoRA ckpt416-3epoch-llama-factory-apigen-mt,2.00%,3.00%,1.00%,2.50%,1.50%
+36,Ministral-8B-Instruct-2410 (FC),0.25%,0.50%,0.00%,0.50%,0.00%
