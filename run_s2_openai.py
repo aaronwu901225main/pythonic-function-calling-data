@@ -10,6 +10,26 @@ from pipeline.s2_functions.parser import parse_signature
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+# 語言設定：支援 "en" (英文) 或 "zh_tw" (繁體中文)
+def get_language() -> str:
+    """獲取當前語言設定"""
+    return os.getenv("LANG_CODE", "en").lower()
+
+def get_prompt_path(base_path: str) -> str:
+    """根據語言設定獲取對應的 prompt 路徑"""
+    lang = get_language()
+    if lang == "zh_tw":
+        path_without_ext = base_path.rsplit('.', 1)[0]
+        return f"{path_without_ext}_zh_tw.md"
+    return base_path
+
+def get_system_prompt_suffix() -> str:
+    """根據語言設定獲取 system prompt 的語言後綴"""
+    lang = get_language()
+    if lang == "zh_tw":
+        return " Please write all docstrings and descriptions in Traditional Chinese (繁體中文). Keep function names in English."
+    return ""
+
 
 def _write_debug(debug_enabled: bool, debug_out_path: str, record: Dict[str, Any]):
     if not debug_enabled:
@@ -66,7 +86,10 @@ async def generate_functions_openai(run_id: str):
         except Exception:
             pass
 
-    template_path = "pipeline/s2_functions/prompt.md"
+    # 根據語言設定選擇 prompt
+    template_path = get_prompt_path("pipeline/s2_functions/prompt.md")
+    lang = get_language()
+    logging.info(f"使用語言: {lang}, prompt 路徑: {template_path}")
     max_retries = int(os.getenv("MAX_RETRIES", "2"))    
     debug_enabled = os.getenv("S2_DEBUG", "0") == "1"
     debug_path = f"pipeline/data/{run_id}/s2_functions_debug.jsonl"
@@ -84,6 +107,7 @@ async def generate_functions_openai(run_id: str):
         prompt = render_template(template_path, {"scenario": inp["scenario"]})
         system = (
             "You are a careful data generator. Follow the format strictly, include multiple <function> blocks each with a <signature> code fence and an <expected> value."
+            + get_system_prompt_suffix()
         )
         
         functions: List[Dict[str, Any]] = []

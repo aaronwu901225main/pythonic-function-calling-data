@@ -9,6 +9,26 @@ from openai_utils import render_template, extract_tags, chat_complete
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+# 語言設定：支援 "en" (英文) 或 "zh_tw" (繁體中文)
+def get_language() -> str:
+    """獲取當前語言設定"""
+    return os.getenv("LANG_CODE", "en").lower()
+
+def get_prompt_path(base_path: str) -> str:
+    """根據語言設定獲取對應的 prompt 路徑"""
+    lang = get_language()
+    if lang == "zh_tw":
+        path_without_ext = base_path.rsplit('.', 1)[0]
+        return f"{path_without_ext}_zh_tw.md"
+    return base_path
+
+def get_system_prompt_suffix() -> str:
+    """根據語言設定獲取 system prompt 的語言後綴"""
+    lang = get_language()
+    if lang == "zh_tw":
+        return " Please write all user queries in Traditional Chinese (繁體中文). Use Chinese names for people and places."
+    return ""
+
 
 def _write_debug(debug_enabled: bool, debug_out_path: str, record: Dict[str, Any]):
     if not debug_enabled:
@@ -27,7 +47,9 @@ async def generate_simple_queries_openai(run_id: str):
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
 
-    template_path = "pipeline/s3_queries/simple/prompt.md"
+    template_path = get_prompt_path("pipeline/s3_queries/simple/prompt.md")
+    lang = get_language()
+    logging.info(f"Simple queries - 使用語言: {lang}")
     num_queries = os.getenv("S3_SIMPLE_NUM", "2")
 
     for inp in function_inputs:
@@ -41,6 +63,7 @@ async def generate_simple_queries_openai(run_id: str):
             )
             system = (
                 "You are a careful data generator. Output multiple <user_query> and <function_call> tag pairs as instructed."
+                + get_system_prompt_suffix()
             )
             content = chat_complete(prompt=prompt, system=system)
             queries = extract_tags(content, "user_query")
@@ -68,7 +91,9 @@ async def generate_parallel_queries_openai(run_id: str):
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
 
-    template_path = "pipeline/s3_queries/parallel/prompt.md"
+    template_path = get_prompt_path("pipeline/s3_queries/parallel/prompt.md")
+    lang = get_language()
+    logging.info(f"Parallel queries - 使用語言: {lang}")
     num_queries = os.getenv("S3_PARALLEL_NUM", "2")
 
     for inp in tqdm(function_inputs):
@@ -82,6 +107,7 @@ async def generate_parallel_queries_openai(run_id: str):
             )
             system = (
                 "You are a careful data generator. Output <user_query> and <function_calls> pairs as instructed."
+                + get_system_prompt_suffix()
             )
             content = chat_complete(prompt=prompt, system=system)
             queries = extract_tags(content, "user_query")
@@ -168,7 +194,9 @@ async def generate_multi_turn_queries_openai(run_id: str):
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
 
-    template_path = "pipeline/s3_queries/multiturn/prompt.md"
+    template_path = get_prompt_path("pipeline/s3_queries/multiturn/prompt.md")
+    lang = get_language()
+    logging.info(f"Multi-turn queries - 使用語言: {lang}")
     max_retries = int(os.getenv("MAX_RETRIES", "2"))
     debug_enabled = os.getenv("S3_DEBUG", "0") == "1"
     debug_path = f"pipeline/data/{run_id}/s3_queries_debug.jsonl"
@@ -196,6 +224,7 @@ async def generate_multi_turn_queries_openai(run_id: str):
         )
         system = (
             "You are a careful data generator. Produce a <dialogue> containing repeated <query>, <function_call>, and <tool> tags as per instructions."
+            + get_system_prompt_suffix()
         )
         
         traces: List[Dict[str, str]] = []
@@ -267,6 +296,8 @@ async def generate_multi_turn_queries_openai(run_id: str):
                     # Multiple function_call/tool pairs per turn
                     fcs = extract_tags(tb, "function_call")
                     tls = extract_tags(tb, "tool")
+                    # Extract assistant response/summary
+                    responses = extract_tags(tb, "response")
                     
                     if debug_enabled:
                         _write_debug(debug_enabled, debug_path, {
@@ -276,12 +307,17 @@ async def generate_multi_turn_queries_openai(run_id: str):
                             "event": "turn_parsed",
                             "turn_index": turn_idx,
                             "function_calls": len(fcs),
-                            "tool_responses": len(tls)
+                            "tool_responses": len(tls),
+                            "assistant_responses": len(responses)
                         })
                     
                     for c, t in zip(fcs, tls):
                         temp_traces.append({"function_call": c})
                         temp_traces.append({"tool": t})
+                    
+                    # Add assistant response at the end of the turn
+                    if responses:
+                        temp_traces.append({"response": responses[0]})
             else:
                 # Backward compatibility: flat sequence of <query>, <function_call>, <tool>
                 if debug_enabled:

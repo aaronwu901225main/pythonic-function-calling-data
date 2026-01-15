@@ -7,6 +7,18 @@ from typing import Any, Dict, List, Tuple
 
 from pipeline.s2_functions.parser import parse_signature
 
+# 語言設定：支援 "en" (英文) 或 "zh_tw" (繁體中文)
+def get_language() -> str:
+    """獲取當前語言設定"""
+    return os.getenv("LANG_CODE", "en").lower()
+
+def get_output_filename() -> str:
+    """根據語言設定獲取輸出檔名"""
+    lang = get_language()
+    if lang == "zh_tw":
+        return "multi_turn_zh_tw.jsonl"
+    return "multi_turn_eng.jsonl"
+
 
 def _python_type_to_jsonschema(t: str, use_dict_type: bool = True) -> Dict[str, Any]:
     """Convert Python type annotation to JSON Schema.
@@ -337,6 +349,9 @@ def convert(run_id: str, out_path: str | None = None) -> str:
     functions_fp = os.path.join(base_dir, "functions.json")
     multi_turn_fp = os.path.join(base_dir, "multi_turn_queries.json")
     pseudo_fp = os.path.join(base_dir, "pseudo_functions.json")
+    
+    lang = get_language()
+    print(f"使用語言: {lang}")
 
     if not os.path.exists(functions_fp) or not os.path.exists(multi_turn_fp):
         raise FileNotFoundError("Required files not found. Make sure functions.json and multi_turn_queries.json exist.")
@@ -377,7 +392,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
             pseudo_by_index = {}
 
     if out_path is None:
-        out_path = os.path.join(base_dir, "multi_turn_eng.jsonl")
+        out_path = os.path.join(base_dir, get_output_filename())
 
     written = 0
     with open(out_path, "w", encoding="utf-8") as out:
@@ -424,38 +439,46 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                     turn_data = {
                         "query": item["query"],
                         "tool_calls": [],
-                        "tool_responses": []
+                        "tool_responses": [],
+                        "response": None  # assistant 的總結回應
                     }
                     i += 1
                     
-                    # Collect function calls and tool responses for this turn
-                    while i < n and "function_call" in trace[i]:
-                        fc_text = trace[i]["function_call"]
-                        tool_text = None
-                        if i + 1 < n and "tool" in trace[i + 1]:
-                            tool_text = trace[i + 1]["tool"]
-                        
-                        # Parse function call
-                        m = CALL_RE.match(fc_text)
-                        func_name = None
-                        args_obj: Dict[str, Any] = {}
-                        if m:
-                            func_name, args_obj = parse_function_call(fc_text, name_to_param_names.get(m.group(1), []))
-                        
-                        if func_name:
-                            turn_data["tool_calls"].append({
-                                "type": "function",
-                                "function": {
-                                    "name": func_name,
-                                    "arguments": args_obj,
-                                }
-                            })
-                        
-                        if tool_text is not None:
-                            turn_data["tool_responses"].append(str(tool_text))
-                        
-                        # advance past function_call and optional tool
-                        i += 2 if (i + 1 < n and "tool" in trace[i + 1]) else 1
+                    # Collect function calls, tool responses, and assistant response for this turn
+                    while i < n and ("function_call" in trace[i] or "tool" in trace[i] or "response" in trace[i]):
+                        if "function_call" in trace[i]:
+                            fc_text = trace[i]["function_call"]
+                            tool_text = None
+                            if i + 1 < n and "tool" in trace[i + 1]:
+                                tool_text = trace[i + 1]["tool"]
+                            
+                            # Parse function call
+                            m = CALL_RE.match(fc_text)
+                            func_name = None
+                            args_obj: Dict[str, Any] = {}
+                            if m:
+                                func_name, args_obj = parse_function_call(fc_text, name_to_param_names.get(m.group(1), []))
+                            
+                            if func_name:
+                                turn_data["tool_calls"].append({
+                                    "type": "function",
+                                    "function": {
+                                        "name": func_name,
+                                        "arguments": args_obj,
+                                    }
+                                })
+                            
+                            if tool_text is not None:
+                                turn_data["tool_responses"].append(str(tool_text))
+                            
+                            # advance past function_call and optional tool
+                            i += 2 if (i + 1 < n and "tool" in trace[i + 1]) else 1
+                        elif "response" in trace[i]:
+                            # Capture assistant's summary response
+                            turn_data["response"] = trace[i]["response"]
+                            i += 1
+                        else:
+                            i += 1
                     
                     turns.append(turn_data)
                 else:
@@ -469,7 +492,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                 # 添加 user message
                 all_messages.append({"role": "user", "content": turn["query"]})
                 
-                # 添加 assistant message (如果有 tool calls)
+                # 添加 assistant message with tool calls (如果有 tool calls)
                 if turn["tool_calls"]:
                     all_messages.append({
                         "role": "assistant",
@@ -484,6 +507,13 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                             "name": tool_call["function"]["name"],
                             "content": tool_response
                         })
+                
+                # 添加 assistant 的總結回應 (response/summary)
+                if turn.get("response"):
+                    all_messages.append({
+                        "role": "assistant",
+                        "content": turn["response"]
+                    })
             
             # 生成單一完整對話記錄
             item = {

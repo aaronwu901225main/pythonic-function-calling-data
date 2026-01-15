@@ -16,7 +16,7 @@ To generate the dialogue, follow these guidelines:
 
 1. Create function calls for the relevant functions, using previous results when helpful.
 
-2. Format the dialogue as a sequence of <turn> blocks. Each <turn> MUST contain exactly one <query> (the user's message), followed by one or MORE pairs of <function_call> and <tool> tags. This allows a single assistant turn to call multiple functions. Use this structure:
+2. Format the dialogue as a sequence of <turn> blocks. Each <turn> MUST contain exactly one <query> (the user's message), followed by one or MORE pairs of <function_call> and <tool> tags, and MUST end with a <response> tag containing the assistant's natural language summary to the user. Use this structure:
 
 <turn>
 <query>
@@ -35,6 +35,9 @@ function_name_2(paramA=valueA)
 [expected output of function_name_2]
 </tool>
 <!-- Optionally more function_call/tool pairs in the same turn -->
+<response>
+[Assistant's natural language response summarizing the results and answering the user's query]
+</response>
 </turn>
 
 3. Develop a coherent conversation that progresses logically, using the functions to address the needs outlined in the scenario.
@@ -43,7 +46,13 @@ function_name_2(paramA=valueA)
 
 5. Use the expected outputs provided for each function as the content for the <tool> sections.
 
-6. Create realistic user queries that would prompt the use of each function.
+6. For each <response>, write a helpful, natural language summary that:
+   - Directly addresses the user's question
+   - Summarizes the key information from the tool outputs
+   - Provides actionable insights or next steps when appropriate
+   - Maintains a friendly and professional tone
+
+7. Create realistic user queries that would prompt the use of each function.
 
 7. Maintain consistency in the dialogue, using information from previous function calls to inform subsequent queries and calls.
 

@@ -27,6 +27,34 @@ from itertools import combinations
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+# 語言設定：支援 "en" (英文) 或 "zh_tw" (繁體中文)
+def get_language() -> str:
+    """獲取當前語言設定"""
+    return os.getenv("LANG_CODE", "en").lower()
+
+def get_prompt_path(base_path: str) -> str:
+    """根據語言設定獲取對應的 prompt 路徑
+    
+    Args:
+        base_path: 基礎 prompt 路徑，如 'pipeline/s1_scenario/prompt.md'
+    
+    Returns:
+        對應語言的 prompt 路徑
+    """
+    lang = get_language()
+    if lang == "zh_tw":
+        # 將 prompt.md 轉換為 prompt_zh_tw.md
+        path_without_ext = base_path.rsplit('.', 1)[0]
+        return f"{path_without_ext}_zh_tw.md"
+    return base_path
+
+def get_system_prompt_suffix() -> str:
+    """根據語言設定獲取 system prompt 的語言後綴"""
+    lang = get_language()
+    if lang == "zh_tw":
+        return " Please generate all content in Traditional Chinese (繁體中文)."
+    return ""
+
 
 def read_curriculum(csv_path: str) -> List[Dict[str, str]]:
     """讀取 curriculum CSV 檔案"""
@@ -222,7 +250,10 @@ async def generate_scenarios_multirow(run_id: str, multirow_configs: List[Tuple[
     """
     os.makedirs(f"pipeline/data/{run_id}", exist_ok=True)
     
-    template_path = "pipeline/s1_scenario/prompt.md"
+    # 根據語言設定選擇 prompt
+    template_path = get_prompt_path("pipeline/s1_scenario/prompt.md")
+    lang = get_language()
+    logging.info(f"使用語言: {lang}, prompt 路徑: {template_path}")
     all_data: List[Dict] = []
     
     # 讀取 curriculum
@@ -257,6 +288,7 @@ async def generate_scenarios_multirow(run_id: str, multirow_configs: List[Tuple[
             system = (
                 "You are a careful data generator. Follow the format strictly and wrap each scenario inside <scenario> tags. "
                 f"Generate scenarios that integrate concepts from multiple domains: {merged_row['subdomain']}"
+                + get_system_prompt_suffix()
             )
             
             content = chat_complete(prompt=prompt, system=system)
@@ -334,7 +366,10 @@ async def generate_scenarios_single_row(run_id: str):
     """
     os.makedirs(f"pipeline/data/{run_id}", exist_ok=True)
 
-    template_path = "pipeline/s1_scenario/prompt.md"
+    # 根據語言設定選擇 prompt
+    template_path = get_prompt_path("pipeline/s1_scenario/prompt.md")
+    lang = get_language()
+    logging.info(f"使用語言: {lang}, prompt 路徑: {template_path}")
     data: List[Dict] = []
 
     csv_path = os.getenv("CURRICULUM_CSV", "pipeline/data/curriculum.csv")
@@ -362,6 +397,7 @@ async def generate_scenarios_single_row(run_id: str):
         )
         system = (
             "You are a careful data generator. Follow the format strictly and wrap each scenario inside <scenario> tags."
+            + get_system_prompt_suffix()
         )
         content = chat_complete(prompt=prompt, system=system)
         scenarios = extract_tags(content, "scenario")

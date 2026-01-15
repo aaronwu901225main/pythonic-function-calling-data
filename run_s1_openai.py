@@ -11,6 +11,26 @@ from openai_utils import render_template, extract_tags, chat_complete
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
+# 語言設定：支援 "en" (英文) 或 "zh_tw" (繁體中文)
+def get_language() -> str:
+    """獲取當前語言設定"""
+    return os.getenv("LANG_CODE", "en").lower()
+
+def get_prompt_path(base_path: str) -> str:
+    """根據語言設定獲取對應的 prompt 路徑"""
+    lang = get_language()
+    if lang == "zh_tw":
+        path_without_ext = base_path.rsplit('.', 1)[0]
+        return f"{path_without_ext}_zh_tw.md"
+    return base_path
+
+def get_system_prompt_suffix() -> str:
+    """根據語言設定獲取 system prompt 的語言後綴"""
+    lang = get_language()
+    if lang == "zh_tw":
+        return " Please generate all content in Traditional Chinese (繁體中文)."
+    return ""
+
 
 def read_curriculum(csv_path: str) -> List[Dict[str, str]]:
     rows: List[Dict[str, str]] = []
@@ -28,7 +48,10 @@ def read_curriculum(csv_path: str) -> List[Dict[str, str]]:
 async def generate_scenarios_openai(run_id: str):
     os.makedirs(f"pipeline/data/{run_id}", exist_ok=True)
 
-    template_path = "pipeline/s1_scenario/prompt.md"
+    # 根據語言設定選擇 prompt
+    template_path = get_prompt_path("pipeline/s1_scenario/prompt.md")
+    lang = get_language()
+    logging.info(f"使用語言: {lang}, prompt 路徑: {template_path}")
     data: List[Dict] = []
 
     # Use CURRICULUM_CSV environment variable or default to curriculum.csv
@@ -54,6 +77,7 @@ async def generate_scenarios_openai(run_id: str):
         )
         system = (
             "You are a careful data generator. Follow the format strictly and wrap each scenario inside <scenario> tags."
+            + get_system_prompt_suffix()
         )
         content = chat_complete(prompt=prompt, system=system)
         scenarios = extract_tags(content, "scenario")
