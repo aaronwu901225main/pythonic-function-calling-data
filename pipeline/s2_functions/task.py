@@ -1,9 +1,12 @@
+import warnings
 from typing import List, Type, Any, Dict
 
 from dria import SingletonTemplate
 from dria.models import TaskResult
 from pydantic import BaseModel, Field
 
+# Suppress dria_workflows "schema" shadows warning
+warnings.filterwarnings("ignore", message="Field name \"schema\" in \"Task\" shadows an attribute")
 from dria_workflows import *
 from dria.factory.utilities import (
     get_tags,

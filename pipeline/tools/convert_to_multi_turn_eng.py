@@ -20,6 +20,23 @@ def get_output_filename() -> str:
     return "multi_turn_eng.jsonl"
 
 
+# Regex pattern to remove role prefixes like "劉婷婷：", "智能助手：", "User:", "Assistant:"
+ROLE_PREFIX_PATTERN = re.compile(
+    r'^(?:'
+    r'[\u4e00-\u9fff]{2,4}：|'  # Chinese name + colon (e.g., 劉婷婷：, 智能助手：)
+    r'[A-Za-z]+\s*:\s*'         # English role + colon (e.g., User:, Assistant:)
+    r')',
+    re.MULTILINE
+)
+
+
+def strip_role_prefix(text: str) -> str:
+    """Remove role prefixes like '劉婷婷：' or '智能助手：' from text."""
+    if not text:
+        return text
+    return ROLE_PREFIX_PATTERN.sub('', text).strip()
+
+
 def _python_type_to_jsonschema(t: str, use_dict_type: bool = True) -> Dict[str, Any]:
     """Convert Python type annotation to JSON Schema.
     
@@ -392,7 +409,10 @@ def convert(run_id: str, out_path: str | None = None) -> str:
             pseudo_by_index = {}
 
     if out_path is None:
-        out_path = os.path.join(base_dir, get_output_filename())
+        # 輸出到 base 子目錄
+        output_dir = os.path.join(base_dir, "base")
+        os.makedirs(output_dir, exist_ok=True)
+        out_path = os.path.join(output_dir, get_output_filename())
 
     written = 0
     with open(out_path, "w", encoding="utf-8") as out:
@@ -437,7 +457,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                 item = trace[i]
                 if "query" in item:
                     turn_data = {
-                        "query": item["query"],
+                        "query": strip_role_prefix(item["query"]),
                         "tool_calls": [],
                         "tool_responses": [],
                         "response": None  # assistant 的總結回應
@@ -475,7 +495,7 @@ def convert(run_id: str, out_path: str | None = None) -> str:
                             i += 2 if (i + 1 < n and "tool" in trace[i + 1]) else 1
                         elif "response" in trace[i]:
                             # Capture assistant's summary response
-                            turn_data["response"] = trace[i]["response"]
+                            turn_data["response"] = strip_role_prefix(trace[i]["response"])
                             i += 1
                         else:
                             i += 1

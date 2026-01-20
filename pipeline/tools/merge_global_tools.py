@@ -86,6 +86,15 @@ def main() -> None:
     with open(args.output, "w", encoding="utf-8") as out_f:
         for idx, obj in enumerate(lines):
             original_tools: List[Dict[str, Any]] = obj.get("tools") or []
+            
+            # 特殊處理 miss_function 情境：排除 missing_function_tool
+            # 避免從全局池補進與 missing function 相關的函數
+            excluded_names: set = set()
+            missing_func_tool = obj.get("missing_function_tool")
+            if missing_func_tool and isinstance(missing_func_tool, dict):
+                mf_name = missing_func_tool.get("name")
+                if mf_name:
+                    excluded_names.add(mf_name)
 
             # 1. 保留原本這一題的 tools（去重 by name）
             base_tools_by_name: Dict[str, Dict[str, Any]] = {}
@@ -113,6 +122,8 @@ def main() -> None:
             for name, schema in global_tools.items():
                 if name in base_tools_by_name:
                     continue  # 已經在本題
+                if name in excluded_names:
+                    continue  # miss_func 情境中要排除的函數
                 is_pseudo = bool(schema.get("x_pseudo"))
                 if is_pseudo and not args.include_pseudo:
                     continue
