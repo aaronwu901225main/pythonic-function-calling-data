@@ -8,12 +8,19 @@ reference (possible) answers, using a secondary LLM judge. The judge must output
 Modes:
 1. original -> bypass semantic judge; rely on existing exact matching pipeline.
 2. HF local model id (e.g. meta-llama/Llama-3.1-8B-Instruct) -> launch vLLM / use existing endpoint (future work).
-3. OpenAI model id or prefixed openai:MODEL -> call OpenAI ChatCompletion API (requires OPENAI_API_KEY).
+3. OpenAI model id or prefixed openai:MODEL -> call OpenAI ChatCompletion API (requires OPENAI_API_KEY or OPENAI_API_KEYS).
 
 The integration point will be inside eval_runner.* runners after decoding predictions but before
 calling traditional matchers, when zhtw_eval != original.
 
 For now we implement a minimal abstraction + OpenAI path. vLLM path is left as TODO.
+
+API Key Rotation (for OpenAI mode):
+- Provide multiple keys via OPENAI_API_KEYS (comma-separated) for automatic rotation.
+- Track daily token usage in .api_usage_daily.json.
+- Reset at 08:00 instead of 00:00 (matching OpenAI's free tier reset).
+- Rotate to next key when usage >= (API_DAILY_LIMIT_TOKENS - API_ROTATE_MARGIN).
+- Defaults: limit=2_500_000, margin=25_000.
 """
 from __future__ import annotations
 import os
@@ -21,6 +28,18 @@ import json
 from dataclasses import dataclass
 import subprocess
 from typing import List, Dict, Any, Optional
+
+# Import our API key rotation utilities
+try:
+    from .openai_utils import (
+        get_rotating_client,
+        update_usage_after_call,
+        _estimate_tokens,
+        get_usage_summary,
+    )
+    _HAS_OPENAI_UTILS = True
+except ImportError:
+    _HAS_OPENAI_UTILS = False
 
 try:
     from openai import OpenAI  # openai>=1.x
@@ -130,7 +149,8 @@ def build_multi_turn_judge_prompt_text(question: str, function_doc: List[Dict[st
     )
 
 
-def openai_judge(client: Any, model: str, prompt_text: str) -> str:
+def openai_judge(client: Any, model: str, prompt_text: str, active_key: str = None, today: str = None, usage_path: str = None, limit: int = 2500000, margin: int = 25000) -> str:
+    """Call OpenAI to judge the prompt. Tracks token usage if rotation info is provided."""
     resp = client.chat.completions.create(
         model=model,
         messages=[
@@ -141,6 +161,32 @@ def openai_judge(client: Any, model: str, prompt_text: str) -> str:
         max_tokens=4,
     )
     text = (resp.choices[0].message.content or "").strip().lower()
+    
+    # Track usage if rotation info is provided
+    if active_key and today and usage_path and _HAS_OPENAI_UTILS:
+        try:
+            usage_obj = getattr(resp, "usage", None)
+            if usage_obj:
+                prompt_tokens = getattr(usage_obj, "prompt_tokens", 0) or 0
+                completion_tokens = getattr(usage_obj, "completion_tokens", 0) or 0
+                total_tokens = getattr(usage_obj, "total_tokens", prompt_tokens + completion_tokens) or 0
+            else:
+                # Fallback estimation
+                prompt_tokens = _estimate_tokens(prompt_text)
+                completion_tokens = _estimate_tokens(text)
+                total_tokens = prompt_tokens + completion_tokens
+            
+            update_usage_after_call(
+                active_key, today, usage_path,
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+                total_tokens=total_tokens,
+                limit=limit,
+                margin=margin,
+            )
+        except Exception:
+            pass  # Don't fail the judge if usage tracking fails
+    
     return "yes" if text.startswith("yes") else "no"
 
 
@@ -230,6 +276,23 @@ def semantic_judge(config: JudgeConfig, question: str, function_doc: List[Dict[s
     if config.mode == "openai":
         if OpenAI is None:
             raise RuntimeError("openai package not available")
+        
+        # Use API key rotation if available
+        if _HAS_OPENAI_UTILS:
+            try:
+                client, active_key, limit, margin, today, usage_path = get_rotating_client()
+                result = openai_judge(
+                    client, config.model_id, prompt_text,
+                    active_key=active_key, today=today, usage_path=usage_path,
+                    limit=limit, margin=margin
+                )
+                return True if result == "yes" else False
+            except Exception as e:
+                if config.debug:
+                    print(f"[zhtw-judge] API rotation failed, falling back: {e}")
+                # Fall through to legacy method
+        
+        # Legacy: single API key
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY not set for openai judge mode")
@@ -258,6 +321,23 @@ def semantic_param_judge(config: JudgeConfig, pred_params: Dict[str, Any], ref_p
     if config.mode == "openai":
         if OpenAI is None:
             raise RuntimeError("openai package not available")
+        
+        # Use API key rotation if available
+        if _HAS_OPENAI_UTILS:
+            try:
+                client, active_key, limit, margin, today, usage_path = get_rotating_client()
+                result = openai_judge(
+                    client, config.model_id, prompt_text,
+                    active_key=active_key, today=today, usage_path=usage_path,
+                    limit=limit, margin=margin
+                )
+                return True if result == "yes" else False
+            except Exception as e:
+                if config.debug:
+                    print(f"[zhtw-judge] API rotation failed, falling back: {e}")
+                # Fall through to legacy method
+        
+        # Legacy: single API key
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY not set for openai judge mode")
@@ -286,6 +366,23 @@ def semantic_multi_turn_judge(config: JudgeConfig, question: str, function_doc: 
     if config.mode == "openai":
         if OpenAI is None:
             raise RuntimeError("openai package not available")
+        
+        # Use API key rotation if available
+        if _HAS_OPENAI_UTILS:
+            try:
+                client, active_key, limit, margin, today, usage_path = get_rotating_client()
+                result = openai_judge(
+                    client, config.model_id, prompt_text,
+                    active_key=active_key, today=today, usage_path=usage_path,
+                    limit=limit, margin=margin
+                )
+                return True if result == "yes" else False
+            except Exception as e:
+                if config.debug:
+                    print(f"[zhtw-judge] API rotation failed, falling back: {e}")
+                # Fall through to legacy method
+        
+        # Legacy: single API key
         api_key = os.getenv("OPENAI_API_KEY")
         if not api_key:
             raise RuntimeError("OPENAI_API_KEY not set for openai judge mode")
