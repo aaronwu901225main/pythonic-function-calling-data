@@ -2,6 +2,8 @@ import os
 import re
 import json
 import datetime
+import fcntl
+import threading
 from typing import Dict, List, Any
 
 try:
@@ -9,6 +11,9 @@ try:
     load_dotenv()
 except Exception:
     pass
+
+# Global lock for thread-safe usage file access
+_usage_file_lock = threading.Lock()
 
 # Simple template rendering: replace {{var}} with value
 
@@ -39,7 +44,8 @@ def _load_usage_file(path: str) -> Dict[str, Any]:
     if not os.path.exists(path):
         return {}
     try:
-        return json.load(open(path, "r", encoding="utf-8"))
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
     except Exception:
         return {}
 
@@ -52,6 +58,41 @@ def _save_usage_file(path: str, data: Dict[str, Any]) -> None:
         os.replace(tmp, path)
     except Exception:
         pass
+
+
+def _atomic_update_usage(path: str, key: str, today: str, tokens: int) -> int:
+    """Thread-safe and process-safe atomic update of usage file.
+    Returns the new total for this key today."""
+    with _usage_file_lock:  # Thread lock
+        try:
+            # Use file lock for cross-process safety
+            lock_path = path + ".lock"
+            with open(lock_path, "w") as lock_file:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
+                try:
+                    # Read current data
+                    usage_data = _load_usage_file(path)
+                    if today not in usage_data:
+                        usage_data[today] = {}
+                    # Update
+                    current = int(usage_data[today].get(key, 0))
+                    new_total = current + int(tokens)
+                    usage_data[today][key] = new_total
+                    # Write back
+                    _save_usage_file(path, usage_data)
+                    return new_total
+                finally:
+                    fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
+        except Exception as e:
+            # Fallback: just try to update without lock
+            usage_data = _load_usage_file(path)
+            if today not in usage_data:
+                usage_data[today] = {}
+            current = int(usage_data[today].get(key, 0))
+            new_total = current + int(tokens)
+            usage_data[today][key] = new_total
+            _save_usage_file(path, usage_data)
+            return new_total
 
 
 def _select_api_key(usage: Dict[str, Any], keys: List[str], limit: int, margin: int, today: str) -> str:
@@ -153,15 +194,13 @@ def chat_complete(prompt: str, model: str | None = None, system: str | None = No
         completion_tokens = _estimate_tokens(content)
         total_tokens = prompt_tokens + completion_tokens
 
-    if today not in usage_data:
-        usage_data[today] = {}
-    usage_data[today][active_key] = int(usage_data[today].get(active_key, 0)) + int(total_tokens)
-    _save_usage_file(usage_path, usage_data)
+    # Atomic update with file locking (thread-safe and process-safe)
+    new_total = _atomic_update_usage(usage_path, active_key, today, total_tokens)
 
     # Optional verbose logging
     if os.getenv("API_ROTATE_VERBOSE", "0") == "1":
-        over = usage_data[today][active_key] >= max(0, limit - margin)
-        print(f"[api-rotate] key=***{active_key[-4:]} used={usage_data[today][active_key]} tokens (added {total_tokens}) limit={limit} rotate_next={over}")
+        over = new_total >= max(0, limit - margin)
+        print(f"[api-rotate] key=***{active_key[-4:]} used={new_total} tokens (added {total_tokens}) limit={limit} rotate_next={over}")
 
     return content
 

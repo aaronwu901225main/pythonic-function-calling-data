@@ -3,9 +3,17 @@ import json
 import logging
 import os
 import random
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Tuple, Optional
 from tqdm import tqdm
 from openai_utils import render_template, extract_tags, chat_complete
+from incremental_utils import (
+    IncrementalWriter,
+    load_completed_indices,
+    run_parallel_tasks,
+    get_parallel_workers,
+    ensure_jsonl_path,
+    check_final_json_exists,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -189,8 +197,212 @@ async def generate_multiple_queries_openai(run_id: str):
         f.write(json.dumps(samples, ensure_ascii=False, indent=2))
 
 
+def process_single_multi_turn(
+    idx: int,
+    task_data: Tuple[Dict[str, Any], str, str, int, bool, str]
+) -> Optional[Dict[str, Any]]:
+    """
+    處理單一 sample，生成 multi-turn dialogue
+    
+    Args:
+        idx: sample 索引
+        task_data: (inp, template_path, system, max_retries, debug_enabled, debug_path)
+        
+    Returns:
+        包含 trace 的結果字典，或 None
+    """
+    inp, template_path, system, max_retries, debug_enabled, debug_path = task_data
+    
+    function_schemas_obj = inp.get("functions", [])
+    
+    if debug_enabled:
+        _write_debug(debug_enabled, debug_path, {
+            "sample_index": idx,
+            "scenario": inp["scenario"][:100] + "..." if len(inp["scenario"]) > 100 else inp["scenario"],
+            "function_count": len(function_schemas_obj),
+            "phase": "start",
+            "event": "processing_sample"
+        })
+    
+    prompt = render_template(
+        template_path,
+        {
+            "scenario": inp["scenario"],
+            "function_schemas": json.dumps(function_schemas_obj, ensure_ascii=False),
+        },
+    )
+    
+    traces: List[Dict[str, str]] = []
+    for attempt in range(max_retries + 1):
+        try:
+            content = chat_complete(prompt=prompt, system=system)
+        except Exception as e:
+            logging.error(f"Sample {idx} attempt {attempt}: API error: {e}")
+            continue
+        
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "attempt": attempt,
+                "phase": "chat_complete",
+                "event": "response_received",
+                "content_length": len(content)
+            })
+        
+        dialogue_blocks = extract_tags(content, "dialogue")
+        if not dialogue_blocks:
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "extract",
+                    "event": "no_dialogue_blocks"
+                })
+            if attempt < max_retries:
+                logging.warning(f"S3 sample {idx} attempt {attempt + 1} failed to extract dialogue, retrying...")
+                continue
+            else:
+                break
+        
+        dlg = dialogue_blocks[0]
+        
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "attempt": attempt,
+                "phase": "extract",
+                "event": "dialogue_extracted",
+                "dialogue_length": len(dlg)
+            })
+        
+        # Prefer new <turn> format
+        turn_blocks = extract_tags(dlg, "turn")
+        temp_traces: List[Dict[str, str]] = []
+        
+        if turn_blocks:
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "parse",
+                    "event": "using_turn_format",
+                    "turn_count": len(turn_blocks)
+                })
+                
+            for turn_idx, tb in enumerate(turn_blocks):
+                q_blocks = extract_tags(tb, "query")
+                if not q_blocks:
+                    if debug_enabled:
+                        _write_debug(debug_enabled, debug_path, {
+                            "sample_index": idx,
+                            "attempt": attempt,
+                            "phase": "parse",
+                            "event": "no_query_in_turn",
+                            "turn_index": turn_idx
+                        })
+                    continue
+                q = q_blocks[0]
+                temp_traces.append({"query": q})
+                
+                fcs = extract_tags(tb, "function_call")
+                tls = extract_tags(tb, "tool")
+                responses = extract_tags(tb, "response")
+                
+                if debug_enabled:
+                    _write_debug(debug_enabled, debug_path, {
+                        "sample_index": idx,
+                        "attempt": attempt,
+                        "phase": "parse",
+                        "event": "turn_parsed",
+                        "turn_index": turn_idx,
+                        "function_calls": len(fcs),
+                        "tool_responses": len(tls),
+                        "assistant_responses": len(responses)
+                    })
+                
+                for c, t in zip(fcs, tls):
+                    temp_traces.append({"function_call": c})
+                    temp_traces.append({"tool": t})
+                
+                if responses:
+                    temp_traces.append({"response": responses[0]})
+        else:
+            # Backward compatibility: flat sequence
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "parse",
+                    "event": "using_flat_format"
+                })
+                
+            queries = extract_tags(dlg, "query")
+            calls = extract_tags(dlg, "function_call")
+            tools = extract_tags(dlg, "tool")
+            
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "parse",
+                    "event": "flat_format_extracted",
+                    "queries": len(queries),
+                    "function_calls": len(calls),
+                    "tool_responses": len(tools)
+                })
+            
+            for q, c, t in zip(queries, calls, tools):
+                temp_traces.append({"query": q})
+                temp_traces.append({"function_call": c})
+                temp_traces.append({"tool": t})
+        
+        if temp_traces:
+            traces = temp_traces
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "success",
+                    "event": "dialogue_parsed_success",
+                    "trace_count": len(traces)
+                })
+            break
+        elif attempt < max_retries:
+            logging.warning(f"S3 sample {idx} attempt {attempt + 1} failed to parse dialogue, retrying...")
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "retry",
+                    "event": "dialogue_parsing_failed_retrying"
+                })
+        else:
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "failure",
+                    "event": "all_attempts_failed",
+                    "max_retries": max_retries
+                })
+
+    return {
+        "trace": traces,
+        "function_schemas": [f["function"] for f in function_schemas_obj],
+        "domain": inp["domain"],
+        "subdomain": inp["subdomain"],
+    }
+
+
 async def generate_multi_turn_queries_openai(run_id: str):
-    dataset: List[Dict[str, Any]] = []
+    # 檢查最終 JSON 是否已存在
+    json_path = f"pipeline/data/{run_id}/multi_turn_queries.json"
+    jsonl_path = ensure_jsonl_path(json_path)
+    
+    if check_final_json_exists(json_path):
+        logging.info(f"multi_turn_queries.json already exists, skipping S3 multi-turn")
+        return
+
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
 
@@ -200,197 +412,53 @@ async def generate_multi_turn_queries_openai(run_id: str):
     max_retries = int(os.getenv("MAX_RETRIES", "2"))
     debug_enabled = os.getenv("S3_DEBUG", "0") == "1"
     debug_path = f"pipeline/data/{run_id}/s3_queries_debug.jsonl"
-    debug_enabled = os.getenv("S3_DEBUG", "0") == "1"
-    debug_path = f"pipeline/data/{run_id}/s3_queries_debug.jsonl"
 
-    for idx, inp in enumerate(function_inputs):
-        function_schemas_obj = inp.get("functions", [])
+    system = (
+        "You are a careful data generator. Produce a <dialogue> containing repeated <query>, <function_call>, and <tool> tags as per instructions."
+        + get_system_prompt_suffix()
+    )
+
+    # 載入已完成的 indices
+    completed = load_completed_indices(jsonl_path)
+    
+    # 過濾未完成的項目
+    items_to_process = [
+        (idx, (inp, template_path, system, max_retries, debug_enabled, debug_path))
+        for idx, inp in enumerate(function_inputs)
+        if idx not in completed
+    ]
+    
+    if not items_to_process:
+        logging.info("All samples already processed, finalizing...")
+    else:
+        logging.info(f"Processing {len(items_to_process)} samples (skipping {len(completed)} completed)")
         
-        if debug_enabled:
-            _write_debug(debug_enabled, debug_path, {
-                "sample_index": idx,
-                "scenario": inp["scenario"][:100] + "..." if len(inp["scenario"]) > 100 else inp["scenario"],
-                "function_count": len(function_schemas_obj),
-                "phase": "start",
-                "event": "processing_sample"
-            })
-            
-        prompt = render_template(
-            template_path,
-            {
-                "scenario": inp["scenario"],
-                "function_schemas": json.dumps(function_schemas_obj, ensure_ascii=False),
-            },
-        )
-        system = (
-            "You are a careful data generator. Produce a <dialogue> containing repeated <query>, <function_call>, and <tool> tags as per instructions."
-            + get_system_prompt_suffix()
-        )
-        
-        traces: List[Dict[str, str]] = []
-        for attempt in range(max_retries + 1):
-            content = chat_complete(prompt=prompt, system=system)
-            
-            if debug_enabled:
-                _write_debug(debug_enabled, debug_path, {
-                    "sample_index": idx,
-                    "attempt": attempt,
-                    "phase": "chat_complete",
-                    "event": "response_received",
-                    "content_length": len(content)
-                })
-            
-            dialogue_blocks = extract_tags(content, "dialogue")
-            if not dialogue_blocks:
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "extract",
-                        "event": "no_dialogue_blocks"
-                    })
-                if attempt < max_retries:
-                    print(f"Warning: S3 attempt {attempt + 1} failed to extract dialogue, retrying...")
-                    continue
-                else:
-                    break
-            
-            dlg = dialogue_blocks[0]
-            
-            if debug_enabled:
-                _write_debug(debug_enabled, debug_path, {
-                    "sample_index": idx,
-                    "attempt": attempt,
-                    "phase": "extract",
-                    "event": "dialogue_extracted",
-                    "dialogue_length": len(dlg)
-                })
-            
-            # Prefer new <turn> format allowing multiple function calls per user turn
-            turn_blocks = extract_tags(dlg, "turn")
-            temp_traces: List[Dict[str, str]] = []
-            if turn_blocks:
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "parse",
-                        "event": "using_turn_format",
-                        "turn_count": len(turn_blocks)
-                    })
-                    
-                for turn_idx, tb in enumerate(turn_blocks):
-                    q_blocks = extract_tags(tb, "query")
-                    if not q_blocks:
-                        if debug_enabled:
-                            _write_debug(debug_enabled, debug_path, {
-                                "sample_index": idx,
-                                "attempt": attempt,
-                                "phase": "parse",
-                                "event": "no_query_in_turn",
-                                "turn_index": turn_idx
-                            })
-                        continue
-                    q = q_blocks[0]
-                    temp_traces.append({"query": q})
-                    # Multiple function_call/tool pairs per turn
-                    fcs = extract_tags(tb, "function_call")
-                    tls = extract_tags(tb, "tool")
-                    # Extract assistant response/summary
-                    responses = extract_tags(tb, "response")
-                    
-                    if debug_enabled:
-                        _write_debug(debug_enabled, debug_path, {
-                            "sample_index": idx,
-                            "attempt": attempt,
-                            "phase": "parse",
-                            "event": "turn_parsed",
-                            "turn_index": turn_idx,
-                            "function_calls": len(fcs),
-                            "tool_responses": len(tls),
-                            "assistant_responses": len(responses)
-                        })
-                    
-                    for c, t in zip(fcs, tls):
-                        temp_traces.append({"function_call": c})
-                        temp_traces.append({"tool": t})
-                    
-                    # Add assistant response at the end of the turn
-                    if responses:
-                        temp_traces.append({"response": responses[0]})
-            else:
-                # Backward compatibility: flat sequence of <query>, <function_call>, <tool>
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "parse",
-                        "event": "using_flat_format"
-                    })
-                    
-                queries = extract_tags(dlg, "query")
-                calls = extract_tags(dlg, "function_call")
-                tools = extract_tags(dlg, "tool")
-                
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "parse",
-                        "event": "flat_format_extracted",
-                        "queries": len(queries),
-                        "function_calls": len(calls),
-                        "tool_responses": len(tools)
-                    })
-                
-                for q, c, t in zip(queries, calls, tools):
-                    temp_traces.append({"query": q})
-                    temp_traces.append({"function_call": c})
-                    temp_traces.append({"tool": t})
-            
-            if temp_traces:  # 成功解析到對話
-                traces = temp_traces
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "success",
-                        "event": "dialogue_parsed_success",
-                        "trace_count": len(traces)
-                    })
-                break
-            elif attempt < max_retries:
-                print(f"Warning: S3 attempt {attempt + 1} failed to parse dialogue structure, retrying...")
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "retry",
-                        "event": "dialogue_parsing_failed_retrying"
-                    })
-            else:
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "failure",
-                        "event": "all_attempts_failed",
-                        "max_retries": max_retries
-                    })
-
-        dataset.append(
-            {
-                "trace": traces,
-                "function_schemas": [f["function"] for f in function_schemas_obj],
-                "domain": inp["domain"],
-                "subdomain": inp["subdomain"],
-            }
-        )
-
-    with open(
-        f"pipeline/data/{run_id}/multi_turn_queries.json", "w", encoding="utf-8"
-    ) as f:
-        f.write(json.dumps(dataset, ensure_ascii=False, indent=2))
+        # 增量寫入器
+        with IncrementalWriter(jsonl_path, mode="a") as writer:
+            # 平行處理
+            max_workers = get_parallel_workers()
+            run_parallel_tasks(
+                process_single_multi_turn,
+                items_to_process,
+                max_workers=max_workers,
+                desc="Generating Multi-Turn Dialogues",
+                writer=writer,
+            )
+    
+    # 轉換為最終 JSON 格式
+    records: List[Dict[str, Any]] = []
+    with open(jsonl_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                record = json.loads(line)
+                record.pop("_sample_index", None)
+                records.append(record)
+    
+    with open(json_path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(records, ensure_ascii=False, indent=2))
+    
+    logging.info(f"Finalized {len(records)} multi-turn dialogues -> {json_path}")
 
 
 async def main():

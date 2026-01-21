@@ -1,0 +1,23 @@
+{
+  "total_scenarios": 3000,
+  "configurations": [
+    {
+      "rows_per_sample": 2,
+      "requested_samples": 1500,
+      "generated_scenarios": 1500,
+      "unique_combinations": 1500
+    },
+    {
+      "rows_per_sample": 3,
+      "requested_samples": 750,
+      "generated_scenarios": 750,
+      "unique_combinations": 750
+    },
+    {
+      "rows_per_sample": 4,
+      "requested_samples": 750,
+      "generated_scenarios": 750,
+      "unique_combinations": 750
+    }
+  ]
+}

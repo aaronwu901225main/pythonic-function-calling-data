@@ -11,6 +11,7 @@ Environment Variables:
     MISS_TURNS: Number of turns that should be "miss" turns (e.g., "1" or "1-2" for range)
     S5_DEBUG: Enable debug output ("1" to enable)
     MAX_RETRIES: Maximum retries for API calls
+    PARALLEL_WORKERS: Number of parallel workers (default: 5)
 """
 import asyncio
 import json
@@ -22,6 +23,14 @@ from typing import Any, Dict, List, Tuple, Optional
 from tqdm import tqdm
 from openai_utils import render_template, extract_tags, chat_complete
 from pipeline.s2_functions.parser import parse_signature
+from incremental_utils import (
+    IncrementalWriter,
+    load_completed_indices,
+    run_parallel_tasks,
+    get_parallel_workers,
+    ensure_jsonl_path,
+    check_final_json_exists,
+)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s - %(levelname)s - %(message)s")
 
@@ -198,9 +207,111 @@ def parse_dialogue(content: str) -> List[Dict[str, Any]]:
 # ============================================================================
 # Miss Function Generation
 # ============================================================================
+def process_single_miss_function(
+    idx: int,
+    task_data: Tuple[Dict[str, Any], str, str, int, bool, str]
+) -> Optional[Dict[str, Any]]:
+    """
+    處理單一 sample，生成 miss_function dialogue
+    
+    Args:
+        idx: sample 索引
+        task_data: (inp, template_path, system, max_retries, debug_enabled, debug_path)
+        
+    Returns:
+        包含 trace 的結果字典，或 None
+    """
+    inp, template_path, system, max_retries, debug_enabled, debug_path = task_data
+    
+    functions = inp.get("functions", [])
+    
+    if len(functions) < 2:
+        logging.warning(f"Sample {idx}: Not enough functions for miss_function scenario, skipping")
+        return None
+    
+    try:
+        missing_func, remaining_funcs = select_missing_function(functions)
+    except ValueError as e:
+        logging.warning(f"Sample {idx}: {e}, skipping")
+        return None
+    
+    miss_turns = get_miss_turns_count()
+    total_turns = random.randint(5, 7)
+    
+    if debug_enabled:
+        _write_debug(debug_enabled, debug_path, {
+            "sample_index": idx,
+            "scenario": inp["scenario"][:100] + "...",
+            "missing_function": parse_signature(missing_func["function"]).get("function_name"),
+            "remaining_count": len(remaining_funcs),
+            "miss_turns": miss_turns,
+            "total_turns": total_turns,
+            "phase": "start"
+        })
+    
+    prompt = render_template(
+        template_path,
+        {
+            "scenario": inp["scenario"],
+            "function_schemas": json.dumps([f["function"] for f in remaining_funcs], ensure_ascii=False),
+            "missing_function": missing_func["function"],
+            "total_turns": str(total_turns),
+            "miss_turns": str(miss_turns),
+        },
+    )
+    
+    traces: List[Dict[str, str]] = []
+    for attempt in range(max_retries + 1):
+        try:
+            content = chat_complete(prompt=prompt, system=system)
+        except Exception as e:
+            logging.error(f"Sample {idx} attempt {attempt}: API error: {e}")
+            continue
+        
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "attempt": attempt,
+                "phase": "chat_complete",
+                "content_length": len(content)
+            })
+        
+        traces = parse_dialogue(content)
+        
+        if traces:
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "success",
+                    "trace_count": len(traces)
+                })
+            break
+        elif attempt < max_retries:
+            logging.warning(f"Sample {idx}: Attempt {attempt + 1} failed, retrying...")
+    
+    return {
+        "trace": traces,
+        "function_schemas": [f["function"] for f in remaining_funcs],
+        "missing_function": missing_func["function"],
+        "missing_function_expected": missing_func.get("expected"),
+        "all_function_schemas": [f["function"] for f in functions],
+        "domain": inp["domain"],
+        "subdomain": inp["subdomain"],
+        "scenario_type": "miss_function",
+        "miss_turns": miss_turns,
+    }
+
+
 async def generate_miss_function_queries(run_id: str):
     """Generate multi-turn dialogues with missing function scenarios."""
-    dataset: List[Dict[str, Any]] = []
+    # 檢查最終 JSON 是否已存在
+    json_path = f"pipeline/data/{run_id}/miss_function_queries.json"
+    jsonl_path = ensure_jsonl_path(json_path)
+    
+    if check_final_json_exists(json_path):
+        logging.info(f"miss_function_queries.json already exists, skipping")
+        return
     
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
@@ -213,102 +324,163 @@ async def generate_miss_function_queries(run_id: str):
     debug_enabled = os.getenv("S5_DEBUG", "0") == "1"
     debug_path = f"pipeline/data/{run_id}/s5_miss_func_debug.jsonl"
     
-    for idx, inp in enumerate(tqdm(function_inputs, desc="Generating miss_function dialogues")):
-        functions = inp.get("functions", [])
-        
-        if len(functions) < 2:
-            logging.warning(f"Sample {idx}: Not enough functions for miss_function scenario, skipping")
-            continue
-        
-        try:
-            missing_func, remaining_funcs = select_missing_function(functions)
-        except ValueError as e:
-            logging.warning(f"Sample {idx}: {e}, skipping")
-            continue
-        
-        miss_turns = get_miss_turns_count()
-        total_turns = random.randint(5, 7)
-        
-        if debug_enabled:
-            _write_debug(debug_enabled, debug_path, {
-                "sample_index": idx,
-                "scenario": inp["scenario"][:100] + "...",
-                "missing_function": parse_signature(missing_func["function"]).get("function_name"),
-                "remaining_count": len(remaining_funcs),
-                "miss_turns": miss_turns,
-                "total_turns": total_turns,
-                "phase": "start"
-            })
-        
-        prompt = render_template(
-            template_path,
-            {
-                "scenario": inp["scenario"],
-                "function_schemas": json.dumps([f["function"] for f in remaining_funcs], ensure_ascii=False),
-                "missing_function": missing_func["function"],
-                "total_turns": str(total_turns),
-                "miss_turns": str(miss_turns),
-            },
-        )
-        
-        system = (
-            "You are a careful data generator. Produce a <dialogue> containing turns with missing function scenarios as instructed."
-            + get_system_prompt_suffix()
-        )
-        
-        traces: List[Dict[str, str]] = []
-        for attempt in range(max_retries + 1):
-            content = chat_complete(prompt=prompt, system=system)
-            
-            if debug_enabled:
-                _write_debug(debug_enabled, debug_path, {
-                    "sample_index": idx,
-                    "attempt": attempt,
-                    "phase": "chat_complete",
-                    "content_length": len(content)
-                })
-            
-            traces = parse_dialogue(content)
-            
-            if traces:
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "success",
-                        "trace_count": len(traces)
-                    })
-                break
-            elif attempt < max_retries:
-                logging.warning(f"Sample {idx}: Attempt {attempt + 1} failed, retrying...")
-        
-        # Store with metadata about the missing function
-        dataset.append({
-            "trace": traces,
-            "function_schemas": [f["function"] for f in remaining_funcs],
-            "missing_function": missing_func["function"],
-            "missing_function_expected": missing_func.get("expected"),
-            "all_function_schemas": [f["function"] for f in functions],  # Full list for reference
-            "domain": inp["domain"],
-            "subdomain": inp["subdomain"],
-            "scenario_type": "miss_function",
-            "miss_turns": miss_turns,
-        })
+    system = (
+        "You are a careful data generator. Produce a <dialogue> containing turns with missing function scenarios as instructed."
+        + get_system_prompt_suffix()
+    )
+
+    # 載入已完成的 indices
+    completed = load_completed_indices(jsonl_path)
     
-    output_path = f"pipeline/data/{run_id}/miss_function_queries.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(dataset, ensure_ascii=False, indent=2))
+    # 過濾未完成且符合條件的項目 (至少 2 個函數)
+    items_to_process = [
+        (idx, (inp, template_path, system, max_retries, debug_enabled, debug_path))
+        for idx, inp in enumerate(function_inputs)
+        if idx not in completed and len(inp.get("functions", [])) >= 2
+    ]
     
-    logging.info(f"Generated {len(dataset)} miss_function dialogues -> {output_path}")
-    return dataset
+    if not items_to_process:
+        logging.info("All samples already processed, finalizing...")
+    else:
+        logging.info(f"Processing {len(items_to_process)} samples (skipping {len(completed)} completed)")
+        
+        # 增量寫入器
+        with IncrementalWriter(jsonl_path, mode="a") as writer:
+            # 平行處理
+            max_workers = get_parallel_workers()
+            run_parallel_tasks(
+                process_single_miss_function,
+                items_to_process,
+                max_workers=max_workers,
+                desc="Generating miss_function dialogues",
+                writer=writer,
+            )
+    
+    # 轉換為最終 JSON 格式
+    records: List[Dict[str, Any]] = []
+    with open(jsonl_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                record = json.loads(line)
+                record.pop("_sample_index", None)
+                records.append(record)
+    
+    with open(json_path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(records, ensure_ascii=False, indent=2))
+    
+    logging.info(f"Generated {len(records)} miss_function dialogues -> {json_path}")
+    return records
 
 
 # ============================================================================
 # Miss Parameter Generation
 # ============================================================================
+def process_single_miss_param(
+    idx: int,
+    task_data: Tuple[Dict[str, Any], str, str, int, bool, str]
+) -> Optional[Dict[str, Any]]:
+    """
+    處理單一 sample，生成 miss_param dialogue
+    
+    Args:
+        idx: sample 索引
+        task_data: (inp, template_path, system, max_retries, debug_enabled, debug_path)
+        
+    Returns:
+        包含 trace 的結果字典，或 None
+    """
+    inp, template_path, system, max_retries, debug_enabled, debug_path = task_data
+    
+    functions = inp.get("functions", [])
+    
+    if not functions:
+        logging.warning(f"Sample {idx}: No functions, skipping")
+        return None
+    
+    try:
+        target_func, missing_params = select_function_for_miss_param(functions)
+    except ValueError as e:
+        logging.warning(f"Sample {idx}: {e}, skipping")
+        return None
+    
+    miss_turns = get_miss_turns_count()
+    total_turns = random.randint(5, 7)
+    
+    if debug_enabled:
+        _write_debug(debug_enabled, debug_path, {
+            "sample_index": idx,
+            "scenario": inp["scenario"][:100] + "...",
+            "target_function": parse_signature(target_func["function"]).get("function_name"),
+            "missing_params": missing_params,
+            "miss_turns": miss_turns,
+            "total_turns": total_turns,
+            "phase": "start"
+        })
+    
+    prompt = render_template(
+        template_path,
+        {
+            "scenario": inp["scenario"],
+            "function_schemas": json.dumps([f["function"] for f in functions], ensure_ascii=False),
+            "target_function": target_func["function"],
+            "missing_params": ", ".join(missing_params),
+            "total_turns": str(total_turns),
+            "miss_turns": str(miss_turns),
+        },
+    )
+    
+    traces: List[Dict[str, str]] = []
+    for attempt in range(max_retries + 1):
+        try:
+            content = chat_complete(prompt=prompt, system=system)
+        except Exception as e:
+            logging.error(f"Sample {idx} attempt {attempt}: API error: {e}")
+            continue
+        
+        if debug_enabled:
+            _write_debug(debug_enabled, debug_path, {
+                "sample_index": idx,
+                "attempt": attempt,
+                "phase": "chat_complete",
+                "content_length": len(content)
+            })
+        
+        traces = parse_dialogue(content)
+        
+        if traces:
+            if debug_enabled:
+                _write_debug(debug_enabled, debug_path, {
+                    "sample_index": idx,
+                    "attempt": attempt,
+                    "phase": "success",
+                    "trace_count": len(traces)
+                })
+            break
+        elif attempt < max_retries:
+            logging.warning(f"Sample {idx}: Attempt {attempt + 1} failed, retrying...")
+    
+    return {
+        "trace": traces,
+        "function_schemas": [f["function"] for f in functions],
+        "target_function": target_func["function"],
+        "missing_params": missing_params,
+        "domain": inp["domain"],
+        "subdomain": inp["subdomain"],
+        "scenario_type": "miss_param",
+        "miss_turns": miss_turns,
+    }
+
+
 async def generate_miss_param_queries(run_id: str):
     """Generate multi-turn dialogues with missing parameter scenarios."""
-    dataset: List[Dict[str, Any]] = []
+    # 檢查最終 JSON 是否已存在
+    json_path = f"pipeline/data/{run_id}/miss_param_queries.json"
+    jsonl_path = ensure_jsonl_path(json_path)
+    
+    if check_final_json_exists(json_path):
+        logging.info(f"miss_param_queries.json already exists, skipping")
+        return
     
     with open(f"pipeline/data/{run_id}/functions.json", "r", encoding="utf-8") as f:
         function_inputs: List[Dict[str, Any]] = json.load(f)
@@ -321,94 +493,66 @@ async def generate_miss_param_queries(run_id: str):
     debug_enabled = os.getenv("S5_DEBUG", "0") == "1"
     debug_path = f"pipeline/data/{run_id}/s5_miss_param_debug.jsonl"
     
-    for idx, inp in enumerate(tqdm(function_inputs, desc="Generating miss_param dialogues")):
+    system = (
+        "You are a careful data generator. Produce a <dialogue> containing turns with missing parameter scenarios as instructed."
+        + get_system_prompt_suffix()
+    )
+
+    # 載入已完成的 indices
+    completed = load_completed_indices(jsonl_path)
+    
+    # 預先篩選可用的 samples (有函數且有參數的)
+    valid_indices = set()
+    for idx, inp in enumerate(function_inputs):
         functions = inp.get("functions", [])
-        
-        if not functions:
-            logging.warning(f"Sample {idx}: No functions, skipping")
-            continue
-        
-        try:
-            target_func, missing_params = select_function_for_miss_param(functions)
-        except ValueError as e:
-            logging.warning(f"Sample {idx}: {e}, skipping")
-            continue
-        
-        miss_turns = get_miss_turns_count()
-        total_turns = random.randint(5, 7)
-        
-        if debug_enabled:
-            _write_debug(debug_enabled, debug_path, {
-                "sample_index": idx,
-                "scenario": inp["scenario"][:100] + "...",
-                "target_function": parse_signature(target_func["function"]).get("function_name"),
-                "missing_params": missing_params,
-                "miss_turns": miss_turns,
-                "total_turns": total_turns,
-                "phase": "start"
-            })
-        
-        prompt = render_template(
-            template_path,
-            {
-                "scenario": inp["scenario"],
-                "function_schemas": json.dumps([f["function"] for f in functions], ensure_ascii=False),
-                "target_function": target_func["function"],
-                "missing_params": ", ".join(missing_params),
-                "total_turns": str(total_turns),
-                "miss_turns": str(miss_turns),
-            },
-        )
-        
-        system = (
-            "You are a careful data generator. Produce a <dialogue> containing turns with missing parameter scenarios as instructed."
-            + get_system_prompt_suffix()
-        )
-        
-        traces: List[Dict[str, str]] = []
-        for attempt in range(max_retries + 1):
-            content = chat_complete(prompt=prompt, system=system)
-            
-            if debug_enabled:
-                _write_debug(debug_enabled, debug_path, {
-                    "sample_index": idx,
-                    "attempt": attempt,
-                    "phase": "chat_complete",
-                    "content_length": len(content)
-                })
-            
-            traces = parse_dialogue(content)
-            
-            if traces:
-                if debug_enabled:
-                    _write_debug(debug_enabled, debug_path, {
-                        "sample_index": idx,
-                        "attempt": attempt,
-                        "phase": "success",
-                        "trace_count": len(traces)
-                    })
-                break
-            elif attempt < max_retries:
-                logging.warning(f"Sample {idx}: Attempt {attempt + 1} failed, retrying...")
-        
-        # Store with metadata about missing parameters
-        dataset.append({
-            "trace": traces,
-            "function_schemas": [f["function"] for f in functions],
-            "target_function": target_func["function"],
-            "missing_params": missing_params,
-            "domain": inp["domain"],
-            "subdomain": inp["subdomain"],
-            "scenario_type": "miss_param",
-            "miss_turns": miss_turns,
-        })
+        if functions:
+            # 檢查是否有函數有參數
+            for func in functions:
+                parsed = parse_signature(func["function"])
+                params = parsed.get("parameters", [])
+                if params:
+                    valid_indices.add(idx)
+                    break
     
-    output_path = f"pipeline/data/{run_id}/miss_param_queries.json"
-    with open(output_path, "w", encoding="utf-8") as f:
-        f.write(json.dumps(dataset, ensure_ascii=False, indent=2))
+    # 過濾未完成且符合條件的項目
+    items_to_process = [
+        (idx, (inp, template_path, system, max_retries, debug_enabled, debug_path))
+        for idx, inp in enumerate(function_inputs)
+        if idx not in completed and idx in valid_indices
+    ]
     
-    logging.info(f"Generated {len(dataset)} miss_param dialogues -> {output_path}")
-    return dataset
+    if not items_to_process:
+        logging.info("All samples already processed, finalizing...")
+    else:
+        logging.info(f"Processing {len(items_to_process)} samples (skipping {len(completed)} completed)")
+        
+        # 增量寫入器
+        with IncrementalWriter(jsonl_path, mode="a") as writer:
+            # 平行處理
+            max_workers = get_parallel_workers()
+            run_parallel_tasks(
+                process_single_miss_param,
+                items_to_process,
+                max_workers=max_workers,
+                desc="Generating miss_param dialogues",
+                writer=writer,
+            )
+    
+    # 轉換為最終 JSON 格式
+    records: List[Dict[str, Any]] = []
+    with open(jsonl_path, "r", encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if line:
+                record = json.loads(line)
+                record.pop("_sample_index", None)
+                records.append(record)
+    
+    with open(json_path, "w", encoding="utf-8") as f:
+        f.write(json.dumps(records, ensure_ascii=False, indent=2))
+    
+    logging.info(f"Generated {len(records)} miss_param dialogues -> {json_path}")
+    return records
 
 
 # ============================================================================
