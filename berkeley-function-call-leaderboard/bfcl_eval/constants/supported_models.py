@@ -792,6 +792,11 @@ SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-60-merged-3epoch-ll
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-450-merged-1epoch-pythonic-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-900-merged-1epoch-pythonic-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-1448-merged-1epoch-pythonic-zhtw-lr1e-5")
+# 1epoch-pythonic-zhtw-lr5e-7
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-450-merged-1epoch-pythonic-zhtw-lr5e-7")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-900-merged-1epoch-pythonic-zhtw-lr5e-7")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-1448-merged-1epoch-pythonic-zhtw-lr5e-7")
+
 
 # Meta Llama 3.1-8B-Instruct (Prompt)
 # 3epoch-llama-factory-apigen-mt
@@ -822,6 +827,11 @@ SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-60-merged-3
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-450-merged-1epoch-pythonic-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-900-merged-1epoch-pythonic-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-1448-merged-1epoch-pythonic-zhtw-lr1e-5")
+# 1epoch-pythonic-zhtw-lr5e-7
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-450-merged-1epoch-pythonic-zhtw-lr5e-7")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-900-merged-1epoch-pythonic-zhtw-lr5e-7")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-1448-merged-1epoch-pythonic-zhtw-lr5e-7")
+
 
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
 # 2epoch-pythonic-production-v2-normal-10K-multirow-4K
