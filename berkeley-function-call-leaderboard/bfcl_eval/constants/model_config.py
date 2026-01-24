@@ -6994,6 +6994,43 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
+        # 1epoch-all-zhtw-lr5e-7
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1600-merged-1epoch-all-zhtw-lr5e-7": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1600-merged-1epoch-all-zhtw-lr5e-7",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt1600-1epoch-all-zhtw-lr5e-7",
+            org="Salesforce",
+            license="cc-by-nc-4.0",
+            model_handler=SalesforceLlamaHandler,
+            input_price=None,
+            output_price=None,
+            is_fc_model=True,
+            underscore_to_dot=False,
+            url="self",
+        ),
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3200-merged-1epoch-all-zhtw-lr5e-7": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-3200-merged-1epoch-all-zhtw-lr5e-7",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt3200-1epoch-all-zhtw-lr5e-7",
+            org="Salesforce",
+            license="cc-by-nc-4.0",
+            model_handler=SalesforceLlamaHandler,
+            input_price=None,
+            output_price=None,
+            is_fc_model=True,
+            underscore_to_dot=False,
+            url="self",
+        ),
+        "Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4787-merged-1epoch-all-zhtw-lr5e-7": ModelConfig(
+            model_name="Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4787-merged-1epoch-all-zhtw-lr5e-7",
+            display_name="xLAM-2-8b-fc-r LoRA ckpt4787-1epoch-all-zhtw-lr5e-7",
+            org="Salesforce",
+            license="cc-by-nc-4.0",
+            model_handler=SalesforceLlamaHandler,
+            input_price=None,
+            output_price=None,
+            is_fc_model=True,
+            underscore_to_dot=False,
+            url="self",
+        ),
 
         # Meta Llama 3.1-8B-Instruct (Prompt)
         # 3epoch-llama-factory-apigen-mt
