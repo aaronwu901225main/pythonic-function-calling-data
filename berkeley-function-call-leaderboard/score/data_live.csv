@@ -4,8 +4,8 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 3,Qwen3-8B (Prompt),79.64%,79.64%,82.95%,78.82%,87.50%,75.00%,77.60%,75.00%
 4,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr1e-5,77.79%,77.79%,79.84%,77.68%,62.50%,70.83%,40.16%,93.75%
 5,ToolACE-2-8B (FC),77.20%,77.20%,70.16%,79.30%,75.00%,62.50%,84.50%,75.00%
-6,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr1e-5,76.98%,76.98%,79.07%,76.92%,56.25%,70.83%,34.62%,100.00%
-7,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,76.98%,76.98%,78.68%,77.02%,56.25%,70.83%,35.07%,100.00%
+6,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,76.98%,76.98%,78.68%,77.02%,56.25%,70.83%,35.07%,100.00%
+7,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr1e-5,76.98%,76.98%,79.07%,76.92%,56.25%,70.83%,34.62%,100.00%
 8,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr5e-7,76.24%,76.24%,76.36%,76.92%,56.25%,58.33%,71.38%,87.50%
 9,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,76.17%,76.17%,75.97%,76.92%,56.25%,58.33%,71.27%,87.50%
 10,BitAgent-8B,76.17%,76.17%,78.29%,75.78%,87.50%,62.50%,75.45%,75.00%
@@ -33,14 +33,17 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 32,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,67.88%,67.88%,75.58%,66.48%,50.00%,58.33%,66.63%,87.50%
 33,xLAM-2-8b-fc-r (FC),67.73%,67.73%,74.81%,66.57%,50.00%,54.17%,64.14%,87.50%
 34,xLAM-2-8b-fc-r LoRA ckpt1600-1epoch-all-zhtw-lr5e-7,67.36%,67.36%,75.19%,65.91%,50.00%,58.33%,66.40%,87.50%
-35,Meta Llama 3.1-8B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,67.21%,67.21%,71.32%,66.57%,68.75%,50.00%,21.72%,81.25%
-36,xLAM-2-8b-fc-r LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,66.77%,66.77%,74.03%,65.34%,56.25%,58.33%,65.72%,87.50%
-37,xLAM-2-8b-fc-r LoRA ckpt3200-1epoch-all-zhtw-lr5e-7,66.62%,66.62%,74.03%,65.15%,56.25%,58.33%,66.18%,81.25%
-38,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
-39,Meta Llama 3.1-8B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,65.58%,65.58%,70.93%,64.86%,62.50%,41.67%,21.15%,93.75%
-40,Meta Llama 3.1-8B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,65.36%,65.36%,71.71%,64.39%,62.50%,41.67%,21.95%,93.75%
-41,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,65.14%,65.14%,73.26%,63.53%,62.50%,50.00%,71.04%,81.25%
-42,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,64.62%,64.62%,72.48%,63.06%,62.50%,50.00%,73.08%,75.00%
-43,Meta Llama 3.1-8B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,64.54%,64.54%,70.16%,63.82%,62.50%,37.50%,25.45%,87.50%
-44,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,64.40%,64.40%,72.09%,62.87%,62.50%,50.00%,73.30%,75.00%
-45,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%
+35,xLAM-2-8b-fc-r LoRA ckpt1550-3epoch-all-zhtw-lr5e-7,67.28%,67.28%,74.81%,65.91%,50.00%,58.33%,66.18%,87.50%
+36,xLAM-2-8b-fc-r LoRA ckpt14361-3epoch-all-zhtw-lr5e-7,67.21%,67.21%,73.64%,66.19%,50.00%,54.17%,61.31%,87.50%
+37,Meta Llama 3.1-8B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,67.21%,67.21%,71.32%,66.57%,68.75%,50.00%,21.72%,81.25%
+38,xLAM-2-8b-fc-r LoRA ckpt7750-3epoch-all-zhtw-lr5e-7,66.91%,66.91%,73.26%,65.81%,50.00%,58.33%,61.76%,87.50%
+39,xLAM-2-8b-fc-r LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,66.77%,66.77%,74.03%,65.34%,56.25%,58.33%,65.72%,87.50%
+40,xLAM-2-8b-fc-r LoRA ckpt3200-1epoch-all-zhtw-lr5e-7,66.62%,66.62%,74.03%,65.15%,56.25%,58.33%,66.18%,81.25%
+41,CoALM-8B,66.54%,66.54%,70.54%,65.91%,62.50%,54.17%,82.58%,87.50%
+42,Meta Llama 3.1-8B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,65.58%,65.58%,70.93%,64.86%,62.50%,41.67%,21.15%,93.75%
+43,Meta Llama 3.1-8B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,65.36%,65.36%,71.71%,64.39%,62.50%,41.67%,21.95%,93.75%
+44,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,65.14%,65.14%,73.26%,63.53%,62.50%,50.00%,71.04%,81.25%
+45,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,64.62%,64.62%,72.48%,63.06%,62.50%,50.00%,73.08%,75.00%
+46,Meta Llama 3.1-8B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,64.54%,64.54%,70.16%,63.82%,62.50%,37.50%,25.45%,87.50%
+47,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,64.40%,64.40%,72.09%,62.87%,62.50%,50.00%,73.30%,75.00%
+48,Llama-3.1-8B-Instruct (FC),48.56%,48.56%,51.94%,48.15%,31.25%,41.67%,8.37%,100.00%

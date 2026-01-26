@@ -18,29 +18,32 @@ Rank,Model,Format Sensitivity Max Delta,Format Sensitivity Standard Deviation,Co
 17,ToolACE-2-8B (FC),34.5,11.9,13.00%,24.00%,18.50%,33.50%,34.50%,33.50%,0.00%,0.00%,0.00%,12.50%,19.00%,9.50%,10.50%,4.00%,7.50%,8.50%,2.50%,4.50%,5.00%,5.50%,4.50%,10.00%,5.50%,2.50%,34.00%,33.00%
 18,Qwen3-8B (Prompt),20.0,5.32,34.50%,33.00%,34.00%,33.50%,33.50%,34.00%,34.50%,32.50%,35.00%,33.50%,33.00%,35.00%,15.50%,23.00%,21.00%,21.50%,25.00%,27.00%,27.00%,27.50%,31.00%,28.00%,27.50%,31.00%,34.50%,35.50%
 19,Ministral-8B-Instruct-2410 (FC),1.0,0.29,35.00%,34.50%,35.00%,35.00%,35.00%,34.50%,34.50%,34.50%,34.50%,34.50%,35.00%,34.50%,35.00%,35.50%,35.00%,34.50%,35.00%,35.00%,35.00%,34.50%,34.50%,34.50%,35.00%,35.00%,34.50%,34.50%
-20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,xLAM-2-8b-fc-r LoRA ckpt1550-3epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,xLAM-2-8b-fc-r LoRA ckpt7750-3epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+22,xLAM-2-8b-fc-r LoRA ckpt14361-3epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 23,xLAM-2-8b-fc-r (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 24,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 25,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 26,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-27,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-28,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-29,xLAM-2-8b-fc-r LoRA ckpt1600-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-30,BitAgent-Bounty-8B,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-31,Qwen3-8B (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-32,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-33,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-34,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-35,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-36,xLAM-2-8b-fc-r LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-37,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-38,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-39,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-40,Llama-3.1-8B-Instruct (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-41,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-42,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-43,xLAM-2-8b-fc-r LoRA ckpt3200-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-44,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-45,Qwen/Qwen2.5-7B-Instruct,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+27,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+28,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+29,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+30,xLAM-2-8b-fc-r LoRA ckpt1600-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+31,BitAgent-Bounty-8B,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+32,Qwen3-8B (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+33,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+34,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+35,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+36,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+37,xLAM-2-8b-fc-r LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+38,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+39,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+40,Qwen/Qwen2.5-7B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+41,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+42,Llama-3.1-8B-Instruct (FC),N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+43,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+44,Qwen/Qwen2.5-7B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+45,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+46,xLAM-2-8b-fc-r LoRA ckpt3200-1epoch-all-zhtw-lr5e-7,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+47,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+48,Qwen/Qwen2.5-7B-Instruct,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A,N/A
