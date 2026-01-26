@@ -51,3 +51,4 @@ merge_lora_model/
 **.out
 berkeley-function-call-leaderboard/eval.sh
 berkeley-function-call-leaderboard/eval.txt
+berkeley-function-call-leaderboard/bfcl-eval.sh
