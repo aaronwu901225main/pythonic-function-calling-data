@@ -19,8 +19,8 @@ state=$(sacct -j "${job1_id}.batch" --format=State -n | head -n 1 | awk '{print 
 echo "[done] job1 state: $state"
 
 if [[ "$state" == "COMPLETED" ]]; then
-  sh eval.sh
+  sh bfcl-eval.sh
 else
-  echo "job1 not completed, skip eval.sh"
+  echo "job1 not completed, skip bfcl-eval.sh"
   exit 1
 fi
