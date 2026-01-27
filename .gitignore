@@ -52,3 +52,4 @@ merge_lora_model/
 berkeley-function-call-leaderboard/eval.sh
 berkeley-function-call-leaderboard/eval.txt
 berkeley-function-call-leaderboard/bfcl-eval.sh
+berkeley-function-call-leaderboard/.api_usage_daily.json

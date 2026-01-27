@@ -767,6 +767,10 @@ SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4787-merged-
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-1550-merged-3epoch-all-zhtw-lr5e-7")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-7750-merged-3epoch-all-zhtw-lr5e-7")
 SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-14361-merged-3epoch-all-zhtw-lr5e-7")
+# 1epoch-all-zhtw-split-turn-lr5e-7
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-2275-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("Salesforce/Llama-xLAM-2-8b-fc-r-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7")
 
 # Qwen/Qwen2.5-7B-Instruct 
 # Base
@@ -811,6 +815,14 @@ SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4787-merged-1epoch-
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-1550-merged-1epoch-all-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-3100-merged-1epoch-all-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4787-merged-1epoch-all-zhtw-lr1e-5")
+# 1epoch-all-zhtw-split-turn-lr1e-5
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-2275-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4787-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+# 1epoch-all-zhtw-split-turn-lr5e-7
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-2275-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("Qwen/Qwen2.5-7B-Instruct-checkpoint-4787-merged-1epoch-all-zhtw-split-turn-lr5e-7")
 
 # Meta Llama 3.1-8B-Instruct (Prompt)
 # 3epoch-llama-factory-apigen-mt
@@ -853,7 +865,14 @@ SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-4787-merged
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-1550-merged-1epoch-all-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-3100-merged-1epoch-all-zhtw-lr1e-5")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-4787-merged-1epoch-all-zhtw-lr1e-5")
-
+# 1epoch-all-zhtw-split-turn-lr1e-5
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-2275-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5")
+# 1epoch-all-zhtw-split-turn-lr5e-7
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-2275-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr5e-7")
+SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7")
 
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
 # 2epoch-pythonic-production-v2-normal-10K-multirow-4K
