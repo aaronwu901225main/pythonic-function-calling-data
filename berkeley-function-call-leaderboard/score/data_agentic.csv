@@ -9,19 +9,19 @@ Rank,Model,Agentic Overall Acc,Web Search Summary,Web Search Base,Web Search No 
 8,watt-tool-8B (FC),5.38%,0.00%,0.00%,0.00%,10.75%,0.65%,14.19%,17.42%
 9,Ministral-8B-Instruct-2410 (FC),4.19%,0.00%,0.00%,0.00%,8.39%,10.97%,6.45%,7.74%
 10,CoALM-8B,0.75%,0.00%,0.00%,0.00%,1.51%,2.58%,1.94%,0.00%
-11,Meta Llama 3.1-8B-Instruct LoRA ckpt6860-1epoch-all-zhtw-split-turn-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-12,Meta Llama 3.1-8B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-13,Meta Llama 3.1-8B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-14,xLAM-2-8b-fc-r LoRA ckpt7750-3epoch-all-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-15,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-16,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-17,Meta Llama 3.1-8B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-18,Meta Llama 3.1-8B-Instruct LoRA ckpt6860-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-19,Meta Llama 3.1-8B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-20,xLAM-2-8b-fc-r LoRA ckpt4550-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-21,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-22,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
-23,xLAM-2-8b-fc-r LoRA ckpt2275-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+11,Meta Llama 3.1-8B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+12,Meta Llama 3.1-8B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+13,xLAM-2-8b-fc-r LoRA ckpt7750-3epoch-all-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+14,xLAM-2-8b-fc-r LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+15,xLAM-2-8b-fc-r LoRA ckpt450-1epoch-pythonic-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+16,Meta Llama 3.1-8B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+17,Meta Llama 3.1-8B-Instruct LoRA ckpt6860-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+18,Meta Llama 3.1-8B-Instruct LoRA ckpt3100-1epoch-all-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+19,xLAM-2-8b-fc-r LoRA ckpt4550-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+20,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+21,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+22,xLAM-2-8b-fc-r LoRA ckpt2275-1epoch-all-zhtw-split-turn-lr5e-7,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
+23,Meta Llama 3.1-8B-Instruct LoRA ckpt6860-1epoch-all-zhtw-split-turn-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 24,Meta Llama 3.1-8B-Instruct LoRA ckpt4550-1epoch-all-zhtw-split-turn-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 25,xLAM-2-8b-fc-r LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
 26,Meta Llama 3.1-8B-Instruct LoRA ckpt2275-1epoch-all-zhtw-split-turn-lr1e-5,0.00%,N/A,N/A,N/A,N/A,N/A,N/A,N/A
