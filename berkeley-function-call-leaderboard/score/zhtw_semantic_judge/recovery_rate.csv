@@ -2120,3 +2120,11 @@ Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-6860-merged-1epoch-all-zhtw-split-tur
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7,zh_parallel,10,65,0.15384615384615385
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7,zh_multiple,10,19,0.5263157894736842
 Salesforce_Llama-xLAM-2-8b-fc-r-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7,zh_simple_python,24,37,0.6486486486486487
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_multi_turn_base,0,190,0.0
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_multi_turn_miss_func,0,191,0.0
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_multi_turn_long_context,0,189,0.0
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_multi_turn_miss_param,0,190,0.0
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_parallel,9,75,0.12
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_multiple,8,19,0.42105263157894735
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_simple_python,31,48,0.6458333333333334
+meta-llama_Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr1e-5,zh_parallel_multiple,32,61,0.5245901639344263
