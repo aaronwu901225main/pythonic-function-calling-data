@@ -316,7 +316,7 @@ def plot_base_model_group(ckpt_df: pd.DataFrame, full_df: pd.DataFrame,
     )
 
     
-    ax.legend(loc="best", fontsize=12)
+    ax.legend(loc="upper left", fontsize=12, bbox_to_anchor=(1.02, 1), borderaxespad=0, frameon=False)
     ax.grid(True, which="both", axis="both", linewidth=0.5)
 
     # 建立 base model 專屬資料夾

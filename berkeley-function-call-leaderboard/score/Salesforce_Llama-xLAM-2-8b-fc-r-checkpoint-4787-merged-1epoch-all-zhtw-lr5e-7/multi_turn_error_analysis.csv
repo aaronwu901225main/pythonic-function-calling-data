@@ -1,0 +1,11 @@
+test_category,total,correct,accuracy,inference_error,force_terminated,empty_turn_model_response,instance_state_mismatch,execution_response_mismatch,irrelevance_error:decoder_success,,fc_over,fc_under,fc_equal_correct,fc_equal_wrong
+multi_turn_base,200,149,74.50,0,1,5,32,13,0,,22,29,3,6
+multi_turn_miss_func,200,135,67.50,0,3,1,49,12,0,,52,32,3,6
+multi_turn_miss_param,200,125,62.50,0,1,5,54,15,0,,60,43,2,8
+multi_turn_long_context,200,124,62.00,0,0,7,48,21,0,,33,35,14,8
+zh_multi_turn_base,200,42,21.00,0,23,2,90,43,0,,68,60,35,5
+zh_multi_turn_miss_func,200,34,17.00,0,32,1,93,40,0,,123,88,5,9
+zh_multi_turn_miss_param,200,33,16.50,0,23,4,100,40,0,,126,82,12,25
+zh_multi_turn_long_context,200,33,16.50,0,20,1,100,46,0,,68,71,38,9
+
+SUMMARY,1600,675,42.19,0,103,26,566,230,0,,552,440,112,76
