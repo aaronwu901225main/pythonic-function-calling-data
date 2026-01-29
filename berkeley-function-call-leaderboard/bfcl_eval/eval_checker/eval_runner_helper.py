@@ -487,9 +487,9 @@ def generate_leaderboard_csv(leaderboard_table, output_path):
         zh_parallel_multiple = get_category_score(value, "zh_parallel_multiple")
         zh_irrelevance = get_category_score(value, "zh_irrelevance")  # 若沒有會顯示 N/A
 
-        # 不加權平均（含 Relevance）
+        # 不加權平均（不含 Irrelevance，與英文版 AST Summary 一致）
         zh_summary = calculate_unweighted_accuracy(
-            [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple, zh_irrelevance]
+            [zh_simple_python, zh_multiple, zh_parallel, zh_parallel_multiple]
         )
         # 寫入該 model 的中文資料列
         data_chinese.append(
