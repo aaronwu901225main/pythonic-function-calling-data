@@ -8011,6 +8011,20 @@ local_inference_model_map = {
             underscore_to_dot=False,
             url="self",
         ),
+        # openai/gpt-oss-20b
+        # Base
+        "openai/gpt-oss-20b": ModelConfig(
+            model_name="openai/gpt-oss-20b",
+            display_name="openai/gpt-oss-20b (FC) (vLLM)",
+            url="https://huggingface.co/openai/gpt-oss-20b",
+            org="OpenAI",
+            license="apache-2.0",
+            model_handler=OpenAICompletionsHandler,
+            input_price=None,
+            output_price=None,
+            is_fc_model=True,
+            underscore_to_dot=True,
+        ),
 
         # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
         # 2epoch-pythonic-production-v2-normal-10K-multirow-4K

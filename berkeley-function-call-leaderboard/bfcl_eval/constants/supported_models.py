@@ -875,6 +875,10 @@ SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-2275-merged
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-4550-merged-1epoch-all-zhtw-split-turn-lr5e-7")
 SUPPORTED_MODELS.append("meta-llama/Llama-3.1-8B-Instruct-checkpoint-6860-merged-1epoch-all-zhtw-split-turn-lr5e-7")
 
+# openai/gpt-oss-20b
+# Base
+SUPPORTED_MODELS.append("openai/gpt-oss-20b")
+
 # Qwen/Qwen3-8B-FC LoRA finetune checkpoints
 # 2epoch-pythonic-production-v2-normal-10K-multirow-4K
 SUPPORTED_MODELS.append("Qwen/Qwen3-8B-FC-checkpoint-85-merged-2epoch-pythonic-production-v2-normal-10K-multirow-4K")
