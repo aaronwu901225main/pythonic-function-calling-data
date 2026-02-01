@@ -20,7 +20,7 @@ Rank,Model,Multi Turn (ZH) Overall Acc,ZH: Multi Turn Base,ZH: Multi Turn Miss F
 19,xLAM-2-8b-fc-r LoRA ckpt14361-3epoch-all-zhtw-lr5e-7,14.50%,16.50%,14.50%,14.50%,12.50%
 20,xLAM-2-8b-fc-r LoRA ckpt7750-3epoch-all-zhtw-lr5e-7,14.00%,17.00%,13.00%,14.00%,12.00%
 21,ToolACE-2-8B (FC),13.25%,18.00%,11.00%,8.50%,15.50%
-22,openai/gpt-oss-20b (FC) (vLLM),7.25%,8.00%,9.00%,5.50%,6.50%
+22,openai/gpt-oss-20b (FC) (vLLM),7.00%,9.00%,7.50%,6.00%,5.50%
 23,Qwen3-8B (FC),6.38%,8.00%,7.00%,7.00%,3.50%
 24,Qwen/Qwen2.5-7B-Instruct,5.88%,8.50%,4.50%,7.00%,3.50%
 25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,5.25%,8.00%,5.50%,5.50%,2.00%

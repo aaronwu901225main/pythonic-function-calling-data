@@ -24,8 +24,8 @@ Rank,Model,Live Overall Acc,AST Summary,Python Simple AST,Python Multiple AST,Py
 23,Llama-3.1-8B-Instruct (Prompt),70.54%,70.54%,72.48%,70.85%,56.25%,45.83%,36.99%,93.75%
 24,Meta Llama 3.1-8B-Instruct LoRA ckpt6860-1epoch-all-zhtw-split-turn-lr1e-5,70.32%,70.32%,79.84%,68.28%,81.25%,50.00%,10.63%,93.75%
 25,Meta Llama 3.1-8B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr5e-7,70.32%,70.32%,72.87%,70.56%,56.25%,41.67%,34.16%,93.75%
-26,Meta Llama 3.1-8B-Instruct LoRA ckpt4550-1epoch-all-zhtw-split-turn-lr1e-5,69.80%,69.80%,78.68%,67.90%,81.25%,50.00%,9.16%,93.75%
-27,openai/gpt-oss-20b (FC) (vLLM),69.50%,69.50%,76.74%,70.37%,0.00%,0.00%,84.05%,75.00%
+26,openai/gpt-oss-20b (FC) (vLLM),70.10%,70.10%,75.58%,71.42%,0.00%,0.00%,84.95%,75.00%
+27,Meta Llama 3.1-8B-Instruct LoRA ckpt4550-1epoch-all-zhtw-split-turn-lr1e-5,69.80%,69.80%,78.68%,67.90%,81.25%,50.00%,9.16%,93.75%
 28,Meta Llama 3.1-8B-Instruct LoRA ckpt1550-1epoch-all-zhtw-lr5e-7,69.13%,69.13%,73.26%,68.66%,68.75%,45.83%,28.51%,81.25%
 29,Meta Llama 3.1-8B-Instruct LoRA ckpt4787-1epoch-all-zhtw-lr1e-5,68.84%,68.84%,77.91%,66.86%,75.00%,54.17%,9.16%,87.50%
 30,Meta Llama 3.1-8B-Instruct LoRA ckpt2275-1epoch-all-zhtw-split-turn-lr1e-5,68.39%,68.39%,76.74%,66.38%,81.25%,58.33%,14.48%,87.50%

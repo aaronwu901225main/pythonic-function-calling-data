@@ -20,7 +20,7 @@ Rank,Model,Multi Turn Overall Acc,Base,Miss Func,Miss Param,Long Context
 19,watt-tool-8B (FC),37.88%,46.00%,39.50%,24.50%,41.50%
 20,Qwen3-8B (FC),37.88%,41.50%,43.50%,34.50%,32.00%
 21,BitAgent-8B,37.75%,46.00%,37.50%,24.50%,43.00%
-22,openai/gpt-oss-20b (FC) (vLLM),35.00%,42.00%,34.00%,33.00%,31.00%
+22,openai/gpt-oss-20b (FC) (vLLM),34.00%,37.50%,34.50%,34.50%,29.50%
 23,Qwen3-8B (Prompt),28.00%,33.00%,36.00%,23.50%,19.50%
 24,Qwen/Qwen2.5-7B-Instruct LoRA ckpt450-1epoch-pythonic-zhtw-lr5e-7,17.62%,23.50%,17.00%,16.00%,14.00%
 25,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr5e-7,16.75%,22.00%,14.00%,16.50%,14.50%

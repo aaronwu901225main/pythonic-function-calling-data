@@ -56,4 +56,4 @@ Rank,Model,Non-Live Overall Acc,AST Summary,Simple AST,Python Simple AST,Java Si
 55,Qwen/Qwen2.5-7B-Instruct LoRA ckpt1448-1epoch-pythonic-zhtw-lr1e-5,80.33%,80.33%,72.33%,96.00%,61.00%,60.00%,95.00%,78.00%,76.00%,85.42%
 56,Qwen/Qwen2.5-7B-Instruct LoRA ckpt900-1epoch-pythonic-zhtw-lr1e-5,79.90%,79.90%,71.58%,95.75%,61.00%,58.00%,93.00%,78.50%,76.50%,84.58%
 57,Llama-3.1-8B-Instruct (FC),48.23%,48.23%,55.42%,49.25%,57.00%,60.00%,53.50%,49.50%,34.50%,1.25%
-58,openai/gpt-oss-20b (FC) (vLLM),32.33%,32.33%,44.83%,86.50%,22.00%,26.00%,84.50%,0.00%,0.00%,90.42%
+58,openai/gpt-oss-20b (FC) (vLLM),32.21%,32.21%,45.33%,86.00%,28.00%,22.00%,83.50%,0.00%,0.00%,90.42%

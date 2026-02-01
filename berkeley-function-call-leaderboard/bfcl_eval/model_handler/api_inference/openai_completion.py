@@ -90,6 +90,9 @@ class OpenAICompletionsHandler(BaseHandler):
 
         if len(tools) > 0:
             kwargs["tools"] = tools
+            # Enable parallel tool calls for models that support it
+            # This is critical for parallel function calling tests in BFCL
+            kwargs["parallel_tool_calls"] = True
 
         return self.generate_with_backoff(**kwargs)
 

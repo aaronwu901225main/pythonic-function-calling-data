@@ -2134,3 +2134,9 @@ openai_gpt-oss-20b,zh_multi_turn_base,1,185,0.005405405405405406
 openai_gpt-oss-20b,zh_multi_turn_miss_param,0,189,0.0
 openai_gpt-oss-20b,zh_simple_python,7,23,0.30434782608695654
 openai_gpt-oss-20b,zh_multiple,3,8,0.375
+openai_gpt-oss-20b,zh_multi_turn_long_context,0,189,0.0
+openai_gpt-oss-20b,zh_multi_turn_miss_func,2,187,0.0106951871657754
+openai_gpt-oss-20b,zh_multi_turn_base,0,182,0.0
+openai_gpt-oss-20b,zh_multi_turn_miss_param,0,188,0.0
+openai_gpt-oss-20b,zh_simple_python,8,23,0.34782608695652173
+openai_gpt-oss-20b,zh_multiple,3,7,0.42857142857142855
