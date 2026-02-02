@@ -1,0 +1,6 @@
+pipeline/data/old/production_v1/7c07365c11e142b2bbb887f4a8bf2876/multi_turn_eng.global.jsonl
+
+# ignore local usage logs / secrets
+.api_usage_daily.json
+pythonic_irrelevance.sh
+pythonic.sh
