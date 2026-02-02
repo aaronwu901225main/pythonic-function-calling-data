@@ -193,11 +193,16 @@ def analyze_score_file(file_path: str) -> Dict:
         "total": 0,
         "correct": 0,
         "errors": defaultdict(int),
+        "error_questions": defaultdict(list),  # 記錄每種錯誤的題號
         "other_errors": 0,
         "fc_over": 0,           # function call 多 call
         "fc_under": 0,          # function call 少 call
         "fc_equal_correct": 0,  # function call 數量相等且函數名稱正確
         "fc_equal_wrong": 0,    # function call 數量相等但函數名稱錯誤
+        "fc_over_questions": [],
+        "fc_under_questions": [],
+        "fc_equal_correct_questions": [],
+        "fc_equal_wrong_questions": [],
     }
     
     if not os.path.exists(file_path):
@@ -227,14 +232,22 @@ def analyze_score_file(file_path: str) -> Dict:
             
             # 逐題統計 function call 數量差異（有發生就加一）
             fc_counts = analyze_function_call_count(entry)
+            
+            # 獲取題號（使用 id 欄位，若無則使用行號）
+            question_id = entry.get("id", f"line_{line_num}")
+            
             if fc_counts["over"]:
                 stats["fc_over"] += 1
+                stats["fc_over_questions"].append(question_id)
             if fc_counts["under"]:
                 stats["fc_under"] += 1
+                stats["fc_under_questions"].append(question_id)
             if fc_counts["equal_correct"]:
                 stats["fc_equal_correct"] += 1
+                stats["fc_equal_correct_questions"].append(question_id)
             if fc_counts["equal_wrong"]:
                 stats["fc_equal_wrong"] += 1
+                stats["fc_equal_wrong_questions"].append(question_id)
                 
             if entry["valid"]:
                 continue  # 正確的測試不需要記錄錯誤
@@ -243,10 +256,15 @@ def analyze_score_file(file_path: str) -> Dict:
             error_info = entry.get("error", {})
             error_type = error_info.get("error_type", "unknown")
             
+            # 獲取題號（使用 id 欄位，若無則使用行號）
+            question_id = entry.get("id", f"line_{line_num}")
+            
             if error_type in ERROR_TYPES:
                 stats["errors"][error_type] += 1
+                stats["error_questions"][error_type].append(question_id)
             else:
                 stats["errors"][error_type] += 1
+                stats["error_questions"][error_type].append(question_id)
                 if error_type != "unknown":
                     stats["other_errors"] += 1
     
@@ -271,7 +289,20 @@ def analyze_model(model_name: str, score_dir: str) -> Dict:
     for category in TEST_CATEGORIES:
         score_file = os.path.join(model_multi_turn_dir, f"BFCL_v4_{category}_score.json")
         if os.path.exists(score_file):
-            results[category] = analyze_score_file(score_file)
+            category_stats = analyze_score_file(score_file)
+            # 在題號前加上類別名稱作為前綴
+            if "error_questions" in category_stats:
+                prefixed_questions = defaultdict(list)
+                for error_type, question_ids in category_stats["error_questions"].items():
+                    prefixed_questions[error_type] = [f"{category}:{qid}" for qid in question_ids]
+                category_stats["error_questions"] = prefixed_questions
+            
+            # 處理 fc 相關題號
+            for fc_type in ["fc_over_questions", "fc_under_questions", "fc_equal_correct_questions", "fc_equal_wrong_questions"]:
+                if fc_type in category_stats:
+                    category_stats[fc_type] = [f"{category}:{qid}" for qid in category_stats[fc_type]]
+            
+            results[category] = category_stats
     
     return results
 
@@ -304,6 +335,7 @@ def print_model_report(model_name: str, results: Dict):
     total_all = 0
     correct_all = 0
     error_counts_all = defaultdict(int)
+    error_questions_all = defaultdict(list)
     fc_over_all = 0
     fc_under_all = 0
     fc_equal_correct_all = 0
@@ -323,6 +355,11 @@ def print_model_report(model_name: str, results: Dict):
         
         for error_type, count in stats["errors"].items():
             error_counts_all[error_type] += count
+        
+        # 收集錯誤題號
+        if "error_questions" in stats:
+            for error_type, question_ids in stats["error_questions"].items():
+                error_questions_all[error_type].extend(question_ids)
     
     # 印出各類別詳細資訊
     print("\n📊 各測試類別統計:")
@@ -368,6 +405,18 @@ def print_model_report(model_name: str, results: Dict):
     
     print("-" * 80)
     print(f"{'錯誤總數':<55} {error_total:>8}")
+    
+    # 印出錯誤題號（僅顯示前 10 個，避免輸出過長）
+    print("\n📝 錯誤題號列表 (僅顯示前 10 個):")
+    print("-" * 80)
+    for error_type in ERROR_TYPES:
+        if error_type in error_questions_all and error_questions_all[error_type]:
+            short_type = error_type.replace("multi_turn:", "")
+            questions = error_questions_all[error_type][:10]
+            questions_str = ", ".join(questions)
+            more = f" ... 及其他 {len(error_questions_all[error_type]) - 10} 個" if len(error_questions_all[error_type]) > 10 else ""
+            print(f"{short_type}: {questions_str}{more}")
+    print("-" * 80)
     
     # 印出 Function Call 數量統計
     print("\n🔧 Function Call 數量統計:")
@@ -464,6 +513,53 @@ def export_to_csv(model_name: str, results: Dict, score_dir: str):
             summary_row.append(sum_errors[error_type])
         summary_row.extend(["", sum_fc_over, sum_fc_under, sum_fc_equal_correct, sum_fc_equal_wrong])
         writer.writerow(summary_row)
+        
+        # 收集所有錯誤題號
+        all_error_questions = defaultdict(list)
+        for category in TEST_CATEGORIES:
+            if category not in results:
+                continue
+            stats = results[category]
+            if "error_questions" in stats:
+                for error_type, question_ids in stats["error_questions"].items():
+                    all_error_questions[error_type].extend(question_ids)
+        
+        # 收集 fc 相關題號
+        all_fc_over = []
+        all_fc_under = []
+        all_fc_equal_correct = []
+        all_fc_equal_wrong = []
+        
+        for category in TEST_CATEGORIES:
+            if category not in results:
+                continue
+            stats = results[category]
+            all_fc_over.extend(stats.get("fc_over_questions", []))
+            all_fc_under.extend(stats.get("fc_under_questions", []))
+            all_fc_equal_correct.extend(stats.get("fc_equal_correct_questions", []))
+            all_fc_equal_wrong.extend(stats.get("fc_equal_wrong_questions", []))
+        
+        # 錯誤題號列（每個題號佔一行，放在對應的 column 下）
+        # 找出最長的題號列表長度
+        max_questions = max(
+            [len(questions) for questions in all_error_questions.values()] + 
+            [len(all_fc_over), len(all_fc_under), len(all_fc_equal_correct), len(all_fc_equal_wrong)]
+        ) if (all_error_questions or all_fc_over or all_fc_under or all_fc_equal_correct or all_fc_equal_wrong) else 0
+        
+        for i in range(max_questions):
+            row = ["", "", "", ""]  # 前四欄留空
+            for error_type in ERROR_TYPES:
+                if error_type in all_error_questions and i < len(all_error_questions[error_type]):
+                    row.append(all_error_questions[error_type][i])
+                else:
+                    row.append("")
+            row.append("")  # 空欄位
+            # fc 相關題號
+            row.append(all_fc_over[i] if i < len(all_fc_over) else "")
+            row.append(all_fc_under[i] if i < len(all_fc_under) else "")
+            row.append(all_fc_equal_correct[i] if i < len(all_fc_equal_correct) else "")
+            row.append(all_fc_equal_wrong[i] if i < len(all_fc_equal_wrong) else "")
+            writer.writerow(row)
     
     print(f"✅ 已匯出至: {output_file}")
     return output_file
